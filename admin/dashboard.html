@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | ANANTHAMPALLI VILLAGE VINAYAKA CHAVITHI 2026</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+    <div class="admin-layout">
+        
+        <!-- Sidebar Navigation (Matching Grand Dark Footer Aesthetic) -->
+        <aside class="sidebar" id="adminSidebar">
+            <div class="sidebar-header">
+                <div style="font-size: 2.4rem; margin-bottom: 6px;">🐘</div>
+                <div class="sidebar-brand">AVVC 2026 ADMIN</div>
+                <div style="font-size: 0.72rem; color: #A3938E; letter-spacing: 1px;">ANANTHAMPALLI VILLAGE</div>
+            </div>
+
+            <ul class="sidebar-nav">
+                <li class="sidebar-nav-item">
+                    <a href="#" class="sidebar-nav-link active" data-tab="tabDashboard">
+                        📊 Dashboard Overview
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#" class="sidebar-nav-link" data-tab="tabDonations">
+                        💰 Chandaa / Donations
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#" class="sidebar-nav-link" data-tab="tabEvents">
+                        📅 Festival Programs
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#" class="sidebar-nav-link" data-tab="tabFood">
+                        🍲 Annadanam Food
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#" class="sidebar-nav-link" data-tab="tabExpenses">
+                        🧾 Expense Tracker
+                    </a>
+                </li>
+                <li class="sidebar-nav-item" id="navItemAdmins">
+                    <a href="#" class="sidebar-nav-link" data-tab="tabAdmins">
+                        👥 Admin Users (10)
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#" class="sidebar-nav-link" data-tab="tabSettings">
+                        ⚙️ Festival Settings
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
+                    <a href="#" class="sidebar-nav-link" data-tab="tabAudit">
+                        📜 Audit Logs
+                    </a>
+                </li>
+            </ul>
+
+            <div style="padding: 20px;">
+                <button class="btn-admin btn-admin-danger" id="btnLogout" style="width: 100%; justify-content: center;">
+                    🚪 Logout Account
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            
+            <!-- Top App Bar -->
+            <div class="top-bar">
+                <div>
+                    <h1 class="page-title">ADMIN DASHBOARD</h1>
+                    <p style="color: var(--text-sub); font-size: 0.95rem; font-weight: 500;">
+                        Ananthampalli Village Vinayaka Chavithi 2026 Management System
+                    </p>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                    <span class="user-badge" id="adminUserBadge">Logged in: admin</span>
+                    <a href="../index.html" class="btn-admin" style="background: var(--primary-saffron); color: #FFF; text-decoration: none;" target="_blank">
+                        🌐 View Public Site
+                    </a>
+                </div>
+            </div>
+
+            <!-- TAB 1: DASHBOARD OVERVIEW -->
+            <div class="tab-panel active" id="tabDashboard">
+                
+                <!-- Stat Cards Row -->
+                <div class="stat-cards-grid">
+                    <div class="stat-card" style="border-left: 4px solid var(--primary-saffron);">
+                        <div class="label">TOTAL CHANDAA COLLECTED</div>
+                        <div class="value" id="dashTotalChandaa" style="color: var(--primary-saffron);">₹ --</div>
+                    </div>
+                    <div class="stat-card" style="border-left: 4px solid var(--accent-crimson);">
+                        <div class="label">TOTAL EXPENSES INCURRED</div>
+                        <div class="value" id="dashTotalExpenses" style="color: var(--accent-crimson);">₹ --</div>
+                    </div>
+                    <div class="stat-card" style="border-left: 4px solid #059669;">
+                        <div class="label">AVAILABLE BALANCE</div>
+                        <div class="value" id="dashAvailableBalance" style="color: #059669;">₹ --</div>
+                    </div>
+                    <div class="stat-card" style="border-left: 4px solid #2563EB;">
+                        <div class="label">TOTAL DONATORS</div>
+                        <div class="value" id="dashTotalDonors" style="color: #2563EB;">--</div>
+                    </div>
+                </div>
+
+                <!-- Quick Action Buttons Bar -->
+                <div class="glass-card" style="margin-bottom: 30px;">
+                    <h3 style="color: var(--accent-crimson); font-size: 1.2rem; font-weight: 800; margin-bottom: 15px;">
+                        🚀 Quick Management Actions
+                    </h3>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                        <button class="btn-admin" id="btnQuickAddDonation" style="background: var(--accent-crimson);">
+                            ➕ Collect Chandaa Donation
+                        </button>
+                        <button class="btn-admin" id="btnQuickAddEvent" style="background: var(--primary-saffron);">
+                            ➕ Add Program Event
+                        </button>
+                        <button class="btn-admin" id="btnQuickAddExpense" style="background: var(--primary-saffron);">
+                            ➕ Record Expense
+                        </button>
+                        <button class="btn-admin" id="btnQuickAddFood" style="background: var(--primary-saffron);">
+                            ➕ Add Annadanam Schedule
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Recent Activity Tables Grid -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 25px;">
+                    
+                    <div class="glass-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h3 style="color: var(--accent-crimson); font-size: 1.1rem; font-weight: 800;">💰 Recent Chandaa Collections</h3>
+                            <a href="#" onclick="switchTab('tabDonations'); return false;" style="color: var(--primary-saffron); font-weight: 800; font-size: 0.85rem; text-decoration: none;">View All →</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Receipt No</th>
+                                        <th>Donor Name</th>
+                                        <th>Amount (₹)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dashRecentDonationsBody">
+                                    <tr><td colspan="3" style="text-align:center;">Loading recent donations...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="glass-card">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <h3 style="color: var(--accent-crimson); font-size: 1.1rem; font-weight: 800;">🧾 Recent Expenses</h3>
+                            <a href="#" onclick="switchTab('tabExpenses'); return false;" style="color: var(--primary-saffron); font-weight: 800; font-size: 0.85rem; text-decoration: none;">View All →</a>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Amount (₹)</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dashRecentExpensesBody">
+                                    <tr><td colspan="3" style="text-align:center;">Loading recent expenses...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- TAB 2: CHANDAA / DONATIONS CRUD -->
+            <div class="tab-panel" id="tabDonations">
+                <div class="glass-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+                        <h2 style="color: var(--accent-crimson); font-size: 1.6rem; font-weight: 800;">💰 Chandaa & Sponsorship Collections</h2>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="btn-admin" id="btnAddDonationModalBtn">➕ Collect New Chandaa</button>
+                            <a href="/api/export/donations" class="btn-admin btn-admin-success" target="_blank">📥 Export CSV</a>
+                        </div>
+                    </div>
+
+                    <!-- Search & Filters -->
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
+                        <input type="text" id="donationsSearchInput" class="form-control" placeholder="🔍 Search donor, mobile, receipt no, sponsorship..." style="max-width: 320px;">
+                        <select class="form-control" id="donationsMethodFilter" style="max-width: 200px;">
+                            <option value="">All Payment Methods</option>
+                            <option value="Cash">Cash</option>
+                            <option value="UPI">UPI</option>
+                            <option value="Bank Transfer">Bank Transfer</option>
+                        </select>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Receipt No</th>
+                                    <th>Donor Name</th>
+                                    <th>Mobile</th>
+                                    <th>Amount (₹)</th>
+                                    <th>Date</th>
+                                    <th>Payment Method</th>
+                                    <th>Collected By (Collector Name)</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="donationsTableBody">
+                                <tr><td colspan="8" style="text-align:center;">Loading donations...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: FESTIVAL PROGRAMS CRUD -->
+            <div class="tab-panel" id="tabEvents">
+                <div class="glass-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+                        <h2 style="color: var(--accent-crimson); font-size: 1.6rem; font-weight: 800;">📅 Festival Programs & Events Schedule</h2>
+                        <button class="btn-admin" id="btnAddEventModalBtn">➕ Add New Program Event</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Order</th>
+                                    <th>Title</th>
+                                    <th>Date & Time</th>
+                                    <th>Location</th>
+                                    <th>Category</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="eventsTableBody">
+                                <tr><td colspan="7" style="text-align:center;">Loading program events...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 4: ANNADANAM FOOD CRUD -->
+            <div class="tab-panel" id="tabFood">
+                <div class="glass-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+                        <h2 style="color: var(--accent-crimson); font-size: 1.6rem; font-weight: 800;">🍲 Annadanam Food Program Management</h2>
+                        <button class="btn-admin" id="btnAddFoodModalBtn">➕ Add Annadanam Schedule</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Date & Time</th>
+                                    <th>Location</th>
+                                    <th>Menu</th>
+                                    <th>Sponsor</th>
+                                    <th>Servings</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="foodTableBody">
+                                <tr><td colspan="8" style="text-align:center;">Loading Annadanam schedules...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 5: EXPENSES TRACKER CRUD -->
+            <div class="tab-panel" id="tabExpenses">
+                <div class="glass-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+                        <h2 style="color: var(--accent-crimson); font-size: 1.6rem; font-weight: 800;">🧾 Festival Expense Management</h2>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="btn-admin" id="btnAddExpenseModalBtn">➕ Record New Expense</button>
+                            <a href="/api/export/expenses" class="btn-admin btn-admin-success" target="_blank">📥 Export CSV</a>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Title / Description</th>
+                                    <th>Category</th>
+                                    <th>Amount (₹)</th>
+                                    <th>Expense Date</th>
+                                    <th>Paid To</th>
+                                    <th>Method</th>
+                                    <th>Created By</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expensesTableBody">
+                                <tr><td colspan="8" style="text-align:center;">Loading expenses...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 6: ADMIN MANAGEMENT (10 ACCOUNTS) -->
+            <div class="tab-panel" id="tabAdmins">
+                <div class="glass-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+                        <h2 style="color: var(--accent-crimson); font-size: 1.6rem; font-weight: 800;">👥 Admin Accounts Management</h2>
+                        <button class="btn-admin" id="btnAddAdminModalBtn">➕ Create New Admin Account</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Created At</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminsTableBody">
+                                <tr><td colspan="6" style="text-align:center;">Loading admin accounts...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 7: SETTINGS -->
+            <div class="tab-panel" id="tabSettings">
+                <div class="glass-card" style="max-width: 800px;">
+                    <h2 style="color: var(--accent-crimson); margin-bottom: 20px; font-size: 1.6rem; font-weight: 800;">⚙️ Festival & Portal Settings</h2>
+                    
+                    <form id="settingsForm">
+                        <div class="form-group">
+                            <label>Festival Name</label>
+                            <input type="text" class="form-control" id="setFestName">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Festival Year</label>
+                            <input type="text" class="form-control" id="setFestYear">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Village Chandaa Representative Name</label>
+                            <input type="text" class="form-control" id="setContactPerson" placeholder="Yaddala Ranjith Goud (Sunny)">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Village Representative Contact Number</label>
+                            <input type="text" class="form-control" id="setContactNumber" placeholder="+91 76709 87767">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Developer Technical Support Contact Number</label>
+                            <input type="text" class="form-control" id="setDevContact" placeholder="7330863893">
+                        </div>
+
+                        <div class="form-group">
+                            <label>Receipt Number Prefix</label>
+                            <input type="text" class="form-control" id="setReceiptPrefix">
+                        </div>
+
+                        <button type="submit" class="btn-admin" style="padding: 12px 28px;">
+                            💾 SAVE ALL SETTINGS
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- TAB 8: AUDIT LOGS -->
+            <div class="tab-panel" id="tabAudit">
+                <div class="glass-card">
+                    <h2 style="color: var(--accent-crimson); margin-bottom: 20px; font-size: 1.6rem; font-weight: 800;">📜 Committee Activity Audit Logs</h2>
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Timestamp</th>
+                                    <th>Admin</th>
+                                    <th>Action</th>
+                                    <th>Entity</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody id="auditLogsBody">
+                                <tr><td colspan="5" style="text-align:center;">Loading audit logs...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ==================== MODALS ==================== -->
+
+    <!-- Modal 1: Add/Edit Donation -->
+    <div class="admin-modal-overlay" id="modalDonation">
+        <div class="admin-modal-card">
+            <button class="modal-close" onclick="closeAdminModal('modalDonation')">&times;</button>
+            <h2 style="color: var(--accent-crimson); margin-bottom: 20px;" id="modalDonationTitle">💰 Collect Chandaa Donation</h2>
+            
+            <form id="formDonation">
+                <input type="hidden" id="donId">
+                
+                <div class="form-group">
+                    <label>Auto Sequential Receipt Number</label>
+                    <input type="text" class="form-control" id="donReceiptNum" readonly style="background: #F3F4F6; color: var(--accent-crimson); font-weight: bold;">
+                </div>
+
+                <div class="form-group">
+                    <label>Donor Name *</label>
+                    <input type="text" class="form-control" id="donName" required placeholder="e.g. Rahul Garu">
+                </div>
+
+                <div class="form-group">
+                    <label>Mobile Number (10 digits) *</label>
+                    <input type="text" class="form-control" id="donMobile" required placeholder="e.g. 9876543210">
+                </div>
+
+                <div class="form-group">
+                    <label>Donation Amount (₹) *</label>
+                    <input type="number" step="1" class="form-control" id="donAmount" required placeholder="e.g. 1000">
+                </div>
+
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select class="form-control" id="donMethod">
+                        <option value="Cash">Cash</option>
+                        <option value="UPI">UPI</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Transaction / Reference No (Optional)</label>
+                    <input type="text" class="form-control" id="donRef" placeholder="e.g. UPI Ref / Cheque No">
+                </div>
+
+                <div class="form-group">
+                    <label>Collection Date</label>
+                    <input type="date" class="form-control" id="donDate">
+                </div>
+
+                <div class="form-group">
+                    <label>Special Sponsorship Title (Optional)</label>
+                    <input type="text" class="form-control" id="donSponsorship" placeholder="e.g. Ganesha Idol, Gifts for Events, Day 1 Annadanam">
+                </div>
+
+                <div class="form-group" style="display:flex; align-items:center; gap:10px;">
+                    <input type="checkbox" id="donAnonymous">
+                    <label for="donAnonymous" style="margin-bottom:0; cursor:pointer;">Keep Donor Name Anonymous in Public Lists</label>
+                </div>
+
+                <button type="submit" class="btn-admin" style="width:100%; padding:12px; margin-top:15px; background:var(--accent-crimson); color:#FFF;">
+                    💾 SAVE DONATION & GENERATE RECEIPT
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Printable & WhatsApp Receipt Preview Modal (Matching Reference Image) -->
+    <div class="admin-modal-overlay" id="modalReceiptView">
+        <div class="admin-modal-card" style="max-width: 650px; padding: 20px;">
+            <button class="modal-close no-print" onclick="closeAdminModal('modalReceiptView')">&times;</button>
+            
+            <div id="printableReceiptArea" class="receipt-paper">
+                
+                <!-- Ganesha Logo & Header -->
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div style="font-size: 2.8rem; color: #D4AF37; margin-bottom: 4px;">🕉️</div>
+                    <h2 class="receipt-header-title">ANANTHAMPALLI VILLAGE</h2>
+                    <h3 class="receipt-header-sub">VINAYAKA CHAVITHI 2026</h3>
+                    
+                    <div class="receipt-pill-badge">
+                        CHANDAA DONATION RECEIPT
+                    </div>
+                </div>
+
+                <!-- Receipt Info Grid -->
+                <div class="receipt-info-grid">
+                    <div class="receipt-item-box">
+                        <div class="receipt-item-icon">🧾</div>
+                        <div>
+                            <div class="receipt-item-label">RECEIPT NO.</div>
+                            <div class="receipt-item-val" id="recReceiptNo" style="color: #7F1D1D;">AVVC-2026-0001</div>
+                        </div>
+                    </div>
+
+                    <div class="receipt-item-box">
+                        <div class="receipt-item-icon">📅</div>
+                        <div>
+                            <div class="receipt-item-label">DATE</div>
+                            <div class="receipt-item-val" id="recDate">2026-09-01</div>
+                        </div>
+                    </div>
+
+                    <div class="receipt-item-box">
+                        <div class="receipt-item-icon">👤</div>
+                        <div>
+                            <div class="receipt-item-label">DONOR NAME</div>
+                            <div class="receipt-item-val" id="recDonorName">Donor Name</div>
+                        </div>
+                    </div>
+
+                    <div class="receipt-item-box">
+                        <div class="receipt-item-icon">📞</div>
+                        <div>
+                            <div class="receipt-item-label">MOBILE</div>
+                            <div class="receipt-item-val" id="recMobile">9876543210</div>
+                        </div>
+                    </div>
+
+                    <div class="receipt-item-box">
+                        <div class="receipt-item-icon">💳</div>
+                        <div>
+                            <div class="receipt-item-label">PAYMENT METHOD</div>
+                            <div class="receipt-item-val" id="recMethod">Cash</div>
+                        </div>
+                    </div>
+
+                    <div class="receipt-item-box">
+                        <div class="receipt-item-icon">👥</div>
+                        <div>
+                            <div class="receipt-item-label">COLLECTED BY</div>
+                            <div class="receipt-item-val" id="recCollectedBy" style="color:#7F1D1D; font-weight:800;">Surya Mohan Reddy</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Amount Received Box -->
+                <div class="receipt-amount-box">
+                    <div class="receipt-amount-lbl">CONTRIBUTION AMOUNT RECEIVED</div>
+                    <div class="receipt-amount-num" id="recAmount">₹ 1,000</div>
+                </div>
+
+                <!-- Devotional Message & Chant -->
+                <div style="text-align: center; margin-bottom: 25px;">
+                    <p style="font-size: 0.95rem; color: #374151;">Thank you for your generous contribution towards our village festival celebrations.</p>
+                    <p style="font-size: 1.2rem; font-weight: 800; color: #7F1D1D; margin-top: 6px;">
+                        " GANAPATHI BAPPA MORYA! 🙏 "
+                    </p>
+                </div>
+
+                <!-- Official Committee Stamp Seal Overlay -->
+                <div class="receipt-stamp-seal">
+                    <div class="stamp-top">ANANTHAMPALLI</div>
+                    <div class="stamp-center">AVVC 2026<br>SEAL</div>
+                    <div class="stamp-bottom">APPROVED</div>
+                </div>
+
+                <!-- 4 Pillars Bottom Bar -->
+                <div style="background: #7F1D1D; color: #FFFFFF; padding: 14px 10px; border-radius: 10px; margin-bottom: 20px;">
+                    <div style="display: flex; justify-content: space-around; font-size: 0.75rem; text-align: center;">
+                        <div>👥 <strong>ONE VILLAGE</strong><br><small style="color:#FEF3C7;">United by Devotion</small></div>
+                        <div>🙏 <strong>ONE CELEBRATION</strong><br><small style="color:#FEF3C7;">Connected by Tradition</small></div>
+                        <div>🛕 <strong>ONE BLESSING</strong><br><small style="color:#FEF3C7;">Blessed by Bappa</small></div>
+                        <div>🛡️ <strong>100% TRANSPARENT</strong><br><small style="color:#FEF3C7;">Every Rupee Matters</small></div>
+                    </div>
+                </div>
+
+                <!-- Mandatory Developer Footer Credit -->
+                <div style="text-align: center; font-size: 0.8rem; color: #4B5563; border-top: 1px solid #E5E7EB; padding-top: 15px;">
+                    <strong style="color: #111827;">Designed & Developed Proudly in Ananthampalli by KLIVOO NEXT GEN CRMS (A TENSPICK INITIATIVE)</strong><br>
+                    <span>Contact Developer for Queries: <strong style="color: #059669;">7330863893 — WhatsApp Only</strong></span><br>
+                    <small style="color: #9CA3AF; margin-top: 4px; display: inline-block;">Made with Love by Klivoo (By Tenspick Labs) ❤️</small>
+                </div>
+            </div>
+
+            <div class="no-print" style="display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap;">
+                <button class="btn-admin" onclick="window.print()" style="background: #1D4ED8; color: #FFF;">
+                    🖨️ PRINT RECEIPT
+                </button>
+                <button class="btn-admin" id="btnWaShareImage" style="background: #25D366; color: #FFF;">
+                    📱 SHARE IMAGE ON WHATSAPP
+                </button>
+                <button class="btn-admin" id="btnDownloadImage" style="background: #059669; color: #FFF;">
+                    🖼️ DOWNLOAD RECEIPT IMAGE
+                </button>
+                <button class="btn-admin" id="btnEditReceiptInModal" style="background: #D97706; color: #FFF;">
+                    ✏️ EDIT RECEIPT
+                </button>
+                <a id="btnWaShareLink" href="#" target="_blank" class="btn-admin" style="background: #15803D; color: #FFF; text-decoration: none; display: none;">
+                    💬 TEXT WHATSAPP
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3: Add/Edit Program Event -->
+    <div class="admin-modal-overlay" id="modalEvent">
+        <div class="admin-modal-card">
+            <button class="modal-close" onclick="closeAdminModal('modalEvent')">&times;</button>
+            <h2 style="color: var(--accent-crimson); margin-bottom: 20px;">📅 Program Event Form</h2>
+            <form id="formEvent">
+                <input type="hidden" id="evId">
+                <div class="form-group">
+                    <label>Event Title *</label>
+                    <input type="text" class="form-control" id="evTitle" required placeholder="e.g. Ganapathi Pooja & Installation">
+                </div>
+                <div class="form-group">
+                    <label>Event Date *</label>
+                    <input type="date" class="form-control" id="evDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Start Time</label>
+                    <input type="text" class="form-control" id="evStart" placeholder="e.g. 06:00 AM">
+                </div>
+                <div class="form-group">
+                    <label>End Time</label>
+                    <input type="text" class="form-control" id="evEnd" placeholder="e.g. 09:00 AM">
+                </div>
+                <div class="form-group">
+                    <label>Location</label>
+                    <input type="text" class="form-control" id="evLoc" value="Ananthampalli Main Mandap">
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select class="form-control" id="evCat">
+                        <option value="Pooja">Pooja & Rituals</option>
+                        <option value="Cultural">Cultural Program</option>
+                        <option value="Music">Bhakti Sangeet</option>
+                        <option value="Procession">Nimajjanam Procession</option>
+                        <option value="Food">Food / Annadanam</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" id="evDesc" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn-admin" style="width:100%; padding:12px;">💾 SAVE PROGRAM EVENT</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 4: Add/Edit Expense -->
+    <div class="admin-modal-overlay" id="modalExpense">
+        <div class="admin-modal-card">
+            <button class="modal-close" onclick="closeAdminModal('modalExpense')">&times;</button>
+            <h2 style="color: var(--accent-crimson); margin-bottom: 20px;">🧾 Record Festival Expense</h2>
+            <form id="formExpense">
+                <input type="hidden" id="expId">
+                <div class="form-group">
+                    <label>Expense Title / Item *</label>
+                    <input type="text" class="form-control" id="expTitle" required placeholder="e.g. Mandap Flowers & Decoration">
+                </div>
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select class="form-control" id="expCat" required>
+                        <option value="Mandap & Stage">Mandap & Stage</option>
+                        <option value="Idol & Rituals">Idol & Rituals</option>
+                        <option value="Lighting & Sound">Lighting & Sound</option>
+                        <option value="Annadanam Food">Annadanam Food</option>
+                        <option value="Cultural & Prizes">Cultural & Prizes</option>
+                        <option value="Procession & Music">Procession & Music</option>
+                        <option value="Miscellaneous">Miscellaneous</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Amount (₹) *</label>
+                    <input type="number" step="0.01" class="form-control" id="expAmount" required placeholder="e.g. 5000">
+                </div>
+                <div class="form-group">
+                    <label>Expense Date *</label>
+                    <input type="date" class="form-control" id="expDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Paid To / Vendor</label>
+                    <input type="text" class="form-control" id="expPaidTo" placeholder="e.g. Village Decorators">
+                </div>
+                <div class="form-group">
+                    <label>Description / Notes</label>
+                    <textarea class="form-control" id="expDesc" rows="2"></textarea>
+                </div>
+                <button type="submit" class="btn-admin" style="width:100%; padding:12px;">💾 RECORD EXPENSE</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 5: Add/Edit Annadanam -->
+    <div class="admin-modal-overlay" id="modalFood">
+        <div class="admin-modal-card">
+            <button class="modal-close" onclick="closeAdminModal('modalFood')">&times;</button>
+            <h2 style="color: var(--accent-crimson); margin-bottom: 20px;">🍲 Annadanam Schedule Form</h2>
+            <form id="formFood">
+                <input type="hidden" id="foodId">
+                <div class="form-group">
+                    <label>Annadanam Title *</label>
+                    <input type="text" class="form-control" id="foodTitle" required placeholder="e.g. Day 1 Grand Annadanam">
+                </div>
+                <div class="form-group">
+                    <label>Date *</label>
+                    <input type="date" class="form-control" id="foodDate" required>
+                </div>
+                <div class="form-group">
+                    <label>Sacred Menu Items</label>
+                    <textarea class="form-control" id="foodMenu" rows="2" placeholder="e.g. Payasam, Veg Biryani, Sambar, Vadai, Curd Rice"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Sponsor Name</label>
+                    <input type="text" class="form-control" id="foodSponsor" placeholder="e.g. PADMAVATHAMMA AND SON RAMA KRISHNAM RAJU (BABU)">
+                </div>
+                <div class="form-group">
+                    <label>Estimated Servings Count</label>
+                    <input type="number" class="form-control" id="foodServings" placeholder="e.g. 1500">
+                </div>
+                <button type="submit" class="btn-admin" style="width:100%; padding:12px;">💾 SAVE ANNADANAM SCHEDULE</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,759 @@
+/* ==========================================================================
+   Sri Vinayaka Chavithi Grand Mandap Application Styles
+   Theme: Divine Indian Temple Aesthetic (Gold, Saffron Crimson, Velvet Maroon)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Philosopher:wght@400;700&family=Poppins:wght@300;400;600;700&display=swap');
+
+:root {
+    --primary-gold: #FFD700;
+    --gold-light: #FFF099;
+    --gold-dark: #B8860B;
+    --saffron: #FF4500;
+    --saffron-light: #FF7F50;
+    --crimson: #800000;
+    --deep-maroon: #4A0404;
+    --emerald: #0B6623;
+    --divine-amber: #FFBF00;
+    --text-gold: #FFE87C;
+    --text-light: #FDFBF7;
+    --bg-gradient: radial-gradient(circle at center, #5c0606 0%, #2b0202 70%, #120000 100%);
+    --card-bg: rgba(60, 5, 5, 0.75);
+    --glass-border: 1px solid rgba(255, 215, 0, 0.35);
+    --gold-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    --font-heading: 'Cinzel', serif;
+    --font-sub: 'Philosopher', sans-serif;
+    --font-body: 'Poppins', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-body);
+    background: var(--bg-gradient);
+    color: var(--text-light);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Background Ambient Glow */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at 50% 30%, rgba(255, 140, 0, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* ==================== App Layout ==================== */
+.app-container {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 15px 20px 40px;
+    position: relative;
+    z-index: 1;
+}
+
+/* ==================== Header Section ==================== */
+.main-header {
+    text-align: center;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    background: rgba(40, 2, 2, 0.8);
+    border: var(--glass-border);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), var(--gold-shadow);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.main-header::before, .main-header::after {
+    content: '🪔';
+    font-size: 1.8rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.main-header::before { left: 25px; }
+.main-header::after { right: 25px; }
+
+.header-title-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.header-title {
+    font-family: var(--font-heading);
+    font-size: 2.3rem;
+    font-weight: 900;
+    background: linear-gradient(180deg, #FFFFFF 0%, #FFD700 50%, #FFA500 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+}
+
+.header-subtitle {
+    font-family: var(--font-sub);
+    font-size: 1.1rem;
+    color: var(--text-gold);
+    margin-top: 4px;
+    letter-spacing: 1px;
+}
+
+/* Quick Control Header Buttons */
+.header-actions {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+}
+
+.btn-header {
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(139, 0, 0, 0.4));
+    border: 1px solid var(--primary-gold);
+    color: var(--gold-light);
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-header:hover {
+    background: linear-gradient(135deg, var(--primary-gold), var(--saffron));
+    color: #000;
+    box-shadow: 0 0 15px var(--primary-gold);
+    transform: translateY(-2px);
+}
+
+.btn-header.active {
+    background: var(--primary-gold);
+    color: #300;
+    box-shadow: 0 0 15px var(--primary-gold);
+}
+
+/* ==================== Main Temple Mandap Container ==================== */
+.mandap-stage-container {
+    position: relative;
+    width: 100%;
+    min-height: 540px;
+    background: radial-gradient(circle at center 40%, #700606 0%, #300101 75%, #150000 100%);
+    border: 3px solid var(--gold-dark);
+    border-radius: 20px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.8), inset 0 0 50px rgba(255, 215, 0, 0.2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Canvas Overlay for Particle Petals */
+#mandapCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Toran Floral Arch at top of Mandap */
+.mandap-toran {
+    width: 100%;
+    height: 60px;
+    background-image: repeating-linear-gradient(
+        90deg,
+        #FF8C00 0px, #FF8C00 20px,
+        #FFD700 20px, #FFD700 40px,
+        #C62828 40px, #C62828 60px
+    );
+    border-bottom: 3px solid var(--primary-gold);
+    position: relative;
+    z-index: 4;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    padding-bottom: 5px;
+}
+
+.toran-flower {
+    font-size: 1.8rem;
+    animation: sway 3s ease-in-out infinite alternate;
+}
+@keyframes sway {
+    0% { transform: rotate(-5deg); }
+    100% { transform: rotate(5deg); }
+}
+
+/* Temple Pillars */
+.pillar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 45px;
+    background: linear-gradient(90deg, #8B0000 0%, #FFD700 50%, #8B0000 100%);
+    border: 1px solid var(--gold-dark);
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
+    z-index: 3;
+}
+.pillar-left { left: 0; border-top-right-radius: 10px; }
+.pillar-right { right: 0; border-top-left-radius: 10px; }
+
+/* Central Altar and Ganesha Display */
+.mandap-altar {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    flex-grow: 1;
+    width: 100%;
+}
+
+/* Divine Halo Aura behind Ganesha */
+.divine-aura {
+    position: absolute;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.45) 0%, rgba(255, 140, 0, 0.25) 45%, rgba(0, 0, 0, 0) 70%);
+    animation: auraPulse 4s ease-in-out infinite alternate;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes auraPulse {
+    0% { transform: scale(0.95); opacity: 0.7; }
+    100% { transform: scale(1.15); opacity: 1; filter: drop-shadow(0 0 30px #FFD700); }
+}
+
+/* Ganesha Idol Image Box */
+.ganesha-idol-wrapper {
+    position: relative;
+    z-index: 2;
+    max-width: 330px;
+    max-height: 380px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.4s ease;
+}
+
+.ganesha-idol-img {
+    width: 100%;
+    height: auto;
+    max-height: 360px;
+    object-fit: contain;
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.7));
+    border-radius: 12px;
+}
+
+/* Sacred Tilak Spot on Forehead */
+.tilak-mark {
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 18px;
+    height: 26px;
+    background: var(--saffron);
+    clip-path: polygon(50% 0%, 100% 70%, 50% 100%, 0% 70%);
+    box-shadow: 0 0 10px var(--saffron);
+    display: none; /* Shown when user applies tilak */
+    z-index: 6;
+}
+
+/* Offereing Flowers on Altar Base */
+.altar-flower-layer {
+    position: absolute;
+    bottom: 45px;
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    z-index: 4;
+    pointer-events: none;
+}
+.offered-flower {
+    font-size: 1.6rem;
+    animation: flowerDrop 0.5s ease-out forwards;
+}
+@keyframes flowerDrop {
+    0% { transform: translateY(-30px) scale(0); opacity: 0; }
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Mandap Floor & Rangoli Base */
+.mandap-floor {
+    width: 100%;
+    height: 90px;
+    background: linear-gradient(180deg, #500000 0%, #200000 100%);
+    border-top: 3px solid var(--primary-gold);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+    z-index: 4;
+    padding: 0 60px;
+}
+
+.rangoli-pattern {
+    width: 120px;
+    height: 70px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, rgba(255, 69, 0, 0.2) 60%, transparent 70%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    border: 1px dashed var(--primary-gold);
+}
+
+/* Diyas on Floor */
+.diya-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.diya-container:hover {
+    transform: scale(1.1);
+}
+
+.diya-flame {
+    width: 14px;
+    height: 24px;
+    background: radial-gradient(circle, #FFF 10%, #FFD700 40%, #FF4500 80%);
+    border-radius: 50% 50% 20% 20%;
+    box-shadow: 0 0 15px #FFD700, 0 0 30px #FF4500;
+    animation: flameFlicker 0.15s infinite alternate;
+    margin-bottom: -4px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.diya-flame.lit {
+    opacity: 1;
+}
+
+@keyframes flameFlicker {
+    0% { transform: scale(1) rotate(-2deg); }
+    100% { transform: scale(1.15) rotate(2deg); filter: drop-shadow(0 0 12px #FFD700); }
+}
+
+.diya-base {
+    font-size: 2.2rem;
+}
+
+/* Interactive Floating Bells */
+.temple-bell {
+    position: absolute;
+    top: 55px;
+    font-size: 2.5rem;
+    cursor: pointer;
+    z-index: 5;
+    transition: transform 0.1s ease;
+    filter: drop-shadow(0 5px 10px rgba(0,0,0,0.5));
+}
+.bell-left { left: 80px; }
+.bell-right { right: 80px; }
+
+.temple-bell.ringing {
+    animation: bellSwing 0.4s ease-in-out 3;
+}
+
+@keyframes bellSwing {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-25deg); }
+    75% { transform: rotate(25deg); }
+    100% { transform: rotate(0deg); }
+}
+
+/* Interactive Floating Aarati Thali */
+.aarati-thali-floating {
+    position: absolute;
+    bottom: 100px;
+    z-index: 8;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #FFD700 30%, #B8860B 80%, #8B0000 100%);
+    border: 3px solid var(--gold-light);
+    box-shadow: 0 0 25px var(--primary-gold), 0 10px 20px rgba(0,0,0,0.8);
+    display: none; /* Shown during Aarati mode */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+}
+
+.aarati-thali-floating.active {
+    display: flex;
+    animation: aaratiRotate 3s infinite linear;
+}
+
+@keyframes aaratiRotate {
+    0% { transform: translate(0, 0) scale(1); }
+    25% { transform: translate(40px, -20px) scale(1.05); }
+    50% { transform: translate(0, -40px) scale(1.1); }
+    75% { transform: translate(-40px, -20px) scale(1.05); }
+    100% { transform: translate(0, 0) scale(1); }
+}
+
+/* ==================== Ritual Toolbar (Action Deck) ==================== */
+.ritual-toolbar {
+    margin-top: 25px;
+    background: var(--card-bg);
+    border: var(--glass-border);
+    border-radius: 20px;
+    padding: 20px 25px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+}
+
+.toolbar-title {
+    font-family: var(--font-sub);
+    font-size: 1.2rem;
+    color: var(--text-gold);
+    text-align: center;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.ritual-buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 15px;
+}
+
+.btn-ritual {
+    background: linear-gradient(145deg, #700606 0%, #400202 100%);
+    border: 2px solid var(--primary-gold);
+    border-radius: 16px;
+    color: var(--text-light);
+    padding: 14px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.btn-ritual:hover {
+    background: linear-gradient(145deg, var(--saffron) 0%, #800000 100%);
+    border-color: #FFF;
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.5);
+}
+
+.btn-ritual:active {
+    transform: translateY(0);
+}
+
+.btn-ritual .icon {
+    font-size: 2rem;
+}
+.btn-ritual .label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* ==================== Audio Player Deck ==================== */
+.audio-deck-panel {
+    margin-top: 25px;
+    background: rgba(40, 2, 2, 0.85);
+    border: var(--glass-border);
+    border-radius: 16px;
+    padding: 18px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.chant-info-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.chant-disc {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-gold), var(--saffron));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    box-shadow: 0 0 10px var(--primary-gold);
+}
+.chant-disc.playing {
+    animation: spinDisc 4s linear infinite;
+}
+
+@keyframes spinDisc {
+    100% { transform: rotate(360deg); }
+}
+
+.chant-details h4 {
+    font-family: var(--font-sub);
+    color: var(--primary-gold);
+    font-size: 1.1rem;
+}
+.chant-details p {
+    font-size: 0.85rem;
+    color: #DDD;
+}
+
+.audio-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.btn-audio-play {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-gold), #FF8C00);
+    border: none;
+    color: #300;
+    font-size: 1.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px var(--primary-gold);
+    transition: transform 0.2s ease;
+}
+.btn-audio-play:hover {
+    transform: scale(1.1);
+}
+
+/* Select Chant Dropdown */
+.chant-select {
+    background: #300;
+    color: var(--text-gold);
+    border: 1px solid var(--primary-gold);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    outline: none;
+}
+
+/* ==================== Modals & Drawers ==================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-card {
+    background: linear-gradient(160deg, #4A0404 0%, #200000 100%);
+    border: 2px solid var(--primary-gold);
+    border-radius: 20px;
+    max-width: 650px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 30px;
+    position: relative;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.9), 0 0 30px var(--primary-gold);
+    animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalPop {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.modal-close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: var(--primary-gold);
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.modal-title {
+    font-family: var(--font-heading);
+    color: var(--primary-gold);
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255,215,0,0.3);
+    padding-bottom: 10px;
+}
+
+/* Prasadam Grid */
+.prasadam-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.prasadam-item {
+    background: rgba(80, 0, 0, 0.6);
+    border: 1px solid var(--gold-dark);
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.prasadam-item:hover {
+    border-color: var(--primary-gold);
+    background: rgba(120, 0, 0, 0.8);
+    transform: translateY(-3px);
+}
+.prasadam-item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    border: 2px solid var(--primary-gold);
+}
+
+/* Divine Blessing Card styling */
+.blessing-card-box {
+    text-align: center;
+    padding: 20px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, transparent 80%);
+    border: 1px dashed var(--primary-gold);
+    border-radius: 16px;
+    margin-bottom: 20px;
+}
+
+.blessing-shloka {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    color: var(--primary-gold);
+    margin-bottom: 12px;
+    line-height: 1.6;
+}
+
+.blessing-meaning {
+    font-size: 1rem;
+    color: var(--gold-light);
+    font-style: italic;
+    margin-bottom: 15px;
+}
+
+.blessing-message {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #FFF;
+}
+
+/* Greeting Card Builder */
+.greeting-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group label {
+    font-family: var(--font-sub);
+    color: var(--text-gold);
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 14px;
+    background: rgba(30, 0, 0, 0.8);
+    border: 1px solid var(--primary-gold);
+    border-radius: 8px;
+    color: #FFF;
+    font-family: var(--font-body);
+    font-size: 1rem;
+    outline: none;
+}
+
+.greeting-card-preview {
+    background: linear-gradient(135deg, #700606, #300000);
+    border: 4px double var(--primary-gold);
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+    margin-top: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+}
+
+.greeting-card-preview h3 {
+    font-family: var(--font-heading);
+    color: var(--primary-gold);
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+}
+
+/* Responsive Media Queries */
+@media (max-width: 768px) {
+    .header-title { font-size: 1.6rem; }
+    .header-subtitle { font-size: 0.95rem; }
+    .mandap-stage-container { min-height: 460px; }
+    .ganesha-idol-wrapper { max-width: 250px; }
+    .bell-left { left: 20px; }
+    .bell-right { right: 20px; }
+    .ritual-buttons-grid { grid-template-columns: repeat(3, 1fr); }
+    .audio-deck-panel { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 480px) {
+    .ritual-buttons-grid { grid-template-columns: repeat(2, 1fr); }
+    .btn-header { font-size: 0.8rem; padding: 6px 12px; }
+}

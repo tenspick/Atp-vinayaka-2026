@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANANTHAMPALLI VILLAGE VINAYAKA CHAVITHI 2026 (AVVC 2026)</title>
+    <meta name="description"
+        content="Official website for Ananthampalli Village Vinayaka Chavithi 2026 celebrations, programs, Annadanam schedules, Chandaa donations, and financial transparency.">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Header Navbar (Master Component) -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="nav-brand-logo">🐘</span>
+                <div class="nav-brand-titles">
+                    <span class="nav-brand-main">AVVC 2026</span>
+                    <span class="nav-brand-sub">ANANTHAMPALLI</span>
+                </div>
+            </a>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link active">HOME</a></li>
+                <li><a href="events.html" class="nav-link">PROGRAMS</a></li>
+                <li><a href="food.html" class="nav-link">ANNADANAM</a></li>
+                <li><a href="donators.html" class="nav-link">DONATORS</a></li>
+                <li><a href="transparency.html" class="nav-link">EXPENSES</a></li>
+                <li><a href="about.html" class="nav-link">ABOUT</a></li>
+                <li><a href="contact.html" class="nav-link">CONTACT</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="donate.html" class="btn-nav-donate">🪔 DONATE NOW</a>
+                <a href="/admin/login.html" class="btn-nav-admin">👤 ADMIN LOGIN</a>
+            </div>
+
+            <div class="hamburger" id="hamburgerBtn">☰</div>
+        </div>
+    </nav>
+
+    <!-- Clean White Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content-box">
+                    <div class="hero-subhead">ANANTHAMPALLI</div>
+                    <h1 class="hero-title-main">VILLAGE VINAYAKA<br>CHAVITHI</h1>
+                    <div class="hero-year-badge">2026</div>
+                    <div class="hero-telugu-chant">మన ఊరు • మన వినాయకుడు • మన పండుగ</div>
+                    <div class="hero-tagline">Celebrating faith, tradition and togetherness.</div>
+
+                    <div class="hero-cta-group">
+                        <a href="events.html" class="btn-hero-primary">🏛️ EXPLORE PROGRAMS</a>
+                        <a href="donate.html" class="btn-hero-secondary">🪔 SUPPORT THE FESTIVAL</a>
+                    </div>
+                </div>
+
+                <div class="hero-img-box">
+                    <img src="assets/images/ganesha_royal.png" alt="Sri Vinayaka Ganesha Idol">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scrolling Latest Updates Ticker Banner -->
+    <div class="ticker-wrap">
+        <span class="ticker-label">📢 LATEST UPDATES</span>
+        <div class="ticker-move" id="tickerContent">
+            <a href="events.html" class="ticker-item">✨ Welcome to Ananthampalli Village Vinayaka Chavithi 2026!</a>
+            <a href="food.html" class="ticker-item">🍲 Daily Grand Annadanam starts Sep 14 at Main Mandap Hall</a>
+            <a href="donators.html" class="ticker-item">🙏 Gratitude to Sura Ramana Reddy & Sons, Padmavathamma & Babu,
+                Penagaluru Mani</a>
+            <a href="transparency.html" class="ticker-item">🛡️ 100% Village Chandaa Transparency & Accountability</a>
+            <!-- Duplicate for infinite smooth scrolling -->
+            <a href="events.html" class="ticker-item">✨ Welcome to Ananthampalli Village Vinayaka Chavithi 2026!</a>
+            <a href="food.html" class="ticker-item">🍲 Daily Grand Annadanam starts Sep 14 at Main Mandap Hall</a>
+            <a href="donators.html" class="ticker-item">🙏 Gratitude to Sura Ramana Reddy & Sons, Padmavathamma & Babu,
+                Penagaluru Mani</a>
+            <a href="transparency.html" class="ticker-item">🛡️ 100% Village Chandaa Transparency & Accountability</a>
+        </div>
+    </div>
+
+    <!-- Countdown Section -->
+    <section class="countdown-section">
+        <div class="container">
+            <div class="section-label-ornate">COUNTDOWN TO THE CELEBRATION</div>
+            <div class="countdown-cards-flex" id="countdownGrid">
+                <div class="cd-box">
+                    <div style="font-size: 1.2rem; color: var(--accent-crimson); margin-bottom: 2px;">📅</div>
+                    <div class="cd-num" id="cdDays">00</div>
+                    <div class="cd-unit">DAYS</div>
+                </div>
+                <div class="cd-box">
+                    <div style="font-size: 1.2rem; color: var(--accent-crimson); margin-bottom: 2px;">🕒</div>
+                    <div class="cd-num" id="cdHours">00</div>
+                    <div class="cd-unit">HOURS</div>
+                </div>
+                <div class="cd-box">
+                    <div style="font-size: 1.2rem; color: var(--accent-crimson); margin-bottom: 2px;">⌛</div>
+                    <div class="cd-num" id="cdMins">00</div>
+                    <div class="cd-unit">MINUTES</div>
+                </div>
+                <div class="cd-box">
+                    <div style="font-size: 1.2rem; color: var(--accent-crimson); margin-bottom: 2px;">⏱️</div>
+                    <div class="cd-num" id="cdSecs">00</div>
+                    <div class="cd-unit">SECONDS</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Welcome Section -->
+    <section class="white-section">
+        <div class="container">
+            <div class="welcome-grid">
+                <div class="welcome-img-frame">
+                    <img src="assets/images/ganesha_eco.png" alt="Ananthampalli Vinayaka Celebration">
+                </div>
+                <div class="welcome-content-box">
+                    <h3>WELCOME TO</h3>
+                    <h2>ANANTHAMPALLI</h2>
+                    <h3
+                        style="font-size: 1.2rem; color: var(--text-main); margin-bottom: 12px; text-transform:none; font-weight:700;">
+                        Where devotion becomes a celebration.</h3>
+                    <p>
+                        Ananthampalli Village comes together to celebrate Vinayaka Chavithi with devotion, tradition,
+                        culture, and community spirit. Join us for grand daily poojas, cultural dramas, sacred
+                        Annadanam, and the grand procession.
+                    </p>
+                    <a href="about.html" class="btn-hero-primary" style="display: inline-block;">DISCOVER OUR
+                        CELEBRATION →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Festival Programs Section -->
+    <section class="programs-section">
+        <div class="container">
+            <div class="section-label-ornate">WHAT'S HAPPENING</div>
+            <h2
+                style="font-size: 2.2rem; font-weight: 800; text-align: center; color: var(--text-main); margin-bottom: 10px;">
+                FESTIVAL PROGRAMS</h2>
+
+            <div class="cards-program-grid" id="homeEventsGrid">
+                <div class="program-card-themed">
+                    <img src="assets/images/ganesha_eco.png" class="program-card-img" alt="Ganapathi Pooja">
+                    <div class="program-card-body">
+                        <span class="program-date-chip">SEP 14</span>
+                        <h3>GANAPATHI POOJA & INSTALLATION</h3>
+                        <p>Vedic rituals, holy chanting, and official installation of Lord Vinayaka idol at the main
+                            mandap.</p>
+                        <div class="program-meta-info">
+                            <span>⏰ 06:00 AM - 08:00 AM</span>
+                            <span>📍 Main Mandap</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="program-card-themed">
+                    <img src="assets/images/modak_prasadam.png" class="program-card-img" alt="Cultural Program">
+                    <div class="program-card-body">
+                        <span class="program-date-chip">SEP 15</span>
+                        <h3>BHAKTI SANGEET & CULTURAL DRAMA</h3>
+                        <p>Traditional songs, dance performances by village youth, and devotional music concert.</p>
+                        <div class="program-meta-info">
+                            <span>⏰ 06:00 PM - 09:00 PM</span>
+                            <span>📍 Village Stage</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="program-card-themed">
+                    <img src="assets/images/ganesha_royal.png" class="program-card-img" alt="Ganesh Procession">
+                    <div class="program-card-body">
+                        <span class="program-date-chip">SEP 23</span>
+                        <h3>GRAND NIMAJJANAM PROCESSION</h3>
+                        <p>Procession with Dhol Tasha, colors, music, and eco-friendly immersion ceremony.</p>
+                        <div class="program-meta-info">
+                            <span>⏰ 02:00 PM - 09:00 PM</span>
+                            <span>📍 Ananthampalli</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="events.html"
+                    style="color: var(--accent-crimson); font-weight: 800; text-decoration: none; font-size: 0.95rem;">VIEW
+                    ALL PROGRAMS →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Annadanam Banner Section -->
+    <section class="annadanam-banner">
+        <div class="container">
+            <div class="annadanam-flex">
+                <div class="annadanam-img-frame">
+                    <img src="assets/images/modak_prasadam.png" alt="Annadanam Food Offering">
+                </div>
+                <div class="annadanam-info-box">
+                    <h3>ANNADANAM</h3>
+                    <h2>Food offered with devotion. Served with love.</h2>
+                    <div id="homeAnnadanamMeta"
+                        style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; color: var(--text-main); font-weight: 600;">
+                        <div>📅 <strong>DATE:</strong> SEP 14, 2026 ONWARDS</div>
+                        <div>⏰ <strong>TIME:</strong> 12:00 PM ONWARDS</div>
+                        <div>📍 <strong>LOCATION:</strong> MAIN MANDAP HALL</div>
+                    </div>
+                    <a href="food.html" class="btn-hero-primary" style="font-size: 0.85rem; padding: 10px 22px;">VIEW
+                        ANNADANAM DETAILS →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Donators Section (Featured Special Event Sponsors - No Amount Displayed Below) -->
+    <section class="donators-section">
+        <div class="container">
+            <div
+                style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px;">
+                <div>
+                    <h3
+                        style="font-size: 0.85rem; font-weight: 800; letter-spacing: 3px; color: var(--primary-saffron); text-transform: uppercase;">
+                        BE A PART OF</h3>
+                    <h2 style="font-size: 2.2rem; font-weight: 800; color: var(--accent-crimson);">THE CELEBRATION</h2>
+                    <p style="color: var(--text-sub); max-width: 500px; margin-top: 5px;">
+                        Your contribution helps bring the spirit of Vinayaka Chavithi to life for our entire village.
+                    </p>
+                </div>
+                <a href="donate.html" class="btn-hero-secondary" style="font-size: 0.85rem; padding: 12px 26px;">🪔
+                    DONATE NOW</a>
+            </div>
+
+            <!-- Featured Major Village Sponsors Row (No Amount Displayed Below) -->
+            <div class="donators-card-row" id="homeDonatorsRow">
+                <div class="donator-pill-card" style="border: 2px solid var(--accent-crimson); background: #FFFBEB;">
+                    <span class="donator-sponsorship-badge">🪔 LORD GANESH IDOL DONATED BY</span>
+                    <div class="donator-icon">🙏</div>
+                    <div class="donator-name" style="margin-top: 8px;">SURA RAMANA REDDY AND SONS</div>
+                </div>
+
+                <div class="donator-pill-card" style="border: 2px solid var(--primary-saffron); background: #FFFBEB;">
+                    <span class="donator-sponsorship-badge" style="background: var(--saffron-dark);">🎁 GIFTS FOR EVENT
+                        WINNERS</span>
+                    <div class="donator-icon">🙏</div>
+                    <div class="donator-name" style="margin-top: 8px;">SURA RAMANA REDDY AND SONS</div>
+                </div>
+
+                <div class="donator-pill-card" style="border: 2px solid var(--accent-crimson); background: #FFFBEB;">
+                    <span class="donator-sponsorship-badge">🍲 1ST DAY FOOD DONATION BY</span>
+                    <div class="donator-icon">🙏</div>
+                    <div class="donator-name" style="font-size: 0.95rem; margin-top: 8px;">PADMAVATHAMMA AND SON RAMA
+                        KRISHNAM RAJU (BABU)</div>
+                </div>
+
+                <div class="donator-pill-card" style="border: 2px solid var(--primary-saffron); background: #FFFBEB;">
+                    <span class="donator-sponsorship-badge" style="background: var(--saffron-dark);">🍛 2ND DAY FOOD
+                        DONATION BY</span>
+                    <div class="donator-icon">🙏</div>
+                    <div class="donator-name" style="margin-top: 8px;">PENAGALURU MANI</div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 25px;">
+                <a href="donators.html"
+                    style="color: var(--accent-crimson); font-weight: 800; text-decoration: none;">VIEW ALL DONATORS
+                    →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Financial Transparency Section -->
+    <section class="transparency-bar-section">
+        <div class="container">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                <div>
+                    <h2 style="font-size: 1.8rem; font-weight: 800; color: var(--text-main);">EVERY RUPEE MATTERS.</h2>
+                    <p style="color: var(--text-sub); font-size: 0.95rem;">Together, we make the celebration possible
+                        with 100% village accountability.</p>
+                </div>
+                <a href="transparency.html" class="btn-hero-primary"
+                    style="font-size: 0.85rem; padding: 10px 22px;">VIEW TRANSPARENCY →</a>
+            </div>
+
+            <div class="transparency-cards-flex">
+                <div class="trans-card">
+                    <div class="icon">💰</div>
+                    <div>
+                        <div class="lbl">TOTAL CHANDAA</div>
+                        <div class="val" id="valTotalChandaa">₹ --</div>
+                    </div>
+                </div>
+                <div class="trans-card">
+                    <div class="icon">🧾</div>
+                    <div>
+                        <div class="lbl">TOTAL EXPENSES</div>
+                        <div class="val" id="valTotalExpenses" style="color: var(--accent-crimson);">₹ --</div>
+                    </div>
+                </div>
+                <div class="trans-card">
+                    <div class="icon">⚖️</div>
+                    <div>
+                        <div class="lbl">CURRENT BALANCE</div>
+                        <div class="val" id="valAvailableBalance" style="color: #059669;">₹ --</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MEMORIES FROM PREVIOUS YEARS (Infinite Right-to-Left Scrolling Marquee) -->
+    <section class="gallery-strip-section">
+        <div class="container">
+            <div class="section-label-ornate">PHOTO GALLERY</div>
+            <h2
+                style="font-size: 2.2rem; font-weight: 800; text-align: center; color: var(--text-main); margin-bottom: 25px;">
+                MEMORIES FROM PREVIOUS YEARS
+            </h2>
+        </div>
+
+        <div class="marquee-container">
+            <div class="marquee-track">
+                <!-- Original set -->
+                <img src="assets/images/celeb1.jpeg" class="marquee-img-card" alt="Village Celebration 1">
+                <img src="assets/images/celeb2.png" class="marquee-img-card" alt="Village Celebration 2">
+                <img src="assets/images/celeb3.png" class="marquee-img-card" alt="Village Celebration 3">
+                <img src="assets/images/celeb4.png" class="marquee-img-card" alt="Village Celebration 4">
+                <img src="assets/images/ganesha_royal.png" class="marquee-img-card" alt="Sri Vinayaka Idol">
+                <img src="assets/images/ganesha_eco.png" class="marquee-img-card" alt="Eco Ganesha Mandap">
+                <img src="assets/images/modak_prasadam.png" class="marquee-img-card" alt="Modak Prasadam">
+
+                <!-- Duplicate set for seamless infinite loop -->
+                <img src="assets/images/celeb1.jpeg" class="marquee-img-card" alt="Village Celebration 1">
+                <img src="assets/images/celeb2.png" class="marquee-img-card" alt="Village Celebration 2">
+                <img src="assets/images/celeb3.png" class="marquee-img-card" alt="Village Celebration 3">
+                <img src="assets/images/celeb4.png" class="marquee-img-card" alt="Village Celebration 4">
+                <img src="assets/images/ganesha_royal.png" class="marquee-img-card" alt="Sri Vinayaka Idol">
+                <img src="assets/images/ganesha_eco.png" class="marquee-img-card" alt="Eco Ganesha Mandap">
+                <img src="assets/images/modak_prasadam.png" class="marquee-img-card" alt="Modak Prasadam">
+            </div>
+        </div>
+    </section>
+
+    <!-- GRAND MAJESTIC DARK FOOTER MATCHING REFERENCE IMAGE WITH LOGOS -->
+    <footer class="grand-site-footer">
+        <div class="container">
+            <div class="footer-top-grid">
+                <div class="footer-left-brand">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">🐘</div>
+                    <h2>ANANTHAMPALLI VILLAGE<br>VINAYAKA CHAVITHI 2026</h2>
+                    <div class="telugu">మన ఊరు • మన వినాయకుడు • మన పండుగ</div>
+                    <div class="tag">Celebrating faith, tradition and togetherness.</div>
+                </div>
+
+                <div class="footer-developer-card">
+                    <div class="footer-om-header">🕉️</div>
+                    <h3>DESIGNED AND DEVELOPED PROUDLY IN</h3>
+                    <div class="location">ANANTHAMPALLI</div>
+
+                    <div
+                        style="font-size: 0.8rem; color: var(--primary-gold); letter-spacing: 2px; margin-top: 10px; font-weight: 800;">
+                        BY</div>
+
+                    <div class="footer-logos-wrap">
+                        <img src="assets/images/klivoologo.png" class="footer-logo-img" alt="Klivoo Next Gen CRMS Logo">
+                        <span style="font-weight: 800; font-size: 1.1rem; color: #FFDF7E;">KLIVOO NEXT GEN CRMS</span>
+                    </div>
+
+                    <div class="footer-logos-wrap" style="margin-top: 4px;">
+                        <span style="font-size: 0.8rem; color: #D1D5DB;">( A</span>
+                        <img src="assets/images/tenspicklogo.png" class="footer-logo-img" style="height: 24px;"
+                            alt="Tenspick Logo">
+                        <span style="font-size: 0.8rem; color: #D1D5DB;">TENSPICK INITIATIVE )</span>
+                    </div>
+
+                    <div style="color: #EFE6DC; font-size: 0.85rem; margin-top: 15px; font-weight: 600;">Contact
+                        Developer for Queries</div>
+
+                    <a href="https://wa.me/917330863893?text=Hello%20Developer%20Klivoo" class="footer-wa-pill"
+                        target="_blank">
+                        💬 7330863893 — WhatsApp Only
+                    </a>
+                </div>
+
+                <div class="footer-links-col">
+                    <h4>QUICK LINKS</h4>
+                    <ul class="footer-links-grid">
+                        <li><a href="index.html">🏠 Home</a></li>
+                        <li><a href="donators.html">👥 Donators</a></li>
+                        <li><a href="events.html">📅 Programs</a></li>
+                        <li><a href="transparency.html">🧾 Expenses</a></li>
+                        <li><a href="food.html">🍲 Annadanam</a></li>
+                        <li><a href="/admin/login.html">👤 Admin Login</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-pillars-strip">
+            <div class="container pillars-flex">
+                <div class="pillar-item">
+                    <span class="icon">👥</span>
+                    <div>
+                        <div class="title">ONE VILLAGE</div>
+                        <div class="sub">United by devotion</div>
+                    </div>
+                </div>
+                <div class="pillar-item">
+                    <span class="icon">🙏</span>
+                    <div>
+                        <div class="title">ONE CELEBRATION</div>
+                        <div class="sub">Connected by tradition</div>
+                    </div>
+                </div>
+                <div class="pillar-item">
+                    <span class="icon">🛕</span>
+                    <div>
+                        <div class="title">ONE BLESSING</div>
+                        <div class="sub">Blessed by Bappa</div>
+                    </div>
+                </div>
+                <div class="pillar-item">
+                    <span class="icon">🛡️</span>
+                    <div>
+                        <div class="title">100% TRANSPARENT</div>
+                        <div class="sub">Every rupee matters</div>
+                    </div>
+                </div>
+                <div class="pillar-item">
+                    <span class="icon">🧡</span>
+                    <div>
+                        <div class="title">MADE WITH DEVOTION</div>
+                        <div class="sub">For our village</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom-bar">
+            <div class="container">
+                © 2026 All Rights Reserved. &nbsp;|&nbsp; Ananthampalli Village Vinayaka Chavithi Committee
+                &nbsp;|&nbsp; Made with Love by Klivoo (By Tenspick Labs) 🪔
+            </div>
+        </div>
+    </footer>
+
+    <!-- Application Script -->
+    <script src="js/main.js"></script>
+    <script>
+        async function loadHomeLiveData() {
+            // 1. Live Financial Stats
+            try {
+                const statsRes = await fetch('/api/dashboard/stats');
+                const stats = await statsRes.json();
+                if (stats.publicVisible) {
+                    document.getElementById('valTotalChandaa').textContent = '₹ ' + Number(stats.totalDonations).toLocaleString('en-IN');
+                    document.getElementById('valTotalExpenses').textContent = '₹ ' + Number(stats.totalExpenses).toLocaleString('en-IN');
+                    document.getElementById('valAvailableBalance').textContent = '₹ ' + Number(stats.currentBalance).toLocaleString('en-IN');
+                }
+            } catch(e){}
+
+            // 2. Live Festival Programs
+            try {
+                const evRes = await fetch('/api/events');
+                const evData = await evRes.json();
+                const grid = document.getElementById('homeEventsGrid');
+                if (grid && evData.events && evData.events.length > 0) {
+                    grid.innerHTML = evData.events.slice(0, 3).map(ev => {
+                        const dateParts = ev.event_date ? ev.event_date.split('-') : [];
+                        const monthName = dateParts.length === 3 ? new Date(ev.event_date).toLocaleString('default', { month: 'short' }).toUpperCase() : 'SEP';
+                        const dayNum = dateParts.length === 3 ? dateParts[2] : '14';
+                        return `
+                            <div class="program-card-themed">
+                                <img src="${ev.image || 'assets/images/ganesha_eco.png'}" class="program-card-img" alt="${ev.title}">
+                                <div class="program-card-body">
+                                    <span class="program-date-chip">${monthName} ${dayNum}</span>
+                                    <h3>${ev.title}</h3>
+                                    <p>${ev.description || ''}</p>
+                                    <div class="program-meta-info">
+                                        <span>⏰ ${ev.start_time || 'TBA'} ${ev.end_time ? '- ' + ev.end_time : ''}</span>
+                                        <span>📍 ${ev.location || 'Ananthampalli Main Mandap'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            } catch(e){}
+
+            // 3. Live Annadanam Food Program
+            try {
+                const foodRes = await fetch('/api/food');
+                const foodData = await foodRes.json();
+                if (foodData.foodPrograms && foodData.foodPrograms.length > 0) {
+                    const nextFood = foodData.foodPrograms[0];
+                    const metaEl = document.getElementById('homeAnnadanamMeta');
+                    if (metaEl) {
+                        metaEl.innerHTML = `
+                            <div>📅 <strong>DATE:</strong> ${nextFood.date}</div>
+                            <div>⏰ <strong>TIME:</strong> ${nextFood.start_time || '12:00 PM'} ${nextFood.end_time ? '- ' + nextFood.end_time : ''}</div>
+                            <div>📍 <strong>LOCATION:</strong> ${nextFood.location || 'MAIN MANDAP HALL'}</div>
+                            ${nextFood.sponsor ? `<div style="width:100%; color:var(--accent-crimson); font-weight:800; margin-top:5px;">🙏 SPONSOR: ${nextFood.sponsor}</div>` : ''}
+                        `;
+                    }
+                }
+            } catch(e){}
+
+            // 4. Live Special Event Sponsors & Donators Row
+            try {
+                const donRes = await fetch('/api/donators?filter=all');
+                const donData = await donRes.json();
+                const donRow = document.getElementById('homeDonatorsRow');
+                if (donRow && donData.donators && donData.donators.length > 0) {
+                    const sponsors = donData.donators.filter(d => d.sponsorship_title && d.sponsorship_title.trim() !== '');
+                    const displayList = sponsors.length >= 2 ? sponsors.slice(0, 4) : donData.donators.slice(0, 4);
+
+                    if (displayList.length > 0) {
+                        donRow.innerHTML = displayList.map((d, i) => `
+                            <div class="donator-pill-card" style="border: 2px solid ${i % 2 === 0 ? 'var(--accent-crimson)' : 'var(--primary-saffron)'}; background: #FFFBEB;">
+                                <span class="donator-sponsorship-badge" style="${i % 2 !== 0 ? 'background: var(--saffron-dark);' : ''}">${d.sponsorship_title ? '🪔 ' + d.sponsorship_title.toUpperCase() : '🙏 CONTRIBUTOR'}</span>
+                                <div class="donator-icon">🙏</div>
+                                <div class="donator-name" style="margin-top: 8px;">${d.donor_name}</div>
+                            </div>
+                        `).join('');
+                    }
+                }
+            } catch(e){}
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadHomeLiveData();
+            setInterval(loadHomeLiveData, 10000);
+        });
+    </script>
+</body>
+
+</html>

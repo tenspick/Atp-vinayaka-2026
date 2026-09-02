@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | ANANTHAMPALLI VILLAGE VINAYAKA CHAVITHI 2026</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <style>
+        /* Modern Pristine White Temple Theme Login Styles matching Reference Image */
+        body.login-body-bg {
+            background: #FAF8F5 url('../assets/images/ganesha_royal.png') no-repeat left bottom;
+            background-size: contain;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body.login-body-bg::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: radial-gradient(circle at 75% 30%, rgba(255, 255, 255, 0.7) 0%, rgba(250, 248, 245, 0.95) 100%);
+            z-index: 1;
+        }
+
+        .login-main-wrapper {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 80px);
+            padding: 40px 20px;
+        }
+
+        .temple-login-card {
+            background: #FFFFFF;
+            border: 2px solid #E5D9C5;
+            border-radius: 24px;
+            max-width: 520px;
+            width: 100%;
+            padding: 45px 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08), 0 0 30px rgba(212, 175, 55, 0.15);
+            text-align: center;
+            position: relative;
+        }
+
+        .login-ganesha-icon {
+            font-size: 3rem;
+            margin-bottom: 8px;
+            line-height: 1;
+        }
+
+        .login-card-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #111827;
+            text-transform: uppercase;
+            line-height: 1.25;
+            margin-bottom: 8px;
+        }
+
+        .login-card-sub {
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--primary-saffron);
+            text-transform: uppercase;
+        }
+
+        .login-auth-tag {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .login-auth-tag::before, .login-auth-tag::after {
+            content: '';
+            display: block;
+            width: 30px;
+            height: 1px;
+            background: #D1D5DB;
+        }
+
+        .input-group-custom {
+            position: relative;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group-custom label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: var(--text-sub);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .input-field-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon-left {
+            position: absolute;
+            left: 14px;
+            font-size: 1.1rem;
+            color: #9CA3AF;
+            pointer-events: none;
+        }
+
+        .form-control-temple {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            background: #FFFFFF;
+            border: 1.5px solid #D1D5DB;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #111827;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        .form-control-temple:focus {
+            border-color: var(--primary-saffron);
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+        }
+
+        .password-toggle-btn {
+            position: absolute;
+            right: 14px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: #9CA3AF;
+        }
+
+        .login-options-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            margin-bottom: 22px;
+            color: var(--text-sub);
+        }
+
+        .btn-login-black {
+            width: 100%;
+            background: #111827;
+            color: #FFFFFF;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            font-size: 0.95rem;
+            padding: 14px 24px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        .btn-login-black:hover {
+            background: var(--accent-crimson);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(153, 27, 27, 0.3);
+        }
+
+        .login-dev-credit-box {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #E5E7EB;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #F9FAFB;
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .login-dev-badge-icon {
+            width: 36px;
+            height: 36px;
+            background: #111827;
+            color: var(--primary-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .login-dev-text {
+            text-align: left;
+            font-size: 0.78rem;
+            color: var(--text-sub);
+            line-height: 1.4;
+        }
+
+        .login-bottom-pillars {
+            position: relative;
+            z-index: 10;
+            background: #FFFFFF;
+            border-top: 1px solid #E5E7EB;
+            padding: 18px 0;
+        }
+
+        .login-pillars-grid {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .login-pillar-card {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .login-pillar-card .icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #FEF3C7;
+            color: var(--accent-crimson);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .login-pillar-card .title {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #111827;
+            letter-spacing: 0.5px;
+        }
+
+        .login-pillar-card .sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body class="login-body-bg">
+
+    <div class="login-main-wrapper">
+        <div class="temple-login-card">
+            
+            <div class="login-ganesha-icon">🕉️</div>
+            
+            <h1 class="login-card-title">
+                ANANTHAMPALLI VILLAGE<br>VINAYAKA CHAVITHI 2026
+            </h1>
+            
+            <div class="login-card-sub">ADMIN PORTAL LOGIN</div>
+            <div class="login-auth-tag">Authorized Committee Members Only</div>
+
+            <form id="adminLoginForm">
+                <div class="input-group-custom">
+                    <label for="loginUsername">USERNAME</label>
+                    <div class="input-field-wrap">
+                        <span class="input-icon-left">👤</span>
+                        <input type="text" class="form-control-temple" id="loginUsername" placeholder="e.g. suryamohanreddys@gmail.com or admin01" required>
+                    </div>
+                </div>
+
+                <div class="input-group-custom">
+                    <label for="loginPassword">PASSWORD</label>
+                    <div class="input-field-wrap">
+                        <span class="input-icon-left">🔒</span>
+                        <input type="password" class="form-control-temple" id="loginPassword" placeholder="Enter admin password" required>
+                        <button type="button" class="password-toggle-btn" id="togglePasswordBtn">👁️</button>
+                    </div>
+                </div>
+
+                <div class="login-options-row">
+                    <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
+                        <input type="checkbox" checked style="accent-color: var(--accent-crimson);"> Remember me
+                    </label>
+                    <a href="https://wa.me/917330863893?text=Forgot%20Admin%20Password%20AVVC2026" target="_blank" style="color: var(--primary-saffron); font-weight: 700; text-decoration: none;">Forgot Password?</a>
+                </div>
+
+                <div id="loginErrorMsg" style="color: var(--accent-crimson); font-weight: 700; font-size: 0.9rem; margin-bottom: 15px; display: none;"></div>
+
+                <button type="submit" class="btn-login-black">
+                    🔒 LOGIN TO DASHBOARD &nbsp; →
+                </button>
+            </form>
+
+            <div class="login-dev-credit-box">
+                <div class="login-dev-badge-icon">🛡️</div>
+                <div class="login-dev-text">
+                    Designed & Developed Proudly in Ananthampalli by<br>
+                    <strong style="color: #111827;">KLIVOO NEXT GEN CRMS</strong> <small>(A TENSPICK INITIATIVE)</small><br>
+                    Contact Developer: <strong>7330863893</strong> — WhatsApp Only 💬
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Security Pillars Bottom Strip matching Reference Image -->
+    <div class="login-bottom-pillars">
+        <div class="container login-pillars-grid">
+            <div class="login-pillar-card">
+                <div class="icon">🛡️</div>
+                <div>
+                    <div class="title">SECURE ACCESS</div>
+                    <div class="sub">Protected Portal</div>
+                </div>
+            </div>
+            <div class="login-pillar-card">
+                <div class="icon">👥</div>
+                <div>
+                    <div class="title">AUTHORIZED USERS</div>
+                    <div class="sub">Committee Members Only</div>
+                </div>
+            </div>
+            <div class="login-pillar-card">
+                <div class="icon">🔒</div>
+                <div>
+                    <div class="title">DATA PRIVACY</div>
+                    <div class="sub">100% Confidential</div>
+                </div>
+            </div>
+            <div class="login-pillar-card">
+                <div class="icon">🛕</div>
+                <div>
+                    <div class="title">DEVOTION & TRUST</div>
+                    <div class="sub">For Our Village</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Password visibility toggle
+        const passwordInput = document.getElementById('loginPassword');
+        const toggleBtn = document.getElementById('togglePasswordBtn');
+
+        toggleBtn.addEventListener('click', () => {
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleBtn.textContent = '🙈';
+            } else {
+                passwordInput.type = 'password';
+                toggleBtn.textContent = '👁️';
+            }
+        });
+
+        // Form Submission
+        document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const errorEl = document.getElementById('loginErrorMsg');
+
+            errorEl.style.display = 'none';
+            const apiBase = window.location.protocol.startsWith('http') ? '' : 'http://localhost:3000';
+
+            try {
+                const res = await fetch(apiBase + '/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password }),
+                    credentials: 'include'
+                });
+
+                const data = await res.json();
+                if (res.ok) {
+                    window.location.href = apiBase ? 'http://localhost:3000/admin/dashboard.html' : '/admin/dashboard.html';
+                } else {
+                    errorEl.textContent = data.error || 'Login failed. Invalid credentials.';
+                    errorEl.style.display = 'block';
+                }
+            } catch (err) {
+                errorEl.textContent = 'Server connection error. Please ensure http://localhost:3000 is open in your browser.';
+                errorEl.style.display = 'block';
+            }
+        });
+
+        // Redirect if already logged in
+        const checkBase = window.location.protocol.startsWith('http') ? '' : 'http://localhost:3000';
+        fetch(checkBase + '/api/auth/me', { credentials: 'include' })
+            .then(res => res.json())
+            .then(data => {
+                if (data.authenticated) {
+                    window.location.href = checkBase ? 'http://localhost:3000/admin/dashboard.html' : '/admin/dashboard.html';
+                }
+            })
+            .catch(() => {});
+    </script>
+</body>
+</html>

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donators Roll of Honor | AVVC 2026 ANANTHAMPALLI</title>
+    <meta name="description" content="Official Donators Roll of Honor for Ananthampalli Village Vinayaka Chavithi 2026. Gratitude to all our generous sponsors and village donors.">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header Navbar (Master Component) -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="nav-brand-logo">🐘</span>
+                <div class="nav-brand-titles">
+                    <span class="nav-brand-main">AVVC 2026</span>
+                    <span class="nav-brand-sub">ANANTHAMPALLI</span>
+                </div>
+            </a>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">HOME</a></li>
+                <li><a href="events.html" class="nav-link">PROGRAMS</a></li>
+                <li><a href="food.html" class="nav-link">ANNADANAM</a></li>
+                <li><a href="donators.html" class="nav-link active">DONATORS</a></li>
+                <li><a href="transparency.html" class="nav-link">EXPENSES</a></li>
+                <li><a href="about.html" class="nav-link">ABOUT</a></li>
+                <li><a href="contact.html" class="nav-link">CONTACT</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="donate.html" class="btn-nav-donate">🪔 DONATE NOW</a>
+                <a href="/admin/login.html" class="btn-nav-admin">👤 ADMIN LOGIN</a>
+            </div>
+
+            <div class="hamburger" id="hamburgerBtn">☰</div>
+        </div>
+    </nav>
+
+    <!-- Master Inner Page Hero Component -->
+    <header class="page-header-parchment">
+        <div class="container">
+            <div class="section-label-ornate">❖ ROLL OF HONOR ❖</div>
+            <h1 style="font-size: 2.8rem; font-weight: 800; color: var(--accent-crimson);">OUR CONTRIBUTORS</h1>
+            <p style="color: var(--text-sub); font-size: 1.15rem; font-weight: 600; margin-top: 8px;">
+                “With gratitude to everyone who made this celebration possible.”
+            </p>
+        </div>
+    </header>
+
+    <div class="container" style="padding: 60px 24px;">
+
+        <!-- Featured Major Village Sponsors Cards Grid (No Amount Displayed as Requested) -->
+        <div style="margin-bottom: 40px;">
+            <h2 style="font-size: 1.6rem; font-weight: 800; color: var(--accent-crimson); margin-bottom: 20px; text-align: center;">
+                ✨ SPECIAL EVENT SPONSORS & MAJOR CONTRIBUTORS
+            </h2>
+
+            <div class="donators-card-row">
+                <div class="donator-pill-card" style="border: 2px solid var(--accent-crimson); background: #FFFBEB;">
+                    <span class="donator-sponsorship-badge">🪔 LORD GANESH IDOL DONATED BY</span>
+                    <div class="donator-icon">🙏</div>
+                    <div class="donator-name" style="font-size: 1.1rem; margin-top: 8px;">SURA RAMANA REDDY AND SONS</div>
+                </div>
+
+                <div class="donator-pill-card" style="border: 2px solid var(--primary-saffron); background: #FFFBEB;">
+                    <span class="donator-sponsorship-badge" style="background: var(--saffron-dark);">🎁 GIFTS FOR EVENT WINNERS</span>
+                    <div class="donator-icon">🙏</div>
+                    <div class="donator-name" style="font-size: 1.1rem; margin-top: 8px;">SURA RAMANA REDDY AND SONS</div>
+                </div>
+
+                <div class="donator-pill-card" style="border: 2px solid var(--accent-crimson); background: #FFFBEB;">
+                    <span class="donator-sponsorship-badge">🍲 1ST DAY FOOD DONATION BY</span>
+                    <div class="donator-icon">🙏</div>
+                    <div class="donator-name" style="font-size: 1.05rem; margin-top: 8px;">PADMAVATHAMMA AND SON RAMA KRISHNAM RAJU (BABU)</div>
+                </div>
+
+                <div class="donator-pill-card" style="border: 2px solid var(--primary-saffron); background: #FFFBEB;">
+                    <span class="donator-sponsorship-badge" style="background: var(--saffron-dark);">🍛 2ND DAY FOOD DONATION BY</span>
+                    <div class="donator-icon">🙏</div>
+                    <div class="donator-name" style="font-size: 1.1rem; margin-top: 8px;">PENAGALURU MANI</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- All Donators Table -->
+        <div class="glass-card">
+            
+            <!-- Search & Filter Controls -->
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:15px; margin-bottom:20px;">
+                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                    <button class="btn-hero-secondary filter-tab-btn active" data-filter="all" style="padding:8px 18px; font-size:0.85rem;">All Contributors</button>
+                    <button class="btn-hero-secondary filter-tab-btn" data-filter="top" style="padding:8px 18px; font-size:0.85rem;">Featured Donators ⭐</button>
+                    <button class="btn-hero-secondary filter-tab-btn" data-filter="recent" style="padding:8px 18px; font-size:0.85rem;">Recent Donators</button>
+                </div>
+
+                <div>
+                    <input type="text" id="donorSearchInput" class="form-control" placeholder="🔍 Search donor name..." style="width:250px;">
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="custom-table">
+                    <thead>
+                        <tr>
+                            <th>Receipt No</th>
+                            <th>Donor Name</th>
+                            <th>Sponsorship Category</th>
+                            <th>Amount (₹)</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="donatorsTableBody">
+                        <tr><td colspan="5" style="text-align:center;">Loading donators list...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MEMORIES FROM PREVIOUS YEARS (Master Marquee Gallery Component) -->
+    <section class="gallery-strip-section">
+        <div class="container">
+            <div class="section-label-ornate">❖ PHOTO GALLERY ❖</div>
+            <h2 style="font-size: 2.2rem; font-weight: 800; text-align: center; color: var(--text-main); margin-bottom: 25px;">
+                MEMORIES FROM PREVIOUS YEARS
+            </h2>
+        </div>
+
+        <div class="marquee-container">
+            <div class="marquee-track">
+                <img src="assets/images/celeb1.jpeg" class="marquee-img-card" alt="Village Celebration 1">
+                <img src="assets/images/celeb2.png" class="marquee-img-card" alt="Village Celebration 2">
+                <img src="assets/images/celeb3.png" class="marquee-img-card" alt="Village Celebration 3">
+                <img src="assets/images/celeb4.png" class="marquee-img-card" alt="Village Celebration 4">
+                <img src="assets/images/ganesha_royal.png" class="marquee-img-card" alt="Sri Vinayaka Idol">
+                <img src="assets/images/ganesha_eco.png" class="marquee-img-card" alt="Eco Ganesha Mandap">
+                <img src="assets/images/modak_prasadam.png" class="marquee-img-card" alt="Modak Prasadam">
+                
+                <!-- Duplicate set for seamless infinite loop -->
+                <img src="assets/images/celeb1.jpeg" class="marquee-img-card" alt="Village Celebration 1">
+                <img src="assets/images/celeb2.png" class="marquee-img-card" alt="Village Celebration 2">
+                <img src="assets/images/celeb3.png" class="marquee-img-card" alt="Village Celebration 3">
+                <img src="assets/images/celeb4.png" class="marquee-img-card" alt="Village Celebration 4">
+                <img src="assets/images/ganesha_royal.png" class="marquee-img-card" alt="Sri Vinayaka Idol">
+                <img src="assets/images/ganesha_eco.png" class="marquee-img-card" alt="Eco Ganesha Mandap">
+                <img src="assets/images/modak_prasadam.png" class="marquee-img-card" alt="Modak Prasadam">
+            </div>
+        </div>
+    </section>
+
+    <!-- Master Footer Component -->
+    <footer class="grand-site-footer">
+        <div class="container">
+            <div class="footer-top-grid">
+                <div class="footer-left-brand">
+                    <div style="font-size: 2.2rem; margin-bottom: 10px;">🐘</div>
+                    <h2>ANANTHAMPALLI VILLAGE<br>VINAYAKA CHAVITHI 2026</h2>
+                    <div class="telugu">మన ఊరు • మన వినాయకుడు • మన పండుగ</div>
+                    <div class="tag">Celebrating faith, tradition and togetherness.</div>
+                </div>
+
+                <div class="footer-developer-card">
+                    <div class="footer-om-header">🕉️</div>
+                    <h3>DESIGNED AND DEVELOPED PROUDLY IN</h3>
+                    <div class="location">ANANTHAMPALLI</div>
+                    
+                    <div style="font-size: 0.8rem; color: var(--primary-gold); letter-spacing: 2px; margin-top: 10px; font-weight: 800;">BY</div>
+                    
+                    <div class="footer-logos-wrap">
+                        <img src="assets/images/klivoologo.png" class="footer-logo-img" alt="Klivoo Next Gen CRMS Logo">
+                        <span style="font-weight: 800; font-size: 1.1rem; color: #FFDF7E;">KLIVOO NEXT GEN CRMS</span>
+                    </div>
+
+                    <div class="footer-logos-wrap" style="margin-top: 4px;">
+                        <span style="font-size: 0.8rem; color: #D1D5DB;">( A</span>
+                        <img src="assets/images/tenspicklogo.png" class="footer-logo-img" style="height: 24px;" alt="Tenspick Logo">
+                        <span style="font-size: 0.8rem; color: #D1D5DB;">TENSPICK INITIATIVE )</span>
+                    </div>
+
+                    <div style="color: #EFE6DC; font-size: 0.85rem; margin-top: 15px; font-weight: 600;">Contact Developer for Queries</div>
+                    
+                    <a href="https://wa.me/917330863893?text=Hello%20Developer%20Klivoo" class="footer-wa-pill" target="_blank">
+                        💬 7330863893 — WhatsApp Only
+                    </a>
+                </div>
+
+                <div class="footer-links-col">
+                    <h4>QUICK LINKS</h4>
+                    <ul class="footer-links-grid">
+                        <li><a href="index.html">🏠 Home</a></li>
+                        <li><a href="donators.html">👥 Donators</a></li>
+                        <li><a href="events.html">📅 Programs</a></li>
+                        <li><a href="transparency.html">🧾 Expenses</a></li>
+                        <li><a href="food.html">🍲 Annadanam</a></li>
+                        <li><a href="/admin/login.html">👤 Admin Login</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-pillars-strip">
+            <div class="container pillars-flex">
+                <div class="pillar-item">
+                    <span class="icon">👥</span>
+                    <div>
+                        <div class="title">ONE VILLAGE</div>
+                        <div class="sub">United by devotion</div>
+                    </div>
+                </div>
+                <div class="pillar-item">
+                    <span class="icon">🙏</span>
+                    <div>
+                        <div class="title">ONE CELEBRATION</div>
+                        <div class="sub">Connected by tradition</div>
+                    </div>
+                </div>
+                <div class="pillar-item">
+                    <span class="icon">🛕</span>
+                    <div>
+                        <div class="title">ONE BLESSING</div>
+                        <div class="sub">Blessed by Bappa</div>
+                    </div>
+                </div>
+                <div class="pillar-item">
+                    <span class="icon">🛡️</span>
+                    <div>
+                        <div class="title">100% TRANSPARENT</div>
+                        <div class="sub">Every rupee matters</div>
+                    </div>
+                </div>
+                <div class="pillar-item">
+                    <span class="icon">🧡</span>
+                    <div>
+                        <div class="title">MADE WITH DEVOTION</div>
+                        <div class="sub">For our village</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom-bar">
+            <div class="container">
+                © 2026 All Rights Reserved. &nbsp;|&nbsp; Ananthampalli Village Vinayaka Chavithi Committee &nbsp;|&nbsp; Made with Love by Klivoo (By Tenspick Labs) 🪔
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        let currentFilter = 'all';
+
+        async function fetchDonators() {
+            const search = document.getElementById('donorSearchInput').value.trim();
+            let url = `/api/donators?filter=${currentFilter}`;
+            if (search) url += `&search=${encodeURIComponent(search)}`;
+
+            const tbody = document.getElementById('donatorsTableBody');
+            try {
+                const res = await fetch(url);
+                const data = await res.json();
+
+                if (data.donators && data.donators.length > 0) {
+                    tbody.innerHTML = data.donators.map(d => `
+                        <tr>
+                            <td><strong style="color:var(--accent-crimson);">${d.receipt_number}</strong></td>
+                            <td><strong style="color:var(--text-main); font-size:1.05rem;">${d.donor_name}</strong></td>
+                            <td>${d.sponsorship_title ? `<span class="donator-sponsorship-badge">✨ ${d.sponsorship_title}</span>` : '<span style="color:var(--text-muted);">General Chandaa</span>'}</td>
+                            <td><strong style="color:var(--primary-saffron); font-size:1.1rem;">₹ ${d.amount.toLocaleString('en-IN')}</strong></td>
+                            <td>${d.date}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No matching donations found.</td></tr>';
+                }
+            } catch(e) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:red;">Failed to load donators.</td></tr>';
+            }
+        }
+
+        document.querySelectorAll('.filter-tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.getAttribute('data-filter');
+                fetchDonators();
+            });
+        });
+
+        document.getElementById('donorSearchInput').addEventListener('input', () => {
+            clearTimeout(window._searchTimer);
+            window._searchTimer = setTimeout(fetchDonators, 300);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchDonators();
+            setInterval(fetchDonators, 10000);
+        });
+    </script>
+</body>
+</html>
