@@ -51,6 +51,18 @@ try {
     console.error('Migration notice:', e.message);
 }
 
+// Auto-seed admin accounts if admins table has no records
+try {
+    const adminCount = db.prepare('SELECT COUNT(*) as count FROM admins').get().count;
+    if (adminCount === 0) {
+        console.log('🌱 No admins found in database, running auto-seed...');
+        const seed = require('./seed');
+        seed();
+    }
+} catch (e) {
+    console.error('Auto-seed check notice:', e.message);
+}
+
 console.log('✅ SQLite Database Connected & Schema Initialized at:', dbPath);
 
 module.exports = db;

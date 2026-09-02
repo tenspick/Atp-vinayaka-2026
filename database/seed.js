@@ -5,14 +5,19 @@ const db = require('./database');
 async function seed() {
     console.log('🌱 Starting Database Seeding...');
 
-    // 1. Seed Specific Admin Accounts with Full Names
     const seededAdmins = [
-        { username: 'suryamohanreddys@gmail.com', full_name: 'Surya Mohan Reddy', pass: '10061996', role: 'SUPER_ADMIN' },
-        { username: 'admin01', full_name: 'Surya Mohan Reddy', pass: '10061996', role: 'SUPER_ADMIN' },
-        { username: 'admin02', full_name: 'Yaddala Ranjith Goud (Sunny)', pass: '04072007', role: 'ADMIN' },
-        { username: 'sunny_goud', full_name: 'Yaddala Ranjith Goud (Sunny)', pass: '04072007', role: 'ADMIN' },
-        { username: 'admin03', full_name: 'Committee Member 03', pass: 'Admin03@2026', role: 'ADMIN' },
-        { username: 'admin04', full_name: 'Committee Member 04', pass: 'Admin04@2026', role: 'ADMIN' }
+        { username: 'suryamohanreddys@gmail.com', full_name: 'Surya Mohan Reddy', pass: process.env.ADMIN01_PASSWORD || '10061996', role: 'SUPER_ADMIN' },
+        { username: 'admin01', full_name: 'Surya Mohan Reddy', pass: process.env.ADMIN01_PASSWORD || 'Admin@2026', role: 'SUPER_ADMIN' },
+        { username: 'admin02', full_name: 'Yaddala Ranjith Goud (Sunny)', pass: process.env.ADMIN02_PASSWORD || 'Admin02@2026', role: 'ADMIN' },
+        { username: 'sunny_goud', full_name: 'Yaddala Ranjith Goud (Sunny)', pass: process.env.ADMIN02_PASSWORD || '04072007', role: 'ADMIN' },
+        { username: 'admin03', full_name: 'Committee Member 03', pass: process.env.ADMIN03_PASSWORD || 'Admin03@2026', role: 'ADMIN' },
+        { username: 'admin04', full_name: 'Committee Member 04', pass: process.env.ADMIN04_PASSWORD || 'Admin04@2026', role: 'ADMIN' },
+        { username: 'admin05', full_name: 'Committee Member 05', pass: process.env.ADMIN05_PASSWORD || 'Admin05@2026', role: 'ADMIN' },
+        { username: 'admin06', full_name: 'Committee Member 06', pass: process.env.ADMIN06_PASSWORD || 'Admin06@2026', role: 'ADMIN' },
+        { username: 'admin07', full_name: 'Committee Member 07', pass: process.env.ADMIN07_PASSWORD || 'Admin07@2026', role: 'ADMIN' },
+        { username: 'admin08', full_name: 'Committee Member 08', pass: process.env.ADMIN08_PASSWORD || 'Admin08@2026', role: 'ADMIN' },
+        { username: 'admin09', full_name: 'Committee Member 09', pass: process.env.ADMIN09_PASSWORD || 'Admin09@2026', role: 'ADMIN' },
+        { username: 'admin10', full_name: 'Committee Member 10', pass: process.env.ADMIN10_PASSWORD || 'Admin10@2026', role: 'ADMIN' }
     ];
 
     const upsertAdmin = db.prepare(`
@@ -29,7 +34,7 @@ async function seed() {
         const hash = bcrypt.hashSync(a.pass, 10);
         upsertAdmin.run(a.username, a.full_name, hash, a.role);
     }
-    console.log('✅ Admin Accounts seeded with Full Names (Surya Mohan Reddy, Yaddala Ranjith Goud Sunny)');
+    console.log('✅ Admin Accounts (admin01 to admin10) successfully seeded');
 
     // 2. Update existing donation collected_by fields to use Full Name instead of email if needed
     db.prepare(`
@@ -134,7 +139,11 @@ async function seed() {
     console.log('🎉 Database seeding complete!');
 }
 
-seed().catch(err => {
-    console.error('❌ Seeding Error:', err);
-    process.exit(1);
-});
+if (require.main === module) {
+    seed().catch(err => {
+        console.error('❌ Seeding Error:', err);
+        process.exit(1);
+    });
+}
+
+module.exports = seed;
