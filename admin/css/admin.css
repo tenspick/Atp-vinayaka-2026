@@ -482,9 +482,32 @@ body {
     }
 }
 
-/* Responsive Admin */
+/* Responsive Admin Mobile Header & Navigation Drawer */
 @media (max-width: 992px) {
-    .sidebar { transform: translateX(-100%); }
-    .sidebar.active { transform: translateX(0); }
-    .main-content { margin-left: 0; max-width: 100vw; }
+    .mobile-sidebar-toggle {
+        display: inline-flex !important;
+        align-items: center;
+        gap: 6px;
+        font-weight: 800;
+        box-shadow: 0 4px 12px rgba(153, 27, 27, 0.3);
+    }
+    .sidebar { 
+        transform: translateX(-100%); 
+        box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
+    }
+    .sidebar.active { 
+        transform: translateX(0); 
+    }
+    .main-content { 
+        margin-left: 0; 
+        max-width: 100vw; 
+        padding: 15px; 
+    }
+    .top-bar {
+        padding: 15px;
+        gap: 12px;
+    }
+    .page-title {
+        font-size: 1.2rem;
+    }
 }

@@ -29,7 +29,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    // 2. Setup Navigation Tabs
+    // 2. Setup Navigation Tabs & Mobile Menu Toggle
+    const sidebarToggle = document.getElementById('adminSidebarToggle');
+    const adminSidebar = document.getElementById('adminSidebar');
+
+    if (sidebarToggle && adminSidebar) {
+        sidebarToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            adminSidebar.classList.toggle('active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 992 && adminSidebar.classList.contains('active')) {
+                if (!adminSidebar.contains(e.target) && e.target !== sidebarToggle) {
+                    adminSidebar.classList.remove('active');
+                }
+            }
+        });
+    }
+
     document.querySelectorAll('.sidebar-nav-link').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
@@ -177,6 +195,12 @@ function switchTab(tabId, targetLink = null) {
     } else {
         const link = document.querySelector(`.sidebar-nav-link[data-tab="${tabId}"]`);
         if (link) link.classList.add('active');
+    }
+
+    // Auto-close sidebar on mobile view
+    if (window.innerWidth <= 992) {
+        const adminSidebar = document.getElementById('adminSidebar');
+        if (adminSidebar) adminSidebar.classList.remove('active');
     }
 
     // Refresh tab-specific data
