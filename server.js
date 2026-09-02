@@ -1,6 +1,6 @@
 require('dotenv').config();
 const express = require('express');
-const session = require('express-session');
+const cookieSession = require('cookie-session');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
@@ -14,16 +14,13 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Express Session Setup
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'avvc_2026_default_secret_key',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-        httpOnly: true,
-        maxAge: 1000 * 60 * 60 * 12, // 12 hours
-        sameSite: 'lax'
-    }
+// Cookie Session Setup (Stateless & Vercel Serverless Ready)
+app.use(cookieSession({
+    name: 'avvc_admin_session',
+    keys: [process.env.SESSION_SECRET || 'avvc_2026_ananthampalli_secret_key_98765'],
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    httpOnly: true,
+    sameSite: 'lax'
 }));
 
 // Serve Static Frontend files

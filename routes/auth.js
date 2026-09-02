@@ -68,13 +68,8 @@ router.post('/logout', (req, res) => {
     if (req.session && req.session.admin) {
         logAuditAction(req.session.admin.id, req.session.admin.username, 'LOGOUT', 'auth', req.session.admin.id, 'Logged out');
     }
-    req.session.destroy(err => {
-        if (err) {
-            return res.status(500).json({ error: 'Could not log out.' });
-        }
-        res.clearCookie('connect.sid');
-        return res.json({ message: 'Logged out successfully.' });
-    });
+    req.session = null;
+    return res.json({ message: 'Logged out successfully.' });
 });
 
 // GET /api/auth/me
