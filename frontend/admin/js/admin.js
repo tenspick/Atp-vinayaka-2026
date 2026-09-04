@@ -452,10 +452,7 @@ function showReceiptModal(donation, whatsappUrl) {
     const receiptLink = `${origin}/receipt.html?receipt=${encodeURIComponent(donation.receipt_number)}`;
     const textMsg = encodeURIComponent(`🕉️ *ANANTHAMPALLI VILLAGE VINAYAKA CHAVITHI 2026*\n\n*CHANDAA DONATION RECEIPT*\n\n🧾 *Receipt No:* ${donation.receipt_number}\n📅 *Date:* ${donation.date}\n👤 *Donor Name:* ${donation.donor_name}\n📞 *Mobile:* ${donation.mobile}\n💳 *Payment Method:* ${donation.payment_method || 'Cash'}\n👥 *Collected By:* ${collectorName}\n\n💰 *CONTRIBUTION AMOUNT RECEIVED:* ₹${Number(donation.amount).toLocaleString('en-IN')}\n\n🙏 *Thank you for your generous contribution towards our village festival celebrations.*\n\n📲 *View & Download Official Digital Receipt Online:*\n${receiptLink}\n\n" *GANAPATHI BAPPA MORYA!* 🙏 "`);
     
-    const directWaBtn = document.getElementById('btnWaDirectSend');
-    if (directWaBtn) {
-        directWaBtn.href = `https://wa.me/${waPhone}?text=${textMsg}`;
-    }
+    window.CURRENT_WA_URL = `https://wa.me/${waPhone}?text=${textMsg}`;
 
     openAdminModal('modalReceiptView');
 }
@@ -497,7 +494,7 @@ async function shareReceiptAsImage() {
     const donation = window.CURRENT_DONATION;
     if (!donation) return alert('No receipt selected');
 
-    const btn = document.getElementById('btnWaShareImage');
+    const btn = document.getElementById('btnWaDirectSend') || document.getElementById('btnWaShareImage');
     const originalText = btn ? btn.innerHTML : '';
     if (btn) {
         btn.disabled = true;
@@ -512,26 +509,32 @@ async function shareReceiptAsImage() {
         const fileName = `Receipt_${donation.receipt_number}.png`;
         const file = new File([blob], fileName, { type: 'image/png' });
 
-        let mobile = String(donation.mobile).replace(/\D/g, '');
+        let mobile = String(donation.mobile || '').replace(/\D/g, '');
         if (mobile.length === 10) mobile = '91' + mobile;
+
+        const rLink = `${window.location.origin}/receipt.html?receipt=${encodeURIComponent(donation.receipt_number)}`;
+        const captionText = `🙏 Namaste ${donation.donor_name} Garu,\nAttached is your official Chandaa donation receipt image for ANANTHAMPALLI VILLAGE VINAYAKA CHAVITHI 2026. 🕉️\n\n🧾 Receipt No: ${donation.receipt_number}\n💰 Amount: ₹${Number(donation.amount).toLocaleString('en-IN')}\n\n📲 View & Download Online:\n${rLink}\n\n" GANAPATHI BAPPA MORYA! 🙏 "`;
 
         if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
             await navigator.share({
                 files: [file],
                 title: `Vinayaka Chavithi Receipt ${donation.receipt_number}`,
-                text: `🙏 Official Receipt for ${donation.donor_name} Garu - ANANTHAMPALLI VINAYAKA CHAVITHI 2026 🕉️`
+                text: captionText
             });
         } else {
             const link = document.createElement('a');
             link.download = fileName;
             link.href = canvas.toDataURL('image/png');
             link.click();
-            const rLink = `${window.location.origin}/receipt.html?receipt=${encodeURIComponent(donation.receipt_number)}`;
-            window.open(`https://wa.me/${mobile}?text=${encodeURIComponent('🙏 Namaste ' + donation.donor_name + ' Garu,\nAttached is your official Chandaa donation receipt for ANANTHAMPALLI VILLAGE VINAYAKA CHAVITHI 2026. 🕉️\n\n📲 View & Download Digital Receipt Online:\n' + rLink)}`, '_blank');
+
+            const waUrl = mobile ? `https://wa.me/${mobile}?text=${encodeURIComponent(captionText)}` : `https://wa.me/?text=${encodeURIComponent(captionText)}`;
+            setTimeout(() => {
+                window.open(waUrl, '_blank');
+            }, 600);
         }
     } catch (err) {
         console.error('Image share error:', err);
-        alert('Could not generate image receipt. Falling back to text receipt on WhatsApp.');
+        alert('Could not generate image receipt.');
         if (window.CURRENT_WA_URL) window.open(window.CURRENT_WA_URL, '_blank');
     } finally {
         if (btn) {

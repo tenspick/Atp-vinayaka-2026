@@ -211,9 +211,9 @@
             <button onclick="window.print()" class="btn-hero-secondary" style="font-size: 0.95rem; padding: 12px 24px;">
                 🖨️ PRINT RECEIPT
             </button>
-            <a id="btnShareWaReceipt" href="#" target="_blank" class="btn-hero-primary" style="font-size: 0.95rem; padding: 12px 24px; background: #25D366; border-color: #25D366;">
-                💬 SHARE ON WHATSAPP
-            </a>
+            <button id="btnShareWaReceipt" class="btn-hero-primary" style="font-size: 0.95rem; padding: 12px 24px; background: #25D366; border-color: #25D366; cursor: pointer;">
+                💬 SHARE ON WHATSAPP (IMAGE)
+            </button>
         </div>
     </div>
 
@@ -325,14 +325,6 @@
                     `;
 
                     actionArea.style.display = 'flex';
-
-                    // Update WhatsApp share button link
-                    const cleanMobile = (d.mobile || '').replace(/\D/g, '');
-                    const waPhone = cleanMobile.length === 10 ? '91' + cleanMobile : cleanMobile;
-                    const pageUrl = window.location.href;
-                    const textMsg = encodeURIComponent(`🙏 Namaste ${d.donor_name} Garu,\nHere is your official Chandaa donation receipt for ANANTHAMPALLI VILLAGE VINAYAKA CHAVITHI 2026. 🕉️\n\n🧾 Receipt No: ${d.receipt_number}\n💰 Amount: ₹${Number(d.amount).toLocaleString('en-IN')}\n\n📲 View & Download Receipt Online:\n${pageUrl}`);
-                    document.getElementById('btnShareWaReceipt').href = `https://wa.me/${waPhone}?text=${textMsg}`;
-
                 } else {
                     container.innerHTML = `
                         <div class="glass-card" style="text-align: center; max-width: 500px; margin: 0 auto;">
@@ -361,7 +353,7 @@
             btn.disabled = true;
 
             try {
-                const canvas = await html2canvas(card, { scale: 2, backgroundColor: '#FFFFFF' });
+                const canvas = await html2canvas(card, { scale: 2, backgroundColor: '#FFFFFF', useCORS: true });
                 const link = document.createElement('a');
                 const d = window.CURRENT_RECEIPT_DATA || {};
                 link.download = `Receipt_${d.receipt_number || 'AVVC2026'}.png`;
@@ -371,6 +363,52 @@
                 alert('Could not download image receipt.');
             } finally {
                 btn.innerHTML = '📥 DOWNLOAD RECEIPT (IMAGE)';
+                btn.disabled = false;
+            }
+        });
+
+        document.getElementById('btnShareWaReceipt')?.addEventListener('click', async () => {
+            const card = document.getElementById('printableReceiptCard');
+            if (!card) return;
+            const btn = document.getElementById('btnShareWaReceipt');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '⏳ Generating Image...';
+            btn.disabled = true;
+
+            try {
+                const d = window.CURRENT_RECEIPT_DATA || {};
+                const canvas = await html2canvas(card, { scale: 2, backgroundColor: '#FFFFFF', useCORS: true });
+                const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+                const fileName = `Receipt_${d.receipt_number || 'AVVC2026'}.png`;
+                const file = new File([blob], fileName, { type: 'image/png' });
+
+                const cleanMobile = (d.mobile || '').replace(/\D/g, '');
+                const waPhone = cleanMobile.length === 10 ? '91' + cleanMobile : cleanMobile;
+                const pageUrl = window.location.href;
+                const captionText = `🙏 Namaste ${d.donor_name || 'Donor'} Garu,\nHere is your official Chandaa donation receipt image for ANANTHAMPALLI VILLAGE VINAYAKA CHAVITHI 2026. 🕉️\n\n🧾 Receipt No: ${d.receipt_number || ''}\n💰 Amount: ₹${Number(d.amount || 0).toLocaleString('en-IN')}\n\n📲 View & Download Online:\n${pageUrl}`;
+
+                if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+                    await navigator.share({
+                        files: [file],
+                        title: `Vinayaka Chavithi Receipt ${d.receipt_number || ''}`,
+                        text: captionText
+                    });
+                } else {
+                    const link = document.createElement('a');
+                    link.download = fileName;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+
+                    const waUrl = waPhone ? `https://wa.me/${waPhone}?text=${encodeURIComponent(captionText)}` : `https://wa.me/?text=${encodeURIComponent(captionText)}`;
+                    setTimeout(() => {
+                        window.open(waUrl, '_blank');
+                    }, 600);
+                }
+            } catch(err) {
+                console.error('WhatsApp share image error:', err);
+                alert('Could not share image receipt. Please use Download Receipt (Image).');
+            } finally {
+                btn.innerHTML = originalText;
                 btn.disabled = false;
             }
         });
