@@ -228,20 +228,12 @@
                     <h3>ANNADANAM</h3>
                     <h2>Food offered with devotion. Served with love.</h2>
                     
-                    <div id="homeAnnadanamMeta" class="annadanam-meta-grid">
-                        <div class="annadanam-meta-pill">📅 <strong>DATE:</strong> 2026-09-14</div>
-                        <div class="annadanam-meta-pill">⏰ <strong>TIME:</strong> 12:00 PM</div>
-                        <div class="annadanam-meta-pill">📍 <strong>LOCATION:</strong> MAIN MANDAP HALL</div>
-                        <div class="annadanam-meta-pill sponsor-pill">🙏 <strong>MAIN SPONSOR:</strong> Penagaluru Mani</div>
-                    </div>
-
-                    <div id="homeAnnadanamDonatorsWrap" style="margin-top: 15px; padding-top: 15px; border-top: 1.5px dashed #FCD34D;">
-                        <div style="font-size: 0.8rem; font-weight: 800; color: var(--accent-crimson); letter-spacing: 1px; margin-bottom: 8px;">
-                            🪔 ANNADANAM DONATORS & SPONSORS:
+                    <div style="margin: 20px 0; background: #FFFFFF; border: 2px solid #FCD34D; border-radius: 16px; padding: 20px 24px; box-shadow: 0 4px 15px rgba(217, 119, 6, 0.08);">
+                        <div style="font-size: 1.15rem; font-weight: 800; color: var(--accent-crimson); display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <span>🍲</span> <span>Maha Annadanam on 14th September & 15th September, 12:00 PM onwards</span>
                         </div>
-                        <div id="homeAnnadanamDonatorsList" style="display: flex; gap: 8px; flex-wrap: wrap;">
-                            <span class="annadanam-donor-chip">🙏 Penagaluru Mani (Grand Maha Annadanam Chief Sponsor)</span>
-                            <span class="annadanam-donor-chip">🙏 Surya Mohan Reddy (Maha Annadanam Sponsor)</span>
+                        <div style="font-size: 0.9rem; color: var(--text-sub); font-weight: 700; margin-top: 6px;">
+                            📍 Location: Main Mandap Hall, Ananthampalli Village • All Devotees & Villagers Are Cordially Invited 🙏
                         </div>
                     </div>
 
@@ -550,33 +542,10 @@
                 }
             } catch(e){}
 
-            // 3. Live Annadanam Food Program & Donators
+            // 3. Live Annadanam Food Program
             try {
                 const foodRes = await fetch('/api/food');
-                const foodData = await foodRes.json();
-                if (foodData.foodPrograms && foodData.foodPrograms.length > 0) {
-                    const nextFood = foodData.foodPrograms[0];
-                    const metaEl = document.getElementById('homeAnnadanamMeta');
-                    if (metaEl) {
-                        metaEl.innerHTML = `
-                            <div class="annadanam-meta-pill">📅 <strong>DATE:</strong> ${nextFood.date || '2026-09-14'}</div>
-                            <div class="annadanam-meta-pill">⏰ <strong>TIME:</strong> ${nextFood.start_time || '12:00 PM'}</div>
-                            <div class="annadanam-meta-pill">📍 <strong>LOCATION:</strong> ${nextFood.location || 'MAIN MANDAP HALL'}</div>
-                            <div class="annadanam-meta-pill sponsor-pill">🙏 <strong>MAIN SPONSOR:</strong> ${nextFood.sponsor || 'Penagaluru Mani'}</div>
-                        `;
-                    }
-                }
-                const donorsEl = document.getElementById('homeAnnadanamDonatorsList');
-                if (donorsEl && foodData.donators && foodData.donators.length > 0) {
-                    const annadanamDonors = foodData.donators.filter(d => 
-                        (d.sponsorship_title && (d.sponsorship_title.toLowerCase().includes('annadanam') || d.sponsorship_title.toLowerCase().includes('food'))) ||
-                        (d.donor_name && (d.donor_name.toLowerCase().includes('mani') || d.donor_name.toLowerCase().includes('surya') || d.donor_name.toLowerCase().includes('ranjith')))
-                    );
-                    const listToDisplay = annadanamDonors.length > 0 ? annadanamDonors : foodData.donators.slice(0, 5);
-                    donorsEl.innerHTML = listToDisplay.map(d => `
-                        <span class="annadanam-donor-chip">🙏 ${d.donor_name} ${d.sponsorship_title ? `<small style="opacity:0.85;">(${d.sponsorship_title})</small>` : ''}</span>
-                    `).join('');
-                }
+                await foodRes.json();
             } catch(e){}
 
             // 4. Live Special Event Sponsors & Donators Row

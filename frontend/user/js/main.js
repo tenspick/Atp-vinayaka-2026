@@ -123,8 +123,19 @@ function initNotificationBell() {
             fetch('/api/notifications')
                 .then(r => r.json())
                 .then(d => {
-                    const count = d.notifications ? d.notifications.length : 0;
+                    const count = d.notifications ? d.notifications.length : 999;
                     localStorage.setItem('AVVC_NOTIF_READ_COUNT', count);
+                    const badge = document.getElementById('notifBadge');
+                    if (badge) {
+                        badge.textContent = '0';
+                        badge.style.display = 'none';
+                    }
+                    clearBtn.textContent = '✓ All marked as read';
+                    clearBtn.style.color = '#059669';
+                    if (window.showToast) window.showToast('✓ All notifications marked as read');
+                })
+                .catch(() => {
+                    localStorage.setItem('AVVC_NOTIF_READ_COUNT', 999);
                     const badge = document.getElementById('notifBadge');
                     if (badge) badge.style.display = 'none';
                 });
