@@ -224,16 +224,30 @@
                     <img src="assets/images/modak_prasadam.png" alt="Annadanam Food Offering">
                 </div>
                 <div class="annadanam-info-box">
+                    <span class="annadanam-badge-pill">🍲 SACRED FOOD OFFERING</span>
                     <h3>ANNADANAM</h3>
                     <h2>Food offered with devotion. Served with love.</h2>
-                    <div id="homeAnnadanamMeta"
-                        style="display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; color: var(--text-main); font-weight: 600;">
-                        <div>📅 <strong>DATE:</strong> SEP 14, 2026 ONWARDS</div>
-                        <div>⏰ <strong>TIME:</strong> 12:00 PM ONWARDS</div>
-                        <div>📍 <strong>LOCATION:</strong> MAIN MANDAP HALL</div>
+                    
+                    <div id="homeAnnadanamMeta" class="annadanam-meta-grid">
+                        <div class="annadanam-meta-pill">📅 <strong>DATE:</strong> 2026-09-14</div>
+                        <div class="annadanam-meta-pill">⏰ <strong>TIME:</strong> 12:00 PM</div>
+                        <div class="annadanam-meta-pill">📍 <strong>LOCATION:</strong> MAIN MANDAP HALL</div>
+                        <div class="annadanam-meta-pill sponsor-pill">🙏 <strong>MAIN SPONSOR:</strong> Penagaluru Mani</div>
                     </div>
-                    <a href="food.html" class="btn-hero-primary" style="font-size: 0.85rem; padding: 10px 22px;">VIEW
-                        ANNADANAM DETAILS →</a>
+
+                    <div id="homeAnnadanamDonatorsWrap" style="margin-top: 15px; padding-top: 15px; border-top: 1.5px dashed #FCD34D;">
+                        <div style="font-size: 0.8rem; font-weight: 800; color: var(--accent-crimson); letter-spacing: 1px; margin-bottom: 8px;">
+                            🪔 ANNADANAM DONATORS & SPONSORS:
+                        </div>
+                        <div id="homeAnnadanamDonatorsList" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                            <span class="annadanam-donor-chip">🙏 Penagaluru Mani (Grand Maha Annadanam Chief Sponsor)</span>
+                            <span class="annadanam-donor-chip">🙏 Surya Mohan Reddy (Maha Annadanam Sponsor)</span>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 22px;">
+                        <a href="food.html" class="btn-hero-primary" style="font-size: 0.9rem; padding: 12px 26px;">VIEW ANNADANAM DETAILS →</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -536,7 +550,7 @@
                 }
             } catch(e){}
 
-            // 3. Live Annadanam Food Program
+            // 3. Live Annadanam Food Program & Donators
             try {
                 const foodRes = await fetch('/api/food');
                 const foodData = await foodRes.json();
@@ -545,12 +559,23 @@
                     const metaEl = document.getElementById('homeAnnadanamMeta');
                     if (metaEl) {
                         metaEl.innerHTML = `
-                            <div>📅 <strong>DATE:</strong> ${nextFood.date}</div>
-                            <div>⏰ <strong>TIME:</strong> ${nextFood.start_time || '12:00 PM'} ${nextFood.end_time ? '- ' + nextFood.end_time : ''}</div>
-                            <div>📍 <strong>LOCATION:</strong> ${nextFood.location || 'MAIN MANDAP HALL'}</div>
-                            ${nextFood.sponsor ? `<div style="width:100%; color:var(--accent-crimson); font-weight:800; margin-top:5px;">🙏 SPONSOR: ${nextFood.sponsor}</div>` : ''}
+                            <div class="annadanam-meta-pill">📅 <strong>DATE:</strong> ${nextFood.date || '2026-09-14'}</div>
+                            <div class="annadanam-meta-pill">⏰ <strong>TIME:</strong> ${nextFood.start_time || '12:00 PM'}</div>
+                            <div class="annadanam-meta-pill">📍 <strong>LOCATION:</strong> ${nextFood.location || 'MAIN MANDAP HALL'}</div>
+                            <div class="annadanam-meta-pill sponsor-pill">🙏 <strong>MAIN SPONSOR:</strong> ${nextFood.sponsor || 'Penagaluru Mani'}</div>
                         `;
                     }
+                }
+                const donorsEl = document.getElementById('homeAnnadanamDonatorsList');
+                if (donorsEl && foodData.donators && foodData.donators.length > 0) {
+                    const annadanamDonors = foodData.donators.filter(d => 
+                        (d.sponsorship_title && (d.sponsorship_title.toLowerCase().includes('annadanam') || d.sponsorship_title.toLowerCase().includes('food'))) ||
+                        (d.donor_name && (d.donor_name.toLowerCase().includes('mani') || d.donor_name.toLowerCase().includes('surya') || d.donor_name.toLowerCase().includes('ranjith')))
+                    );
+                    const listToDisplay = annadanamDonors.length > 0 ? annadanamDonors : foodData.donators.slice(0, 5);
+                    donorsEl.innerHTML = listToDisplay.map(d => `
+                        <span class="annadanam-donor-chip">🙏 ${d.donor_name} ${d.sponsorship_title ? `<small style="opacity:0.85;">(${d.sponsorship_title})</small>` : ''}</span>
+                    `).join('');
                 }
             } catch(e){}
 

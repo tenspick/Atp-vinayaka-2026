@@ -415,11 +415,26 @@ app.delete('/api/events/:id', async (req, res) => {
 // 7. Food Prasadam API
 app.get('/api/food', async (req, res) => {
     if (supabase) {
-        const { data } = await supabase.from('food').select('*').order('id', { ascending: false });
-        if (data) return res.json({ success: true, food: data, foodPrograms: data });
+        try {
+            const { data: foodData } = await supabase.from('food').select('*').order('id', { ascending: false });
+            const { data: donData } = await supabase.from('donations').select('*').order('id', { ascending: false });
+            return res.json({ 
+                success: true, 
+                food: foodData || [], 
+                foodPrograms: foodData || [],
+                donators: donData || []
+            });
+        } catch (e) {
+            console.error('Supabase fetch food error:', e.message);
+        }
     }
     const store = readStore();
-    res.json({ success: true, food: store.food, foodPrograms: store.food });
+    res.json({ 
+        success: true, 
+        food: store.food, 
+        foodPrograms: store.food,
+        donators: store.donations || []
+    });
 });
 
 app.get('/api/food/:id', async (req, res) => {

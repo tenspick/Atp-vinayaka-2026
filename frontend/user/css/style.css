@@ -577,37 +577,66 @@ body {
 }
 
 /* ==================== ANNADANAM BANNER ==================== */
+/* ==================== ANNADANAM BANNER & DONORS ==================== */
 .annadanam-banner {
-    background: linear-gradient(135deg, #FEF3C7 0%, #FFFBEB 100%);
-    border-bottom: 2px solid #F3F4F6;
-    padding: 55px 0;
+    background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 50%, #FFF7ED 100%);
+    border-top: 3px solid var(--primary-saffron);
+    border-bottom: 3px solid #FCD34D;
+    padding: 60px 0;
+    position: relative;
+    box-shadow: inset 0 0 30px rgba(217, 119, 6, 0.05);
 }
 
 .annadanam-flex {
     display: flex;
     align-items: center;
-    gap: 35px;
+    gap: 40px;
     flex-wrap: wrap;
 }
 
 .annadanam-img-frame {
-    width: 320px;
-    height: 200px;
-    border-radius: 14px;
+    width: 340px;
+    height: 240px;
+    border-radius: 20px;
     overflow: hidden;
-    border: 3px solid var(--primary-saffron);
-    box-shadow: var(--shadow-md);
+    border: 4px solid var(--primary-saffron);
+    box-shadow: 0 15px 35px rgba(217, 119, 6, 0.2);
     flex-shrink: 0;
+    position: relative;
 }
 
 .annadanam-img-frame img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.annadanam-img-frame:hover img {
+    transform: scale(1.05);
+}
+
+.annadanam-badge-pill {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent-crimson), var(--saffron-dark));
+    color: #FFFFFF;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 12px rgba(153, 27, 27, 0.25);
+}
+
+.annadanam-info-box {
+    flex: 1;
+    min-width: 280px;
 }
 
 .annadanam-info-box h3 {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 800;
     letter-spacing: 3px;
     color: var(--accent-crimson);
@@ -617,8 +646,48 @@ body {
 .annadanam-info-box h2 {
     font-size: 2.2rem;
     font-weight: 800;
-    color: var(--text-main);
-    margin: 6px 0 15px;
+    color: #111827;
+    margin: 4px 0 16px;
+    line-height: 1.25;
+}
+
+.annadanam-meta-grid {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.annadanam-meta-pill {
+    background: #FFFFFF;
+    border: 1.5px solid #FCD34D;
+    padding: 8px 16px;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    color: #1F2937;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.annadanam-meta-pill.sponsor-pill {
+    background: linear-gradient(135deg, #FEF3C7, #FFFBEB);
+    border: 2px solid var(--accent-crimson);
+    color: var(--accent-crimson);
+    font-weight: 800;
+}
+
+.annadanam-donor-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #FFFFFF;
+    border: 1.5px solid #F97316;
+    color: #9A3412;
+    font-size: 0.82rem;
+    font-weight: 800;
+    padding: 6px 14px;
+    border-radius: 20px;
+    box-shadow: 0 2px 6px rgba(249, 115, 22, 0.12);
 }
 
 /* ==================== DONATORS ROW ==================== */

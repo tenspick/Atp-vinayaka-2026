@@ -212,36 +212,68 @@
                 const data = await res.json();
 
                 if (data.foodPrograms && data.foodPrograms.length > 0) {
-                    container.innerHTML = data.foodPrograms.map(fp => `
-                        <div class="glass-card">
-                            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; border-bottom:2px solid #F3F4F6; padding-bottom:14px; margin-bottom:18px;">
-                                <h2 style="color:var(--accent-crimson); font-size:1.6rem; font-weight:800;">🍲 ${fp.title}</h2>
-                                <span style="background:#FEF3C7; color:var(--saffron-dark); padding:4px 14px; border-radius:15px; font-size:0.85rem; font-weight:800;">${fp.status}</span>
+                    const foodHtml = data.foodPrograms.map(fp => `
+                        <div class="glass-card" style="background:#FFFFFF; border:2px solid #FCD34D; border-radius:20px; box-shadow:0 10px 30px rgba(217,119,6,0.08); padding:30px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; border-bottom:2px solid #FEF3C7; padding-bottom:16px; margin-bottom:20px;">
+                                <div>
+                                    <span class="annadanam-badge-pill" style="margin-bottom:6px;">🍲 SACRED ANNADANAM PROGRAM</span>
+                                    <h2 style="color:var(--accent-crimson); font-size:1.8rem; font-weight:800; margin:0;">${fp.title}</h2>
+                                </div>
+                                <span style="background:#FEF3C7; color:var(--accent-crimson); border:1.5px solid var(--accent-crimson); padding:6px 16px; border-radius:20px; font-size:0.85rem; font-weight:800;">${fp.status || 'SCHEDULED'}</span>
                             </div>
 
-                            <p style="font-size:1.05rem; color:var(--text-main); margin-bottom:15px;">${fp.description || ''}</p>
+                            <p style="font-size:1.1rem; color:var(--text-main); font-weight:600; margin-bottom:20px;">
+                                ${fp.description || 'Food offered with devotion. Served with love to all villagers and visiting devotees.'}
+                            </p>
 
-                            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:15px; margin-bottom:15px; background:#F9FAFB; padding:18px; border-radius:12px; border:1px solid #E5E7EB;">
-                                <div><strong style="color:var(--accent-crimson);">📅 Date:</strong> ${fp.date}</div>
-                                <div><strong style="color:var(--accent-crimson);">⏰ Time:</strong> ${fp.start_time || 'TBA'} - ${fp.end_time || 'TBA'}</div>
-                                <div><strong style="color:var(--accent-crimson);">📍 Location:</strong> ${fp.location}</div>
-                                <div><strong style="color:var(--accent-crimson);">👥 Servings:</strong> ${fp.servings || 'All Are Welcome'}</div>
+                            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:15px; margin-bottom:20px; background:linear-gradient(135deg, #FFFBEB, #FEF3C7); padding:20px; border-radius:14px; border:1.5px solid #FCD34D;">
+                                <div><strong style="color:var(--accent-crimson);">📅 DATE:</strong> <span style="font-weight:700;">${fp.date || '2026-09-14'}</span></div>
+                                <div><strong style="color:var(--accent-crimson);">⏰ TIME:</strong> <span style="font-weight:700;">${fp.start_time || '12:00 PM'} ${fp.end_time ? '- ' + fp.end_time : ''}</span></div>
+                                <div><strong style="color:var(--accent-crimson);">📍 LOCATION:</strong> <span style="font-weight:700;">${fp.location || 'MAIN MANDAP HALL'}</span></div>
+                                <div><strong style="color:var(--accent-crimson);">👥 SERVINGS:</strong> <span style="font-weight:700;">${fp.servings || '2000+ Devotees'}</span></div>
                             </div>
 
                             ${fp.menu ? `
-                                <div style="margin-top:15px;">
-                                    <h4 style="color:var(--accent-crimson); font-weight:800; margin-bottom:6px;">🍽️ Sacred Menu:</h4>
-                                    <p style="background:#FFFBEB; padding:12px 16px; border-left:4px solid var(--primary-saffron); border-radius:6px; color:var(--text-main); font-weight:700;">${fp.menu}</p>
+                                <div style="margin-top:20px;">
+                                    <h4 style="color:var(--accent-crimson); font-weight:800; font-size:1rem; margin-bottom:8px;">🍽️ SACRED PRASADAM MENU:</h4>
+                                    <div style="background:#FFF; padding:15px 20px; border-left:5px solid var(--primary-saffron); border-radius:10px; color:var(--text-main); font-weight:700; border-top:1px solid #F3F4F6; border-right:1px solid #F3F4F6; border-bottom:1px solid #F3F4F6;">
+                                        ${fp.menu}
+                                    </div>
                                 </div>
                             ` : ''}
 
-                            ${fp.sponsor ? `
-                                <div style="margin-top:15px; background:#FEF3C7; color:var(--accent-crimson); font-weight:800; padding:10px 16px; border-radius:8px; display:inline-block;">
-                                    🙏 Generous Sponsor: ${fp.sponsor}
-                                </div>
-                            ` : ''}
+                            <div style="margin-top:22px; background:linear-gradient(135deg, #FEF3C7, #FFFBEB); border:2px solid var(--accent-crimson); color:var(--accent-crimson); font-weight:800; font-size:1rem; padding:12px 20px; border-radius:12px; display:flex; align-items:center; gap:10px;">
+                                <span style="font-size:1.4rem;">🙏</span> CHIEF ANNADANAM SPONSOR: <strong style="color:#111827; font-size:1.1rem;">${fp.sponsor || 'Penagaluru Mani'}</strong>
+                            </div>
                         </div>
                     `).join('');
+
+                    let donatorsHtml = '';
+                    if (data.donators && data.donators.length > 0) {
+                        donatorsHtml = `
+                            <div class="glass-card" style="margin-top:35px; background:#FFFBEB; border:2px solid var(--primary-saffron); border-radius:20px; padding:30px;">
+                                <div style="text-align:center; margin-bottom:20px;">
+                                    <span class="annadanam-badge-pill">🪔 SACRED CONTRIBUTORS</span>
+                                    <h3 style="font-size:1.8rem; font-weight:800; color:var(--accent-crimson); margin-top:5px;">ALL ANNADANAM DONATORS & SPONSORS</h3>
+                                    <p style="color:var(--text-sub); font-weight:600;">We express our deepest gratitude to all generous devotees supporting Maha Annadanam.</p>
+                                </div>
+
+                                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:15px;">
+                                    ${data.donators.map(d => `
+                                        <div style="background:#FFFFFF; border:1.5px solid #FCD34D; border-radius:12px; padding:15px; display:flex; align-items:center; gap:12px; box-shadow:0 4px 12px rgba(0,0,0,0.03);">
+                                            <div style="width:40px; height:40px; border-radius:50%; background:#FEF3C7; color:var(--accent-crimson); font-size:1.2rem; display:flex; align-items:center; justify-content:center; flex-shrink:0;">🙏</div>
+                                            <div>
+                                                <strong style="color:#111827; font-size:1rem; display:block;">${d.donor_name}</strong>
+                                                <small style="color:var(--primary-saffron); font-weight:800;">${d.sponsorship_title || 'Annadanam Contributor'}</small>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    container.innerHTML = foodHtml + donatorsHtml;
                 } else {
                     container.innerHTML = '<div class="glass-card" style="text-align:center;"><p style="color:var(--text-muted);">No Annadanam programs announced yet.</p></div>';
                 }
