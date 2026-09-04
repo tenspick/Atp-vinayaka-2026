@@ -331,7 +331,6 @@ app.post('/api/donations', async (req, res) => {
 
     store.donations.push(newDonation);
     saveStore(store);
-    createNotification('🪔 New Chandaa Donation', `${newDonation.donor_name} contributed ₹${newDonation.amount} towards festival celebrations!`, 'DONATION');
     res.status(201).json({ success: true, donation: newDonation, receipt_number: newDonation.receipt_number, id: newId });
 });
 
@@ -591,7 +590,6 @@ app.post('/api/admins', async (req, res) => {
         try {
             const { data, error } = await supabase.from('admins').insert([adminPayload]).select();
             if (!error && data) {
-                await createNotification('👤 New Admin Added', `New admin account "${adminPayload.username}" was created (${adminPayload.role})`, 'ADMIN');
                 return res.status(201).json({ success: true, admin: data[0] });
             }
             if (error) {
@@ -607,7 +605,6 @@ app.post('/api/admins', async (req, res) => {
     const newAdmin = { id: newId, ...adminPayload, is_active: 1 };
     store.admins.push(newAdmin);
     saveStore(store);
-    await createNotification('👤 New Admin Added', `New admin account "${adminPayload.username}" was created (${adminPayload.role})`, 'ADMIN');
     res.status(201).json({ success: true, admin: newAdmin });
 });
 
@@ -711,7 +708,6 @@ app.delete('/api/admins/:id', async (req, res) => {
         return res.status(404).json({ error: 'Admin account not found or could not be deleted.' });
     }
 
-    await createNotification('🗑️ Admin Deleted', `Admin account "${username || id}" was deleted by Super Admin`, 'ADMIN');
     res.json({ success: true, message: `Admin account "${username || id}" deleted successfully.` });
 });
 
@@ -823,7 +819,6 @@ app.post('/api/competitions', async (req, res) => {
         store.competitions.push(createdComp);
         saveStore(store);
     }
-    createNotification('🏆 Competition & Winner Announcement', `${req.body.game_name} - Winner: ${req.body.winner_name || 'Announced'} (Captain: ${req.body.captain_name || 'N/A'})`, 'COMPETITION');
     res.status(201).json({ success: true, competition: createdComp });
 });
 

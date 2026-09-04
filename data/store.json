@@ -163,20 +163,6 @@
   ],
   "notifications": [
     {
-      "id": 6,
-      "title": "🗑️ Admin Deleted",
-      "message": "Admin account \"e2etest_admin@test.com\" was deleted by Super Admin",
-      "type": "ADMIN",
-      "created_at": "2026-09-04T06:00:08.263Z"
-    },
-    {
-      "id": 5,
-      "title": "👤 New Admin Added",
-      "message": "New admin account \"e2etest_admin@test.com\" was created (ADMIN)",
-      "type": "ADMIN",
-      "created_at": "2026-09-04T06:00:07.848Z"
-    },
-    {
       "id": 4,
       "title": "🔥 Special Laddu Auction Tonight!",
       "message": "Grand Laddu Auction will take place tonight at 9:00 PM at Main Mandap.",
