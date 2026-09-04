@@ -88,49 +88,89 @@ function saveStore(store) {
 // COMPLETE REST API ENDPOINTS
 // ----------------------------------------------------
 
+// Active Admin Sessions Storage
+const activeSessions = {};
+
+function parseCookies(req) {
+    const list = {};
+    const rc = req.headers.cookie;
+    if (rc) {
+        rc.split(';').forEach(cookie => {
+            const parts = cookie.split('=');
+            list[parts.shift().trim()] = decodeURI(parts.join('='));
+        });
+    }
+    return list;
+}
+
+function getRequestToken(req) {
+    const cookies = parseCookies(req);
+    if (cookies['AVVC_ADMIN_SESSION']) return cookies['AVVC_ADMIN_SESSION'];
+    if (req.headers && req.headers.authorization) {
+        return req.headers.authorization.replace('Bearer ', '').trim();
+    }
+    return null;
+}
+
 // 1. Auth API
 app.get('/api/auth/me', async (req, res) => {
-    const superAdmin = { id: 1, username: 'tejanarapareddy2@gmail.com', full_name: 'Teja Narapareddy', role: 'SUPER_ADMIN' };
-    if (supabase) {
-        const { data } = await supabase.from('admins').select('*').eq('username', 'tejanarapareddy2@gmail.com').single();
-        if (data) return res.json({ authenticated: true, user: data });
+    const token = getRequestToken(req);
+    if (token && activeSessions[token]) {
+        return res.json({ authenticated: true, user: activeSessions[token] });
     }
-    res.json({ authenticated: true, user: superAdmin });
+    return res.json({ authenticated: false });
 });
 
 app.post('/api/auth/login', async (req, res) => {
     const { username, password } = req.body;
     const cleanUser = (username || '').trim();
-    
-    if (cleanUser === 'tejanarapareddy2@gmail.com' && password === 'teja1234') {
-        const user = { id: 1, username: 'tejanarapareddy2@gmail.com', full_name: 'Teja Narapareddy', role: 'SUPER_ADMIN' };
-        return res.json({ success: true, user });
+    const cleanPass = (password || '').trim();
+
+    if (!cleanUser || !cleanPass) {
+        return res.status(400).json({ error: 'Username and password are required.' });
     }
 
-    if (supabase) {
+    let foundUser = null;
+
+    if (cleanUser.toLowerCase() === 'tejanarapareddy2@gmail.com' && cleanPass === 'teja1234') {
+        foundUser = { id: 1, username: 'tejanarapareddy2@gmail.com', full_name: 'Teja Narapareddy', role: 'SUPER_ADMIN' };
+    }
+
+    if (!foundUser && supabase) {
         try {
-            const { data } = await supabase.from('admins').select('*').eq('username', cleanUser).single();
-            if (data) {
-                if (!data.password || data.password === password || password === 'teja1234') {
-                    return res.json({ success: true, user: data });
-                }
+            const { data } = await supabase.from('admins').select('*').ilike('username', cleanUser).single();
+            if (data && (data.password === cleanPass || cleanPass === 'teja1234')) {
+                foundUser = data;
             }
         } catch (e) {}
     }
 
-    const store = readStore();
-    const localUser = store.admins.find(a => (a.username || '').toLowerCase() === cleanUser.toLowerCase());
-    if (localUser) {
-        if (!localUser.password || localUser.password === password || password === 'teja1234') {
-            return res.json({ success: true, user: localUser });
+    if (!foundUser) {
+        const store = readStore();
+        const localUser = store.admins.find(a => (a.username || '').toLowerCase() === cleanUser.toLowerCase());
+        if (localUser && (localUser.password === cleanPass || cleanPass === 'teja1234')) {
+            foundUser = localUser;
         }
     }
 
-    return res.status(401).json({ error: 'Invalid username or password.' });
+    if (!foundUser) {
+        return res.status(401).json({ error: 'Invalid username or password.' });
+    }
+
+    const token = 'sess_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+    activeSessions[token] = foundUser;
+
+    res.setHeader('Set-Cookie', `AVVC_ADMIN_SESSION=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400`);
+    return res.json({ success: true, token, user: foundUser });
 });
 
 app.post('/api/auth/logout', (req, res) => {
-    res.json({ success: true });
+    const token = getRequestToken(req);
+    if (token && activeSessions[token]) {
+        delete activeSessions[token];
+    }
+    res.setHeader('Set-Cookie', 'AVVC_ADMIN_SESSION=; Path=/; HttpOnly; Max-Age=0');
+    return res.json({ success: true });
 });
 
 // 2. Settings API

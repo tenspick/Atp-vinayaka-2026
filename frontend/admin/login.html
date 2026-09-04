@@ -378,10 +378,9 @@
             const errorEl = document.getElementById('loginErrorMsg');
 
             errorEl.style.display = 'none';
-            const apiBase = window.location.protocol.startsWith('http') ? '' : 'http://localhost:3000';
 
             try {
-                const res = await fetch(apiBase + '/api/auth/login', {
+                const res = await fetch('/api/auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, password }),
@@ -389,25 +388,29 @@
                 });
 
                 const data = await res.json();
-                if (res.ok) {
-                    window.location.href = apiBase ? 'http://localhost:3000/admin/dashboard.html' : '/admin/dashboard.html';
+                if (res.ok && data.success) {
+                    if (data.token) {
+                        localStorage.setItem('AVVC_ADMIN_TOKEN', data.token);
+                    }
+                    window.location.href = '/admin/dashboard.html';
                 } else {
-                    errorEl.textContent = data.error || 'Login failed. Invalid credentials.';
+                    errorEl.textContent = data.error || 'Login failed. Invalid username or password.';
                     errorEl.style.display = 'block';
                 }
             } catch (err) {
-                errorEl.textContent = 'Server connection error. Please ensure http://localhost:3000 is open in your browser.';
+                errorEl.textContent = 'Server connection error. Please enter login credentials.';
                 errorEl.style.display = 'block';
             }
         });
 
-        // Redirect if already logged in
-        const checkBase = window.location.protocol.startsWith('http') ? '' : 'http://localhost:3000';
-        fetch(checkBase + '/api/auth/me', { credentials: 'include' })
+        // Check if already logged in (Only redirect if token/session is valid)
+        const savedToken = localStorage.getItem('AVVC_ADMIN_TOKEN');
+        const headers = savedToken ? { 'Authorization': 'Bearer ' + savedToken } : {};
+        fetch('/api/auth/me', { headers, credentials: 'include' })
             .then(res => res.json())
             .then(data => {
                 if (data.authenticated) {
-                    window.location.href = checkBase ? 'http://localhost:3000/admin/dashboard.html' : '/admin/dashboard.html';
+                    window.location.href = '/admin/dashboard.html';
                 }
             })
             .catch(() => {});

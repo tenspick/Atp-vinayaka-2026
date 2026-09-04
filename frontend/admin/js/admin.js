@@ -6,9 +6,12 @@
 document.addEventListener('DOMContentLoaded', async () => {
     // 1. Authenticate Current User
     try {
-        const meRes = await fetch('/api/auth/me');
+        const savedToken = localStorage.getItem('AVVC_ADMIN_TOKEN');
+        const headers = savedToken ? { 'Authorization': 'Bearer ' + savedToken } : {};
+        const meRes = await fetch('/api/auth/me', { headers, credentials: 'include' });
         const meData = await meRes.json();
         if (!meData.authenticated) {
+            localStorage.removeItem('AVVC_ADMIN_TOKEN');
             window.location.href = '/admin/login.html';
             return;
         }
@@ -25,6 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (navAdmins) navAdmins.style.display = 'none';
         }
     } catch (e) {
+        localStorage.removeItem('AVVC_ADMIN_TOKEN');
         window.location.href = '/admin/login.html';
         return;
     }
@@ -60,7 +64,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const btnLogout = document.getElementById('btnLogout');
     if (btnLogout) {
         btnLogout.addEventListener('click', async () => {
-            await fetch('/api/auth/logout', { method: 'POST' });
+            const savedToken = localStorage.getItem('AVVC_ADMIN_TOKEN');
+            const headers = savedToken ? { 'Authorization': 'Bearer ' + savedToken } : {};
+            await fetch('/api/auth/logout', { method: 'POST', headers, credentials: 'include' });
+            localStorage.removeItem('AVVC_ADMIN_TOKEN');
             window.location.href = '/admin/login.html';
         });
     }
