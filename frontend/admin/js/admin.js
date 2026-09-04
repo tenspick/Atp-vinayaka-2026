@@ -448,7 +448,9 @@ function showReceiptModal(donation, whatsappUrl) {
 
     const cleanMobile = (donation.mobile || '').replace(/\D/g, '');
     const waPhone = cleanMobile.length === 10 ? '91' + cleanMobile : cleanMobile;
-    const textMsg = encodeURIComponent(`🕉️ *ANANTHAMPALLI VILLAGE VINAYAKA CHAVITHI 2026*\n\n*CHANDAA DONATION RECEIPT*\n\n🧾 *Receipt No:* ${donation.receipt_number}\n📅 *Date:* ${donation.date}\n👤 *Donor Name:* ${donation.donor_name}\n📞 *Mobile:* ${donation.mobile}\n💳 *Payment Method:* ${donation.payment_method || 'Cash'}\n👥 *Collected By:* ${collectorName}\n\n💰 *CONTRIBUTION AMOUNT RECEIVED:* ₹${Number(donation.amount).toLocaleString('en-IN')}\n\n🙏 *Thank you for your generous contribution towards our village festival celebrations.*\n\n" *GANAPATHI BAPPA MORYA!* 🙏 "`);
+    const origin = window.location.origin;
+    const receiptLink = `${origin}/receipt.html?receipt=${encodeURIComponent(donation.receipt_number)}`;
+    const textMsg = encodeURIComponent(`🕉️ *ANANTHAMPALLI VILLAGE VINAYAKA CHAVITHI 2026*\n\n*CHANDAA DONATION RECEIPT*\n\n🧾 *Receipt No:* ${donation.receipt_number}\n📅 *Date:* ${donation.date}\n👤 *Donor Name:* ${donation.donor_name}\n📞 *Mobile:* ${donation.mobile}\n💳 *Payment Method:* ${donation.payment_method || 'Cash'}\n👥 *Collected By:* ${collectorName}\n\n💰 *CONTRIBUTION AMOUNT RECEIVED:* ₹${Number(donation.amount).toLocaleString('en-IN')}\n\n🙏 *Thank you for your generous contribution towards our village festival celebrations.*\n\n📲 *View & Download Official Digital Receipt Online:*\n${receiptLink}\n\n" *GANAPATHI BAPPA MORYA!* 🙏 "`);
     
     const directWaBtn = document.getElementById('btnWaDirectSend');
     if (directWaBtn) {
@@ -524,8 +526,8 @@ async function shareReceiptAsImage() {
             link.download = fileName;
             link.href = canvas.toDataURL('image/png');
             link.click();
-            alert(`Receipt image "${fileName}" downloaded!\n\nOpening WhatsApp now... Please attach the downloaded receipt image.`);
-            window.open(`https://wa.me/${mobile}?text=${encodeURIComponent('🙏 Namaste ' + donation.donor_name + ' Garu,\nAttached is your official Chandaa donation receipt for ANANTHAMPALLI VILLAGE VINAYAKA CHAVITHI 2026. 🕉️')}`, '_blank');
+            const rLink = `${window.location.origin}/receipt.html?receipt=${encodeURIComponent(donation.receipt_number)}`;
+            window.open(`https://wa.me/${mobile}?text=${encodeURIComponent('🙏 Namaste ' + donation.donor_name + ' Garu,\nAttached is your official Chandaa donation receipt for ANANTHAMPALLI VILLAGE VINAYAKA CHAVITHI 2026. 🕉️\n\n📲 View & Download Digital Receipt Online:\n' + rLink)}`, '_blank');
         }
     } catch (err) {
         console.error('Image share error:', err);

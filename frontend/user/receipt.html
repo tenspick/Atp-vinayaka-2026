@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Chandaa Receipt | AVVC 2026 ANANTHAMPALLI</title>
+    <meta name="description" content="View and download official Chandaa donation receipts for Ananthampalli Village Vinayaka Chavithi 2026.">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        .receipt-card-wrapper {
+            max-width: 650px;
+            margin: 40px auto;
+            background: #FFFFFF;
+            border: 3px solid var(--primary-saffron);
+            border-radius: 24px;
+            padding: 40px 35px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08), 0 0 30px rgba(212, 175, 55, 0.15);
+            position: relative;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .receipt-header-row {
+            text-align: center;
+            border-bottom: 2px dashed #E5D9C5;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+
+        .receipt-om-symbol {
+            font-size: 2.8rem;
+            color: var(--accent-crimson);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .receipt-village-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #111827;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+        }
+
+        .receipt-sub-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-crimson), var(--saffron-dark));
+            color: #FFFFFF;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            padding: 4px 16px;
+            border-radius: 20px;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        .receipt-details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+
+        .receipt-details-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #F3F4F6;
+            font-size: 0.95rem;
+        }
+
+        .receipt-details-table td.label-col {
+            color: var(--text-sub);
+            font-weight: 700;
+            width: 40%;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        .receipt-details-table td.value-col {
+            color: #111827;
+            font-weight: 800;
+            width: 60%;
+        }
+
+        .receipt-amount-box {
+            background: linear-gradient(135deg, #FFFBEB 0%, #FEF3C7 100%);
+            border: 2px solid var(--primary-saffron);
+            border-radius: 16px;
+            padding: 18px 24px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .receipt-amount-label {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--accent-crimson);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .receipt-amount-val {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: var(--accent-crimson);
+            margin-top: 4px;
+        }
+
+        .receipt-stamp-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 2px dashed #E5D9C5;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .receipt-stamp-badge {
+            background: #ECFDF5;
+            color: #059669;
+            border: 1.5px solid #10B981;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .receipt-action-btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        @media print {
+            .navbar, .grand-site-footer, .receipt-action-btns, .notif-bell-wrap, .hamburger {
+                display: none !important;
+            }
+            body {
+                background: #FFF !important;
+            }
+            .receipt-card-wrapper {
+                box-shadow: none !important;
+                border: 2px solid #000 !important;
+                margin: 0 auto !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="nav-brand">
+                <span class="nav-brand-logo">🐘</span>
+                <div class="nav-brand-titles">
+                    <span class="nav-brand-main">AVVC 2026</span>
+                    <span class="nav-brand-sub">ANANTHAMPALLI</span>
+                </div>
+            </a>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html" class="nav-link">HOME</a></li>
+                <li><a href="events.html" class="nav-link">PROGRAMS</a></li>
+                <li><a href="food.html" class="nav-link">ANNADANAM</a></li>
+                <li><a href="donators.html" class="nav-link">DONATORS</a></li>
+                <li><a href="transparency.html" class="nav-link">EXPENSES</a></li>
+                <li><a href="about.html" class="nav-link">ABOUT</a></li>
+                <li><a href="contact.html" class="nav-link">CONTACT</a></li>
+            </ul>
+
+            <div class="nav-actions" style="display:flex; align-items:center; gap:10px;">
+                <a href="donate.html" class="btn-nav-donate">🪔 DONATE NOW</a>
+                <a href="/admin/login.html" class="btn-nav-admin">👤 ADMIN LOGIN</a>
+            </div>
+
+            <div class="hamburger" id="hamburgerBtn">☰</div>
+        </div>
+    </nav>
+
+    <!-- Master Inner Page Hero Component -->
+    <header class="page-header-parchment">
+        <div class="container">
+            <div class="section-label-ornate">❖ DIGITAL RECEIPT VERIFICATION ❖</div>
+            <h1 style="font-size: 2.4rem; font-weight: 800; color: var(--accent-crimson);">OFFICIAL CHANDAA RECEIPT</h1>
+            <p style="color: var(--text-sub); font-size: 1.05rem; font-weight: 600; margin-top: 8px;">
+                Ananthampalli Village Vinayaka Chavithi 2026
+            </p>
+        </div>
+    </header>
+
+    <div class="container" style="padding: 40px 20px;">
+        <div id="receiptContainer">
+            <p style="text-align: center; color: var(--text-muted); font-size: 1.1rem;">Loading official receipt details...</p>
+        </div>
+
+        <div id="receiptActionArea" class="receipt-action-btns" style="display: none;">
+            <button id="btnDownloadReceipt" class="btn-hero-primary" style="font-size: 0.95rem; padding: 12px 24px; background: #059669; border-color: #059669;">
+                📥 DOWNLOAD RECEIPT (IMAGE)
+            </button>
+            <button onclick="window.print()" class="btn-hero-secondary" style="font-size: 0.95rem; padding: 12px 24px;">
+                🖨️ PRINT RECEIPT
+            </button>
+            <a id="btnShareWaReceipt" href="#" target="_blank" class="btn-hero-primary" style="font-size: 0.95rem; padding: 12px 24px; background: #25D366; border-color: #25D366;">
+                💬 SHARE ON WHATSAPP
+            </a>
+        </div>
+    </div>
+
+    <!-- Master Footer Component -->
+    <footer class="grand-site-footer">
+        <div class="container">
+            <div class="footer-bottom-bar">
+                © 2026 All Rights Reserved. &nbsp;|&nbsp; Ananthampalli Village Vinayaka Chavithi Committee &nbsp;|&nbsp; Made with Love by Klivoo (By Tenspick Labs) 🪔
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        async function loadReceipt() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const receiptNo = urlParams.get('receipt') || urlParams.get('no');
+            const donationId = urlParams.get('id');
+
+            const container = document.getElementById('receiptContainer');
+            const actionArea = document.getElementById('receiptActionArea');
+
+            if (!receiptNo && !donationId) {
+                container.innerHTML = `
+                    <div class="glass-card" style="text-align: center; max-width: 500px; margin: 0 auto;">
+                        <h3 style="color: var(--accent-crimson);">Receipt Lookup</h3>
+                        <p style="color: var(--text-sub); margin-bottom: 20px;">Please enter your Receipt Number to view your official digital receipt.</p>
+                        <input type="text" id="receiptLookupInput" placeholder="e.g. AVVC-2026-0001" style="width: 80%; padding: 12px; border-radius: 8px; border: 1.5px solid #D1D5DB; margin-bottom: 15px; font-weight: bold; text-align: center;">
+                        <br>
+                        <button onclick="lookupReceipt()" class="btn-hero-primary">SEARCH RECEIPT →</button>
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                let fetchUrl = receiptNo ? `/api/donations/receipt/${encodeURIComponent(receiptNo)}` : `/api/donations/${donationId}`;
+                const res = await fetch(fetchUrl);
+                const data = await res.json();
+
+                if (res.ok && data.donation) {
+                    const d = data.donation;
+                    window.CURRENT_RECEIPT_DATA = d;
+
+                    let collectorName = d.collected_by || 'Committee Representative';
+                    if (collectorName.includes('@')) {
+                        collectorName = collectorName.includes('surya') ? 'Surya Mohan Reddy' : 'Yaddala Ranjith Goud (Sunny)';
+                    }
+
+                    container.innerHTML = `
+                        <div class="receipt-card-wrapper" id="printableReceiptCard">
+                            <div class="receipt-header-row">
+                                <div class="receipt-om-symbol">🕉️</div>
+                                <div class="receipt-village-title">ANANTHAMPALLI VILLAGE<br>VINAYAKA CHAVITHI 2026</div>
+                                <div style="font-size: 0.8rem; color: var(--text-sub); font-weight: 700; margin-top: 4px;">మన ఊరు • మన వినాయకుడు • మన పండుగ</div>
+                                <span class="receipt-sub-badge">OFFICIAL CHANDAA DONATION RECEIPT</span>
+                            </div>
+
+                            <div class="receipt-amount-box">
+                                <div class="receipt-amount-label">CONTRIBUTION AMOUNT RECEIVED</div>
+                                <div class="receipt-amount-val">₹ ${Number(d.amount).toLocaleString('en-IN')}</div>
+                            </div>
+
+                            <table class="receipt-details-table">
+                                <tr>
+                                    <td class="label-col">🧾 RECEIPT NO:</td>
+                                    <td class="value-col" style="color: var(--accent-crimson); font-size: 1.1rem;">${d.receipt_number}</td>
+                                </tr>
+                                <tr>
+                                    <td class="label-col">📅 DATE:</td>
+                                    <td class="value-col">${d.date}</td>
+                                </tr>
+                                <tr>
+                                    <td class="label-col">👤 DONOR NAME:</td>
+                                    <td class="value-col" style="font-size: 1.1rem;">${d.donor_name}</td>
+                                </tr>
+                                ${d.mobile ? `
+                                <tr>
+                                    <td class="label-col">📞 MOBILE NO:</td>
+                                    <td class="value-col">${d.mobile}</td>
+                                </tr>
+                                ` : ''}
+                                ${d.sponsorship_title ? `
+                                <tr>
+                                    <td class="label-col">🪔 SPONSORSHIP:</td>
+                                    <td class="value-col" style="color: var(--saffron-dark); font-weight: 800;">✨ ${d.sponsorship_title}</td>
+                                </tr>
+                                ` : ''}
+                                <tr>
+                                    <td class="label-col">💳 PAYMENT MODE:</td>
+                                    <td class="value-col">${d.payment_method || 'CASH'}</td>
+                                </tr>
+                                <tr>
+                                    <td class="label-col">👥 COLLECTED BY:</td>
+                                    <td class="value-col">${collectorName}</td>
+                                </tr>
+                            </table>
+
+                            <div class="receipt-stamp-row">
+                                <div class="receipt-stamp-badge">
+                                    ✓ VERIFIED BY AVVC COMMITTEE 2026
+                                </div>
+                                <div style="font-size: 0.75rem; color: var(--text-muted); text-align: right;">
+                                    Designed & Verified by<br>
+                                    <strong style="color: #111827;">KLIVOO NEXT GEN CRMS</strong>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    actionArea.style.display = 'flex';
+
+                    // Update WhatsApp share button link
+                    const cleanMobile = (d.mobile || '').replace(/\D/g, '');
+                    const waPhone = cleanMobile.length === 10 ? '91' + cleanMobile : cleanMobile;
+                    const pageUrl = window.location.href;
+                    const textMsg = encodeURIComponent(`🙏 Namaste ${d.donor_name} Garu,\nHere is your official Chandaa donation receipt for ANANTHAMPALLI VILLAGE VINAYAKA CHAVITHI 2026. 🕉️\n\n🧾 Receipt No: ${d.receipt_number}\n💰 Amount: ₹${Number(d.amount).toLocaleString('en-IN')}\n\n📲 View & Download Receipt Online:\n${pageUrl}`);
+                    document.getElementById('btnShareWaReceipt').href = `https://wa.me/${waPhone}?text=${textMsg}`;
+
+                } else {
+                    container.innerHTML = `
+                        <div class="glass-card" style="text-align: center; max-width: 500px; margin: 0 auto;">
+                            <h3 style="color: var(--accent-crimson);">Receipt Not Found</h3>
+                            <p style="color: var(--text-sub);">No donation receipt matching "${receiptNo || donationId}" was found.</p>
+                        </div>
+                    `;
+                }
+            } catch(err) {
+                container.innerHTML = `<p style="color:red; text-align:center;">Failed to load receipt details.</p>`;
+            }
+        }
+
+        function lookupReceipt() {
+            const val = document.getElementById('receiptLookupInput').value.trim();
+            if (val) {
+                window.location.href = `receipt.html?receipt=${encodeURIComponent(val)}`;
+            }
+        }
+
+        document.getElementById('btnDownloadReceipt')?.addEventListener('click', async () => {
+            const card = document.getElementById('printableReceiptCard');
+            if (!card) return;
+            const btn = document.getElementById('btnDownloadReceipt');
+            btn.innerHTML = '⏳ Generating...';
+            btn.disabled = true;
+
+            try {
+                const canvas = await html2canvas(card, { scale: 2, backgroundColor: '#FFFFFF' });
+                const link = document.createElement('a');
+                const d = window.CURRENT_RECEIPT_DATA || {};
+                link.download = `Receipt_${d.receipt_number || 'AVVC2026'}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            } catch(e) {
+                alert('Could not download image receipt.');
+            } finally {
+                btn.innerHTML = '📥 DOWNLOAD RECEIPT (IMAGE)';
+                btn.disabled = false;
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', loadReceipt);
+    </script>
+</body>
+</html>

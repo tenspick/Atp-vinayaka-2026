@@ -263,6 +263,20 @@ app.get('/api/donators', async (req, res) => {
     res.json({ success: true, donators: publicDonations, donations: publicDonations });
 });
 
+app.get('/api/donations/receipt/:receiptNo', async (req, res) => {
+    const receiptNo = req.params.receiptNo.trim();
+    if (supabase) {
+        try {
+            const { data } = await supabase.from('donations').select('*').eq('receipt_number', receiptNo).single();
+            if (data) return res.json({ success: true, donation: data });
+        } catch(e) {}
+    }
+    const store = readStore();
+    const donation = store.donations.find(d => d.receipt_number === receiptNo);
+    if (donation) return res.json({ success: true, donation });
+    res.status(404).json({ error: 'Receipt not found' });
+});
+
 app.get('/api/donations/:id', async (req, res) => {
     const id = parseInt(req.params.id);
     if (supabase) {
