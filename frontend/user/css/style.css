@@ -48,13 +48,23 @@ body {
     overflow-x: hidden;
 }
 
+html, body {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden !important;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 .container {
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 24px;
 }
 
-/* ==================== NAVBAR (ALIGNED PERFECTLY) ==================== */
+/* ==================== NAVBAR (ALIGNED PERFECTLY & FULLY RESPONSIVE) ==================== */
 .navbar {
     position: sticky;
     top: 0;
@@ -62,6 +72,8 @@ body {
     background: #FFFFFF;
     border-bottom: 2px solid #F3F4F6;
     box-shadow: var(--shadow-sm);
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .nav-container {
@@ -201,23 +213,85 @@ body {
     cursor: pointer;
 }
 
+.mobile-nav-actions {
+    display: none;
+}
+
 @media (max-width: 1050px) {
     .hamburger { display: block; }
     .nav-menu {
         position: fixed;
-        top: 80px;
+        top: 75px;
         left: -100%;
         width: 100%;
-        height: calc(100vh - 80px);
+        height: calc(100vh - 75px);
         background: #FFFFFF;
         flex-direction: column;
         justify-content: flex-start;
-        padding-top: 40px;
+        align-items: center;
+        padding: 30px 20px;
+        gap: 16px;
         transition: left 0.3s ease;
         box-shadow: var(--shadow-lg);
+        overflow-y: auto;
+        z-index: 9999;
     }
     .nav-menu.active { left: 0; }
-    .nav-actions { display: none; }
+    .mobile-nav-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        max-width: 280px;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 2px dashed #E5E7EB;
+        list-style: none;
+    }
+    .mobile-nav-actions .btn-nav-donate,
+    .mobile-nav-actions .btn-nav-admin {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        padding: 12px 20px;
+        font-size: 0.9rem;
+    }
+    /* Hide desktop admin button on mobile header bar to prevent horizontal overflow */
+    .nav-actions .btn-nav-admin {
+        display: none !important;
+    }
+    .nav-actions .btn-nav-donate {
+        padding: 6px 10px;
+        font-size: 0.76rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .nav-container {
+        height: 70px;
+        padding: 0 10px;
+        gap: 8px;
+    }
+    .nav-brand-logo {
+        font-size: 1.6rem;
+    }
+    .nav-brand-main {
+        font-size: 1.05rem;
+    }
+    .nav-brand-sub {
+        font-size: 0.62rem;
+    }
+    .notif-bell-wrap {
+        padding: 4px 8px !important;
+        font-size: 1.1rem !important;
+    }
+    .btn-nav-donate {
+        padding: 6px 8px !important;
+        font-size: 0.72rem !important;
+    }
+    .hamburger {
+        font-size: 1.5rem;
+    }
 }
 
 /* ==================== TICKER BANNER FOR LATEST UPDATES ==================== */
