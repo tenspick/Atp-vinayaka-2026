@@ -279,6 +279,7 @@ body {
         font-size: 0.9rem;
     }
     /* Hide desktop donate and admin buttons from top header bar on mobile so hamburger & logo fit cleanly */
+    .desktop-only-action,
     .nav-actions .btn-nav-admin,
     .nav-actions .btn-nav-donate {
         display: none !important;
