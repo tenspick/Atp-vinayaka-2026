@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 
 // Initialize Express App
 const app = express();
@@ -88,8 +89,39 @@ function saveStore(store) {
 // COMPLETE REST API ENDPOINTS
 // ----------------------------------------------------
 
-// Active Admin Sessions Storage
-const activeSessions = {};
+// Stateless HMAC Signed Token Helpers for Admin Auth
+const AUTH_SECRET = process.env.JWT_SECRET || 'AVVC_SECURE_AUTH_KEY_2026_ANANTHAMPALLI_VILLAGE';
+
+function createSignedToken(user) {
+    const payload = {
+        id: user.id || 1,
+        username: user.username,
+        full_name: user.full_name || user.username,
+        role: user.role || 'ADMIN',
+        exp: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days valid
+    };
+    const str = Buffer.from(JSON.stringify(payload)).toString('base64url');
+    const hmac = crypto.createHmac('sha256', AUTH_SECRET).update(str).digest('hex');
+    return `${str}.${hmac}`;
+}
+
+function verifySignedToken(token) {
+    if (!token || typeof token !== 'string') return null;
+    const parts = token.split('.');
+    if (parts.length !== 2) return null;
+    const [str, hmac] = parts;
+    
+    const expectedHmac = crypto.createHmac('sha256', AUTH_SECRET).update(str).digest('hex');
+    if (hmac !== expectedHmac) return null;
+    
+    try {
+        const payload = JSON.parse(Buffer.from(str, 'base64url').toString('utf8'));
+        if (payload.exp && payload.exp < Date.now()) return null;
+        return payload;
+    } catch(e) {
+        return null;
+    }
+}
 
 function parseCookies(req) {
     const list = {};
@@ -115,8 +147,9 @@ function getRequestToken(req) {
 // 1. Auth API
 app.get('/api/auth/me', async (req, res) => {
     const token = getRequestToken(req);
-    if (token && activeSessions[token]) {
-        return res.json({ authenticated: true, user: activeSessions[token] });
+    const userPayload = verifySignedToken(token);
+    if (userPayload) {
+        return res.json({ authenticated: true, user: userPayload });
     }
     return res.json({ authenticated: false });
 });
@@ -157,18 +190,13 @@ app.post('/api/auth/login', async (req, res) => {
         return res.status(401).json({ error: 'Invalid username or password.' });
     }
 
-    const token = 'sess_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
-    activeSessions[token] = foundUser;
+    const token = createSignedToken(foundUser);
 
-    res.setHeader('Set-Cookie', `AVVC_ADMIN_SESSION=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=86400`);
+    res.setHeader('Set-Cookie', `AVVC_ADMIN_SESSION=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=604800`);
     return res.json({ success: true, token, user: foundUser });
 });
 
 app.post('/api/auth/logout', (req, res) => {
-    const token = getRequestToken(req);
-    if (token && activeSessions[token]) {
-        delete activeSessions[token];
-    }
     res.setHeader('Set-Cookie', 'AVVC_ADMIN_SESSION=; Path=/; HttpOnly; Max-Age=0');
     return res.json({ success: true });
 });
