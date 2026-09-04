@@ -639,7 +639,10 @@ app.get('/api/admins', async (req, res) => {
     if (supabase) {
         try {
             const { data } = await supabase.from('admins').select('*').order('id', { ascending: true });
-            if (data) return res.json({ success: true, admins: data });
+            if (data) {
+                const formatted = data.map(a => ({ ...a, is_active: a.is_active !== undefined ? a.is_active : 1 }));
+                return res.json({ success: true, admins: formatted });
+            }
         } catch (e) {
             console.error('Supabase fetch admins error:', e.message);
         }
@@ -654,20 +657,32 @@ app.post('/api/admins', async (req, res) => {
         return res.status(400).json({ error: 'Password must be at least 6 characters long.' });
     }
 
-    const adminPayload = {
-        username: (req.body.username || '').trim(),
-        full_name: (req.body.full_name || req.body.username || '').trim(),
-        password: password,
-        role: req.body.role || 'ADMIN',
-        is_active: 1
+    const username = (req.body.username || '').trim();
+    const full_name = (req.body.full_name || req.body.username || '').trim();
+    const role = req.body.role || 'ADMIN';
+
+    // Payload for Supabase (without is_active since Supabase admins table doesn't have is_active column)
+    const supabasePayload = {
+        username,
+        full_name,
+        password,
+        role
     };
+
     if (supabase) {
         try {
-            const { data, error } = await supabase.from('admins').insert([adminPayload]).select();
-            if (!error && data) {
-                return res.status(201).json({ success: true, admin: data[0] });
+            const { data, error } = await supabase.from('admins').insert([supabasePayload]).select();
+            if (!error && data && data.length > 0) {
+                const createdAdmin = { ...data[0], is_active: 1 };
+                const store = readStore();
+                if (!store.admins.some(a => (a.username || '').toLowerCase() === username.toLowerCase())) {
+                    store.admins.push(createdAdmin);
+                    saveStore(store);
+                }
+                return res.status(201).json({ success: true, admin: createdAdmin });
             }
             if (error) {
+                console.error('Supabase admin insert error:', error.message);
                 return res.status(400).json({ error: error.message });
             }
         } catch (e) {
@@ -675,9 +690,10 @@ app.post('/api/admins', async (req, res) => {
             return res.status(500).json({ error: e.message });
         }
     }
+
     const store = readStore();
     const newId = store.admins.length ? Math.max(...store.admins.map(a => a.id || 0)) + 1 : 1;
-    const newAdmin = { id: newId, ...adminPayload };
+    const newAdmin = { id: newId, ...supabasePayload, is_active: 1 };
     store.admins.push(newAdmin);
     saveStore(store);
     res.status(201).json({ success: true, admin: newAdmin });
