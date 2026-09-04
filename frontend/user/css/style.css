@@ -390,15 +390,19 @@ body {
 }
 
 @media (max-width: 600px) {
-    .hero-section { padding: 25px 0; }
-    .hero-subhead { font-size: 0.72rem; letter-spacing: 2px; margin-bottom: 6px; }
-    .hero-title-main { font-size: 1.55rem; line-height: 1.25; word-break: break-word; overflow-wrap: break-word; letter-spacing: 0px; }
-    .hero-year-badge { font-size: 1.25rem; padding: 3px 16px; margin: 10px 0; letter-spacing: 2px; }
-    .hero-telugu-chant { font-size: 1.05rem; margin-bottom: 6px; }
-    .hero-tagline { font-size: 0.88rem; margin-bottom: 20px; }
+    .hero-section { padding: 20px 0; }
+    .hero-subhead { font-size: 0.68rem; letter-spacing: 1.5px; margin-bottom: 4px; }
+    .hero-title-main { font-size: 1.25rem; line-height: 1.25; letter-spacing: 0px; word-break: normal; overflow-wrap: normal; }
+    .hero-year-badge { font-size: 1.15rem; padding: 3px 14px; margin: 8px 0; letter-spacing: 2px; }
+    .hero-telugu-chant { font-size: 0.95rem; margin-bottom: 6px; }
+    .hero-tagline { font-size: 0.85rem; margin-bottom: 18px; }
     .hero-cta-group { flex-direction: column; width: 100%; gap: 10px; align-items: center; }
-    .btn-hero-primary, .btn-hero-secondary { width: 100%; max-width: 280px; text-align: center; padding: 12px 18px; font-size: 0.88rem; }
-    .hero-img-box img { max-height: 220px; margin: 0 auto; }
+    .btn-hero-primary, .btn-hero-secondary { width: 100%; max-width: 260px; text-align: center; padding: 10px 16px; font-size: 0.85rem; }
+    .hero-img-box img { max-height: 200px; margin: 0 auto; }
+}
+
+@media (max-width: 380px) {
+    .hero-title-main { font-size: 1.1rem; }
 }
 
 .hero-subhead {
