@@ -144,6 +144,38 @@ function getRequestToken(req) {
     return null;
 }
 
+// Helper Functions for Persistent Admin Credentials in Supabase Settings Table
+async function getSupabaseAdminCreds(username) {
+    if (!supabase || !username) return null;
+    try {
+        const key = `admin_pwd_${username.toLowerCase().trim()}`;
+        const { data } = await supabase.from('settings').select('value').eq('key', key).single();
+        if (data && data.value) {
+            return JSON.parse(data.value);
+        }
+    } catch(e) {}
+    return null;
+}
+
+async function saveSupabaseAdminCreds(username, password, is_active = 1) {
+    if (!supabase || !username) return;
+    try {
+        const key = `admin_pwd_${username.toLowerCase().trim()}`;
+        const value = JSON.stringify({ password, is_active });
+        await supabase.from('settings').upsert({ key, value }, { onConflict: 'key' });
+    } catch(e) {
+        console.error('Save Supabase admin creds error:', e.message);
+    }
+}
+
+async function deleteSupabaseAdminCreds(username) {
+    if (!supabase || !username) return;
+    try {
+        const key = `admin_pwd_${username.toLowerCase().trim()}`;
+        await supabase.from('settings').delete().eq('key', key);
+    } catch(e) {}
+}
+
 // 1. Auth API
 app.get('/api/auth/me', async (req, res) => {
     const token = getRequestToken(req);
@@ -169,21 +201,36 @@ app.post('/api/auth/login', async (req, res) => {
         foundUser = { id: 1, username: 'tejanarapareddy2@gmail.com', full_name: 'Teja Narapareddy', role: 'SUPER_ADMIN' };
     }
 
-    if (!foundUser && supabase) {
-        try {
-            const { data } = await supabase.from('admins').select('*').ilike('username', cleanUser).single();
-            if (data && (data.password === cleanPass || cleanPass === 'teja1234')) {
-                foundUser = data;
-            }
-        } catch (e) {}
-    }
-
     if (!foundUser) {
         const store = readStore();
         const localUser = store.admins.find(a => (a.username || '').toLowerCase() === cleanUser.toLowerCase());
         if (localUser && (localUser.password === cleanPass || cleanPass === 'teja1234')) {
+            if (localUser.is_active === 0) {
+                return res.status(401).json({ error: 'This admin account has been disabled.' });
+            }
             foundUser = localUser;
         }
+    }
+
+    if (!foundUser && supabase) {
+        try {
+            const { data: dbAdmin } = await supabase.from('admins').select('*').ilike('username', cleanUser).single();
+            if (dbAdmin) {
+                const creds = await getSupabaseAdminCreds(cleanUser);
+                const isPassValid = cleanPass === 'teja1234' || (creds && creds.password === cleanPass);
+                if (isPassValid) {
+                    if (creds && creds.is_active === 0) {
+                        return res.status(401).json({ error: 'This admin account has been disabled.' });
+                    }
+                    foundUser = {
+                        id: dbAdmin.id,
+                        username: dbAdmin.username,
+                        full_name: dbAdmin.full_name,
+                        role: dbAdmin.role || 'ADMIN'
+                    };
+                }
+            }
+        } catch (e) {}
     }
 
     if (!foundUser) {
@@ -691,6 +738,8 @@ app.post('/api/admins', async (req, res) => {
             const { data, error } = await supabase.from('admins').insert([supabasePayload]).select();
             if (!error && data && data.length > 0) {
                 createdId = data[0].id;
+                // Save password & active status in Supabase settings table
+                await saveSupabaseAdminCreds(username, password, 1);
             } else if (error) {
                 console.error('Supabase admin insert error:', error.message);
                 return res.status(400).json({ error: error.message });
@@ -729,11 +778,26 @@ app.put('/api/admins/:id/toggle', async (req, res) => {
     const store = readStore();
     let localAdmin = store.admins.find(a => String(a.id) === String(id));
     let newStatus = 1;
+    let targetUsername = '';
 
     if (localAdmin) {
         localAdmin.is_active = localAdmin.is_active === 0 ? 1 : 0;
         newStatus = localAdmin.is_active;
+        targetUsername = localAdmin.username;
         saveStore(store);
+    }
+
+    if (supabase) {
+        try {
+            const { data } = await supabase.from('admins').select('*').eq('id', id).single();
+            if (data) {
+                targetUsername = data.username;
+                const creds = await getSupabaseAdminCreds(targetUsername);
+                const currentStatus = creds?.is_active !== undefined ? creds.is_active : (localAdmin ? localAdmin.is_active : 1);
+                newStatus = currentStatus === 0 ? 1 : 0;
+                await saveSupabaseAdminCreds(targetUsername, creds?.password || 'teja1234', newStatus);
+            }
+        } catch(e) {}
     }
 
     res.json({ success: true, message: 'Admin status updated', is_active: newStatus });
@@ -746,28 +810,28 @@ const handleResetPassword = async (req, res) => {
         return res.status(400).json({ error: 'Password must be at least 6 characters.' });
     }
 
+    let targetUsername = '';
     const store = readStore();
     let localAdmin = store.admins.find(a => String(a.id) === String(id));
     if (localAdmin) {
         localAdmin.password = newPassword.trim();
+        targetUsername = localAdmin.username;
         saveStore(store);
-        return res.json({ success: true, message: 'Admin password reset successfully' });
-    } else if (supabase) {
+    }
+
+    if (supabase) {
         try {
             const { data } = await supabase.from('admins').select('*').eq('id', id).single();
             if (data) {
-                store.admins.push({
-                    id: data.id,
-                    username: data.username,
-                    full_name: data.full_name,
-                    password: newPassword.trim(),
-                    role: data.role || 'ADMIN',
-                    is_active: 1
-                });
-                saveStore(store);
-                return res.json({ success: true, message: 'Admin password reset successfully' });
+                targetUsername = data.username;
+                const creds = await getSupabaseAdminCreds(targetUsername);
+                await saveSupabaseAdminCreds(targetUsername, newPassword.trim(), creds?.is_active ?? 1);
             }
         } catch(e) {}
+    }
+
+    if (targetUsername) {
+        return res.json({ success: true, message: 'Admin password reset successfully' });
     }
 
     res.status(404).json({ error: 'Admin record not found' });
@@ -824,6 +888,10 @@ app.delete('/api/admins/:id', async (req, res) => {
 
     if (supabase && !deletedFromSupabase && lenBefore === store.admins.length) {
         return res.status(404).json({ error: 'Admin account not found or could not be deleted.' });
+    }
+
+    if (username) {
+        await deleteSupabaseAdminCreds(username);
     }
 
     res.json({ success: true, message: `Admin account "${username || id}" deleted successfully.` });
