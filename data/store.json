@@ -1,0 +1,209 @@
+{
+  "settings": {
+    "festival_name": "ANANTHAMPALLI VILLAGE VINAYAKA CHAVITHI 2026",
+    "festival_year": "2026",
+    "village_name": "Ananthampalli Village",
+    "main_location": "Ananthampalli Main Temple Street Mandap",
+    "contact_person": "Teja Narapareddy",
+    "contact_number": "+91 76709 87767",
+    "developer_contact": "7330863893",
+    "developer_whatsapp": "7330863893",
+    "developer_credit": "KLIVOO NEXT GEN CRMS (A TENSPICK INITIATIVE)",
+    "public_financial_summary": "ON",
+    "public_expenses_detail": "ON",
+    "donator_privacy_default": "PUBLIC",
+    "whatsapp_country_code": "91",
+    "currency_symbol": "₹",
+    "receipt_prefix": "AVVC-2026-",
+    "festival_start_date": "2026-09-14",
+    "receipt_footer_text": "DESIGNED AND DEVELOPED PROUDLY IN ANANTHAMPALLI BY KLIVOO NEXT GEN CRMS (A TENSPICK INITIATIVE) • Contact Developer: 7330863893 — WhatsApp Only"
+  },
+  "admins": [
+    {
+      "id": 1,
+      "username": "tejanarapareddy2@gmail.com",
+      "full_name": "Teja Narapareddy",
+      "role": "SUPER_ADMIN"
+    }
+  ],
+  "donations": [
+    {
+      "id": 1,
+      "receipt_number": "AVVC-2026-0001",
+      "donor_name": "Rama Krishnam Raju",
+      "mobile": "7670987767",
+      "amount": 10000,
+      "payment_method": "UPI",
+      "sponsorship_title": "Maha Annadanam & Sports Tournament Chief Sponsor",
+      "date": "2026-09-01",
+      "collected_by": "Teja Narapareddy",
+      "is_public": 1
+    },
+    {
+      "id": 2,
+      "receipt_number": "AVVC-2026-0002",
+      "donor_name": "dew",
+      "mobile": "eewdd",
+      "amount": 999,
+      "payment_method": "Cash",
+      "sponsorship_title": "",
+      "date": "2026-09-03",
+      "collected_by": "Admin",
+      "is_public": 1
+    }
+  ],
+  "events": [
+    {
+      "id": 1,
+      "title": "Grand Ganesha Sthapana & Maha Pooja",
+      "event_name": "Grand Ganesha Sthapana & Maha Pooja",
+      "event_date": "2026-09-14",
+      "date": "2026-09-14",
+      "event_time": "08:00 AM",
+      "start_time": "08:00 AM",
+      "end_time": "12:00 PM",
+      "description": "Prana Pratishtha rituals followed by 108 Kalasha Abhishekam and Special Alankaram.",
+      "location": "Ananthampalli Main Mandap",
+      "status": "UPCOMING"
+    },
+    {
+      "id": 2,
+      "title": "Cultural Evening & Bhakti Sangeet",
+      "event_name": "Cultural Evening & Bhakti Sangeet",
+      "event_date": "2026-09-15",
+      "date": "2026-09-15",
+      "event_time": "06:30 PM",
+      "start_time": "06:30 PM",
+      "end_time": "09:30 PM",
+      "description": "Traditional Kolatam dance by village youth & Devotional Songs Concert.",
+      "location": "Temple Open Ground",
+      "status": "UPCOMING"
+    },
+    {
+      "id": 3,
+      "title": "fds",
+      "event_date": "2026-09-14",
+      "start_time": "swss",
+      "end_time": "ss",
+      "location": "Ananthampalli Main Mandap",
+      "category": "Pooja",
+      "description": ""
+    },
+    {
+      "id": 4,
+      "title": "fds",
+      "event_date": "2026-09-14",
+      "start_time": "swss",
+      "end_time": "ss",
+      "location": "Ananthampalli Main Mandap",
+      "category": "Pooja",
+      "description": ""
+    }
+  ],
+  "food": [
+    {
+      "id": 1,
+      "title": "Grand Maha Annadanam (Lunch)",
+      "meal_type": "Grand Maha Annadanam (Lunch)",
+      "date": "2026-09-14",
+      "start_time": "12:00 PM",
+      "end_time": "04:00 PM",
+      "location": "MAIN MANDAP HALL",
+      "status": "CONFIRMED",
+      "description": "Food offered with devotion. Served with love to all villagers and visitors.",
+      "menu": "Steamed Rice, Sambar, Pulihora, Curd, Sweet Boondi & Papad",
+      "items": "Steamed Rice, Sambar, Pulihora, Curd, Sweet Boondi & Papad",
+      "servings": "2000+ Devotees",
+      "sponsor": "Rama Krishnam Raju"
+    }
+  ],
+  "expenses": [
+    {
+      "id": 1,
+      "category": "Mandap & Lighting",
+      "amount": 3500,
+      "description": "Decorative flowers and LED serial lights for Mandap",
+      "date": "2026-09-02",
+      "recorded_by": "Teja Narapareddy"
+    }
+  ],
+  "competitions": [
+    {
+      "id": 1,
+      "game_name": "Village Cricket Championship",
+      "category": "Sports",
+      "captain_name": "Rama Krishnam Raju",
+      "team_members": "Rama Krishnam Raju (C), Sunny, Teja, Suresh, Mahesh, Shiva, Anil",
+      "winner_name": "Ananthampalli Super Kings (Captain: Rama Krishnam Raju)",
+      "runner_name": "Mandap Warriors (Captain: Sunny Goud)",
+      "sponsor": "Rama Krishnam Raju",
+      "event_date": "2026-09-14",
+      "status": "COMPLETED"
+    },
+    {
+      "id": 2,
+      "game_name": "Village Tug of War (Thadu Lagata)",
+      "category": "Sports",
+      "captain_name": "Sunny Goud",
+      "team_members": "Sunny (C), Venkat, Naresh, Rajesh, Teja",
+      "winner_name": "Temple Street Champions",
+      "runner_name": "Bappa Youth Club",
+      "sponsor": "Rama Krishnam Raju",
+      "event_date": "2026-09-15",
+      "status": "COMPLETED"
+    },
+    {
+      "id": 3,
+      "game_name": "Shuttle Badminton Tournament",
+      "category": "Sports",
+      "captain_name": "Rama Krishnam Raju",
+      "winner_name": "Raju & Teja Duo",
+      "sponsor": "Rama Krishnam Raju"
+    }
+  ],
+  "notifications": [
+    {
+      "id": 6,
+      "title": "🗑️ Admin Deleted",
+      "message": "Admin account \"e2etest_admin@test.com\" was deleted by Super Admin",
+      "type": "ADMIN",
+      "created_at": "2026-09-04T06:00:08.263Z"
+    },
+    {
+      "id": 5,
+      "title": "👤 New Admin Added",
+      "message": "New admin account \"e2etest_admin@test.com\" was created (ADMIN)",
+      "type": "ADMIN",
+      "created_at": "2026-09-04T06:00:07.848Z"
+    },
+    {
+      "id": 4,
+      "title": "🔥 Special Laddu Auction Tonight!",
+      "message": "Grand Laddu Auction will take place tonight at 9:00 PM at Main Mandap.",
+      "type": "EVENT",
+      "created_at": "2026-09-03T17:02:28.499Z"
+    },
+    {
+      "id": 3,
+      "title": "🏆 Competition & Winner Announcement",
+      "message": "Shuttle Badminton Tournament - Winner: Raju & Teja Duo (Captain: Rama Krishnam Raju)",
+      "type": "COMPETITION",
+      "created_at": "2026-09-03T16:48:50.518Z"
+    },
+    {
+      "id": 1,
+      "title": "🏆 Sports Winner Announced",
+      "message": "Ananthampalli Super Kings won 1st Place in Village Cricket Tournament (Captain: Rama Krishnam Raju)",
+      "type": "COMPETITION",
+      "created_at": "2026-09-03T21:40:00.000Z"
+    },
+    {
+      "id": 2,
+      "title": "🍲 Annadanam Schedule",
+      "message": "Maha Annadanam on 2026-09-14 at Main Mandap Hall sponsored by Rama Krishnam Raju",
+      "type": "FOOD",
+      "created_at": "2026-09-03T21:30:00.000Z"
+    }
+  ],
+  "audit_logs": []
+}

@@ -51,6 +51,11 @@
                     </a>
                 </li>
                 <li class="sidebar-nav-item">
+                    <a href="#" class="sidebar-nav-link" data-tab="tabCompetitions">
+                        🏆 Competitions & Winners
+                    </a>
+                </li>
+                <li class="sidebar-nav-item">
                     <a href="#" class="sidebar-nav-link" data-tab="tabSettings">
                         ⚙️ Festival Settings
                     </a>
@@ -87,6 +92,7 @@
                 </div>
 
                 <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                    <button class="btn-admin" id="btnBroadcastModalBtn" style="background: var(--accent-crimson); color: #FFF;">📢 Broadcast Announcement</button>
                     <span class="user-badge" id="adminUserBadge">Logged in: admin</span>
                     <a href="../index.html" class="btn-admin" style="background: var(--primary-saffron); color: #FFF; text-decoration: none;" target="_blank">
                         🌐 View Public Site
@@ -194,7 +200,7 @@
                         <h2 style="color: var(--accent-crimson); font-size: 1.6rem; font-weight: 800;">💰 Chandaa & Sponsorship Collections</h2>
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                             <button class="btn-admin" id="btnAddDonationModalBtn">➕ Collect New Chandaa</button>
-                            <a href="/api/export/donations" class="btn-admin btn-admin-success" target="_blank">📥 Export CSV</a>
+                            <button class="btn-admin btn-admin-success" id="btnExportCSV">📥 Export CSV</button>
                         </div>
                     </div>
 
@@ -345,6 +351,37 @@
                             </thead>
                             <tbody id="adminsTableBody">
                                 <tr><td colspan="6" style="text-align:center;">Loading admin accounts...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB: COMPETITIONS & SPORTS WINNERS -->
+            <div class="tab-panel" id="tabCompetitions">
+                <div class="glass-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+                        <h2 style="color: var(--accent-crimson); font-size: 1.6rem; font-weight: 800;">🏆 Sports & Event Winners Management</h2>
+                        <button class="btn-admin" id="btnAddCompetitionModalBtn" style="background: var(--accent-crimson); color: #FFF;">🏆 + Add Game / Winner Record</button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Game / Competition</th>
+                                    <th>Category</th>
+                                    <th>Captain</th>
+                                    <th>Team Members</th>
+                                    <th>🥇 Winner (1st)</th>
+                                    <th>🥈 Runner Up (2nd)</th>
+                                    <th>Sponsor</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="competitionsTableBody">
+                                <tr><td colspan="9" style="text-align:center;">Loading sports & competition records...</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -600,19 +637,45 @@
                 <button class="btn-admin" onclick="window.print()" style="background: #1D4ED8; color: #FFF;">
                     🖨️ PRINT RECEIPT
                 </button>
-                <button class="btn-admin" id="btnWaShareImage" style="background: #25D366; color: #FFF;">
-                    📱 SHARE IMAGE ON WHATSAPP
-                </button>
+                <a id="btnWaDirectSend" href="#" target="_blank" class="btn-admin" style="background: #25D366; color: #FFF; text-decoration: none; font-weight: bold;">
+                    💬 SEND DIRECT WHATSAPP RECEIPT
+                </a>
                 <button class="btn-admin" id="btnDownloadImage" style="background: #059669; color: #FFF;">
                     🖼️ DOWNLOAD RECEIPT IMAGE
                 </button>
                 <button class="btn-admin" id="btnEditReceiptInModal" style="background: #D97706; color: #FFF;">
                     ✏️ EDIT RECEIPT
                 </button>
-                <a id="btnWaShareLink" href="#" target="_blank" class="btn-admin" style="background: #15803D; color: #FFF; text-decoration: none; display: none;">
-                    💬 TEXT WHATSAPP
-                </a>
             </div>
+        </div>
+    </div>
+
+    <!-- Modal 7: Broadcast Live Announcement -->
+    <div class="admin-modal-overlay" id="modalBroadcast">
+        <div class="admin-modal-card">
+            <button class="modal-close" onclick="closeAdminModal('modalBroadcast')">&times;</button>
+            <h2 style="color: var(--accent-crimson); margin-bottom: 20px;">📢 Broadcast Live Announcement</h2>
+            <form id="formBroadcast">
+                <div class="form-group">
+                    <label>Announcement Title *</label>
+                    <input type="text" class="form-control" id="broadTitle" required placeholder="e.g. Special Pooja Update, Laddu Auction Tonight">
+                </div>
+                <div class="form-group">
+                    <label>Category / Type</label>
+                    <select class="form-control" id="broadType">
+                        <option value="GENERAL">📢 General Announcement</option>
+                        <option value="EVENT">📅 Festival Program</option>
+                        <option value="FOOD">🍲 Annadanam Update</option>
+                        <option value="COMPETITION">🏆 Sports Winner</option>
+                        <option value="DONATION">🪔 Chandaa Update</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Announcement Message / Details *</label>
+                    <textarea class="form-control" id="broadMessage" rows="3" required placeholder="Type details to display live in visitors' notification bell..."></textarea>
+                </div>
+                <button type="submit" class="btn-admin" style="width:100%; padding:12px; background:var(--accent-crimson); color:#FFF;">🚀 BROADCAST TO WEBSITE NOTIFICATIONS</button>
+            </form>
         </div>
     </div>
 
@@ -734,6 +797,54 @@
                     <input type="number" class="form-control" id="foodServings" placeholder="e.g. 1500">
                 </div>
                 <button type="submit" class="btn-admin" style="width:100%; padding:12px;">💾 SAVE ANNADANAM SCHEDULE</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal 6: Add/Edit Competition & Winners -->
+    <div class="admin-modal-overlay" id="modalCompetition">
+        <div class="admin-modal-card">
+            <button class="modal-close" onclick="closeAdminModal('modalCompetition')">&times;</button>
+            <h2 style="color: var(--accent-crimson); margin-bottom: 20px;">🏆 Sports & Event Winners Form</h2>
+            <form id="formCompetition">
+                <input type="hidden" id="compId">
+                <div class="form-group">
+                    <label>Game / Competition Name *</label>
+                    <input type="text" class="form-control" id="compGameName" required placeholder="e.g. Village Cricket Championship, Rangoli, Tug of War">
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select class="form-control" id="compCategory">
+                        <option value="Sports">Sports & Games</option>
+                        <option value="Cultural">Cultural & Arts</option>
+                        <option value="Youth">Youth & Children</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Captain Name / Participant</label>
+                    <input type="text" class="form-control" id="compCaptain" placeholder="e.g. Rama Krishnam Raju">
+                </div>
+                <div class="form-group">
+                    <label>Team Members List</label>
+                    <textarea class="form-control" id="compTeamMembers" rows="2" placeholder="e.g. Raju (C), Sunny, Teja, Suresh, Mahesh, Shiva, Anil"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>🥇 Winner Name (1st Place / Champion)</label>
+                    <input type="text" class="form-control" id="compWinner" placeholder="e.g. Ananthampalli Super Kings (Captain: Rama Krishnam Raju)">
+                </div>
+                <div class="form-group">
+                    <label>🥈 Runner Up Name (2nd Place)</label>
+                    <input type="text" class="form-control" id="compRunner" placeholder="e.g. Mandap Warriors (Captain: Sunny Goud)">
+                </div>
+                <div class="form-group">
+                    <label>Sponsor / Organized By</label>
+                    <input type="text" class="form-control" id="compSponsor" placeholder="e.g. Rama Krishnam Raju">
+                </div>
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" class="form-control" id="compDate">
+                </div>
+                <button type="submit" class="btn-admin" style="width:100%; padding:12px; background:var(--accent-crimson); color:#FFF;">💾 SAVE COMPETITION & WINNERS</button>
             </form>
         </div>
     </div>

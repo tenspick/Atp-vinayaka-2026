@@ -34,7 +34,10 @@
                 <li><a href="contact.html" class="nav-link">CONTACT</a></li>
             </ul>
 
-            <div class="nav-actions">
+            <div class="nav-actions" style="display:flex; align-items:center; gap:10px;">
+                <div class="notif-bell-wrap" id="notifBellBtn" title="Live Festival Updates" style="position:relative; cursor:pointer; font-size:1.3rem; padding:6px 12px; background:#FEF3C7; border-radius:20px; border:2px solid var(--primary-saffron); display:flex; align-items:center; gap:4px;">
+                    🔔 <span id="notifBadge" style="background:var(--accent-crimson); color:#FFF; font-size:0.75rem; font-weight:800; border-radius:10px; padding:2px 7px; margin-left:2px;">0</span>
+                </div>
                 <a href="donate.html" class="btn-nav-donate">🪔 DONATE NOW</a>
                 <a href="/admin/login.html" class="btn-nav-admin">👤 ADMIN LOGIN</a>
             </div>
@@ -42,6 +45,22 @@
             <div class="hamburger" id="hamburgerBtn">☰</div>
         </div>
     </nav>
+
+    <!-- Live Updates Notification Drawer Modal -->
+    <div class="notif-drawer-overlay" id="notifDrawer" style="display:none; position:fixed; top:0; right:0; bottom:0; left:0; z-index:99999; background:rgba(0,0,0,0.5); backdrop-filter:blur(3px);">
+        <div style="position:absolute; top:75px; right:20px; max-width:420px; width:92%; background:#FFF; border-radius:16px; border:3px solid var(--primary-saffron); box-shadow:0 10px 30px rgba(0,0,0,0.25); overflow:hidden;">
+            <div style="background:linear-gradient(135deg, var(--accent-crimson), var(--saffron-dark)); color:#FFF; padding:15px 20px; display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="margin:0; font-size:1.1rem; font-weight:800;">🔔 Live Festival Announcements</h3>
+                <button id="closeNotifBtn" style="background:none; border:none; color:#FFF; font-size:1.4rem; cursor:pointer;">&times;</button>
+            </div>
+            <div id="notifListContainer" style="max-height:380px; overflow-y:auto; padding:15px;">
+                <p style="text-align:center; color:var(--text-muted);">Loading announcements...</p>
+            </div>
+            <div style="padding:10px 15px; background:#F9FAFB; text-align:center; border-top:1px solid #E5E7EB;">
+                <button id="btnClearNotifBadge" style="background:none; border:none; color:var(--accent-crimson); font-weight:800; cursor:pointer; font-size:0.85rem;">Mark all as read ✓</button>
+            </div>
+        </div>
+    </div>
 
     <!-- Clean White Hero Section -->
     <section class="hero-section">
@@ -260,6 +279,12 @@
                         KRISHNAM RAJU (BABU)</div>
                 </div>
 
+                <div class="donator-pill-card" style="border: 2px solid #059669; background: #ECFDF5;">
+                    <span class="donator-sponsorship-badge" style="background: #059669; color: #FFF;">🚀 TECHNICAL & SOCIAL MEDIA SPONSORS</span>
+                    <div class="donator-icon">💻</div>
+                    <div class="donator-name" style="margin-top: 8px; font-weight: 800; color: #065F46;">TENSPICK TECHNOLOGIES AND TEJA NARAPA REDDY</div>
+                </div>
+
                 <div class="donator-pill-card" style="border: 2px solid var(--primary-saffron); background: #FFFBEB;">
                     <span class="donator-sponsorship-badge" style="background: var(--saffron-dark);">🍛 2ND DAY FOOD
                         DONATION BY</span>
@@ -311,6 +336,22 @@
                         <div class="lbl">CURRENT BALANCE</div>
                         <div class="val" id="valAvailableBalance" style="color: #059669;">₹ --</div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sports Competitions & Event Winners Section -->
+    <section style="padding: 50px 0; background: #FFFBEB; border-top: 2px solid var(--primary-saffron); border-bottom: 2px solid var(--primary-saffron);">
+        <div class="container">
+            <div class="section-label-ornate">🏆 FESTIVAL COMPETITIONS & GAMES</div>
+            <h2 style="font-size: 2.2rem; font-weight: 800; text-align: center; color: var(--accent-crimson); margin-bottom: 25px;">
+                SPORTS & COMPETITION WINNERS
+            </h2>
+
+            <div id="homeCompetitionsContainer">
+                <div class="glass-card" style="text-align:center;">
+                    <p style="color:var(--text-muted);">Loading competition winners...</p>
                 </div>
             </div>
         </div>
@@ -531,6 +572,32 @@
                             </div>
                         `).join('');
                     }
+                }
+            } catch(e){}
+
+            // 5. Live Sports & Competitions Showcase
+            try {
+                const compRes = await fetch('/api/competitions');
+                const compData = await compRes.json();
+                const compContainer = document.getElementById('homeCompetitionsContainer');
+                if (compContainer && compData.competitions && compData.competitions.length > 0) {
+                    compContainer.innerHTML = compData.competitions.map(c => `
+                        <div class="glass-card" style="border-left: 5px solid var(--accent-crimson); margin-bottom: 20px; background: #FFFFFF;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom: 12px; border-bottom: 1px solid #F3F4F6; padding-bottom: 8px;">
+                                <h3 style="color: var(--accent-crimson); font-weight: 800; font-size: 1.4rem;">🏆 ${c.game_name}</h3>
+                                <span style="background: #FEF3C7; color: var(--saffron-dark); font-weight: 800; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">${c.category || 'Sports'}</span>
+                            </div>
+                            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 12px; font-size: 0.98rem; background: #FFFBEB; padding: 15px; border-radius: 10px;">
+                                <div>👤 <strong>CAPTAIN:</strong> ${c.captain_name || 'N/A'}</div>
+                                <div>👥 <strong>TEAM:</strong> ${c.team_members || 'N/A'}</div>
+                                <div>🥇 <strong style="color: green;">WINNER (1st):</strong> ${c.winner_name || 'TBA'}</div>
+                                <div>🥈 <strong style="color: #D97706;">RUNNER (2nd):</strong> ${c.runner_name || 'TBA'}</div>
+                            </div>
+                            ${c.sponsor ? `<div style="color: var(--accent-crimson); font-weight: 800; font-size: 0.95rem;">🙏 ORGANIZER / SPONSOR: ${c.sponsor}</div>` : ''}
+                        </div>
+                    `).join('');
+                } else if (compContainer) {
+                    compContainer.innerHTML = '<div class="glass-card" style="text-align:center;"><p style="color:var(--text-muted);">Sports & Event winners will be announced soon.</p></div>';
                 }
             } catch(e){}
         }

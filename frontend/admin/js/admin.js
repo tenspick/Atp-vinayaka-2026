@@ -104,6 +104,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     const btnAddAdmin = document.getElementById('btnAddAdminModalBtn');
     if (btnAddAdmin) btnAddAdmin.addEventListener('click', promptCreateAdmin);
 
+    const btnAddComp = document.getElementById('btnAddCompetitionModalBtn');
+    if (btnAddComp) btnAddComp.addEventListener('click', openAddCompetitionModal);
+
+    const btnExport = document.getElementById('btnExportCSV');
+    if (btnExport) btnExport.addEventListener('click', exportDonationsCSV);
+
+    const btnBroadcast = document.getElementById('btnBroadcastModalBtn');
+    if (btnBroadcast) btnBroadcast.addEventListener('click', () => openAdminModal('modalBroadcast'));
+
     // Form Event Listeners
     const formDonation = document.getElementById('formDonation');
     if (formDonation) formDonation.addEventListener('submit', handleSaveDonation);
@@ -116,6 +125,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const formFood = document.getElementById('formFood');
     if (formFood) formFood.addEventListener('submit', handleSaveFood);
+
+    const formComp = document.getElementById('formCompetition');
+    if (formComp) formComp.addEventListener('submit', handleSaveCompetition);
+
+    const formBroad = document.getElementById('formBroadcast');
+    if (formBroad) formBroad.addEventListener('submit', handleBroadcastAnnouncement);
 
     const formSettings = document.getElementById('settingsForm');
     if (formSettings) formSettings.addEventListener('submit', handleSaveSettings);
@@ -150,6 +165,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadEvents();
     loadFood();
     loadExpenses();
+    loadCompetitions();
     loadSettings();
 });
 
@@ -201,6 +217,10 @@ function switchTab(tabId, targetLink = null) {
     if (window.innerWidth <= 992) {
         const adminSidebar = document.getElementById('adminSidebar');
         if (adminSidebar) adminSidebar.classList.remove('active');
+    }
+
+    if (tabId === 'tabCompetitions' && typeof loadCompetitions === 'function') {
+        loadCompetitions();
     }
 
     // Refresh tab-specific data
@@ -412,13 +432,12 @@ async function viewReceipt(id) {
 
 function showReceiptModal(donation, whatsappUrl) {
     window.CURRENT_DONATION = donation;
-    window.CURRENT_WA_URL = whatsappUrl;
 
     document.getElementById('recReceiptNo').textContent = donation.receipt_number;
     document.getElementById('recDate').textContent = donation.date;
     document.getElementById('recDonorName').textContent = donation.donor_name;
     document.getElementById('recMobile').textContent = donation.mobile;
-    document.getElementById('recMethod').textContent = donation.payment_method;
+    document.getElementById('recMethod').textContent = donation.payment_method || 'Cash';
 
     let collectorName = donation.collected_by || 'Surya Mohan Reddy';
     if (collectorName.includes('@')) {
@@ -427,9 +446,13 @@ function showReceiptModal(donation, whatsappUrl) {
     document.getElementById('recCollectedBy').textContent = collectorName;
     document.getElementById('recAmount').textContent = '₹ ' + Number(donation.amount).toLocaleString('en-IN');
 
-    const waBtn = document.getElementById('btnWaShareLink');
-    if (waBtn && whatsappUrl) {
-        waBtn.href = whatsappUrl;
+    const cleanMobile = (donation.mobile || '').replace(/\D/g, '');
+    const waPhone = cleanMobile.length === 10 ? '91' + cleanMobile : cleanMobile;
+    const textMsg = encodeURIComponent(`🕉️ *ANANTHAMPALLI VILLAGE VINAYAKA CHAVITHI 2026*\n\n*CHANDAA DONATION RECEIPT*\n\n🧾 *Receipt No:* ${donation.receipt_number}\n📅 *Date:* ${donation.date}\n👤 *Donor Name:* ${donation.donor_name}\n📞 *Mobile:* ${donation.mobile}\n💳 *Payment Method:* ${donation.payment_method || 'Cash'}\n👥 *Collected By:* ${collectorName}\n\n💰 *CONTRIBUTION AMOUNT RECEIVED:* ₹${Number(donation.amount).toLocaleString('en-IN')}\n\n🙏 *Thank you for your generous contribution towards our village festival celebrations.*\n\n" *GANAPATHI BAPPA MORYA!* 🙏 "`);
+    
+    const directWaBtn = document.getElementById('btnWaDirectSend');
+    if (directWaBtn) {
+        directWaBtn.href = `https://wa.me/${waPhone}?text=${textMsg}`;
     }
 
     openAdminModal('modalReceiptView');
@@ -1006,3 +1029,151 @@ async function loadAuditLogs() {
         }
     } catch(e){}
 }
+
+/* 9. Competitions & Sports Winners Module */
+function openAddCompetitionModal() {
+    const form = document.getElementById('formCompetition');
+    if (form) form.reset();
+    document.getElementById('compId').value = '';
+    openAdminModal('modalCompetition');
+}
+
+async function editCompetition(id) {
+    try {
+        const res = await fetch(`/api/competitions/${id}`);
+        const data = await res.json();
+        if (!data.competition) return alert('Competition record not found');
+
+        const c = data.competition;
+        document.getElementById('compId').value = c.id;
+        document.getElementById('compGameName').value = c.game_name || '';
+        document.getElementById('compCategory').value = c.category || 'Sports';
+        document.getElementById('compCaptain').value = c.captain_name || '';
+        document.getElementById('compTeamMembers').value = c.team_members || '';
+        document.getElementById('compWinner').value = c.winner_name || '';
+        document.getElementById('compRunner').value = c.runner_name || '';
+        document.getElementById('compSponsor').value = c.sponsor || '';
+        document.getElementById('compDate').value = c.event_date || '';
+
+        openAdminModal('modalCompetition');
+    } catch(err) {
+        alert('Error fetching competition details');
+    }
+}
+
+async function handleSaveCompetition(e) {
+    e.preventDefault();
+    const id = document.getElementById('compId').value;
+    const payload = {
+        game_name: document.getElementById('compGameName').value.trim(),
+        category: document.getElementById('compCategory').value,
+        captain_name: document.getElementById('compCaptain').value.trim(),
+        team_members: document.getElementById('compTeamMembers').value.trim(),
+        winner_name: document.getElementById('compWinner').value.trim(),
+        runner_name: document.getElementById('compRunner').value.trim(),
+        sponsor: document.getElementById('compSponsor').value.trim(),
+        event_date: document.getElementById('compDate').value
+    };
+
+    const method = id ? 'PUT' : 'POST';
+    const url = id ? `/api/competitions/${id}` : '/api/competitions';
+
+    try {
+        const res = await fetch(url, {
+            method,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (res.ok) {
+            closeAdminModal('modalCompetition');
+            loadCompetitions();
+        } else {
+            alert(data.error || 'Failed to save competition record.');
+        }
+    } catch(err) {
+        alert('Server error saving competition record.');
+    }
+}
+
+async function loadCompetitions() {
+    try {
+        const res = await fetch('/api/competitions');
+        const data = await res.json();
+        const tbody = document.getElementById('competitionsTableBody');
+        if (!tbody) return;
+
+        if (data.competitions && data.competitions.length > 0) {
+            tbody.innerHTML = data.competitions.map(c => `
+                <tr>
+                    <td><strong style="color:var(--accent-crimson);">${c.game_name}</strong></td>
+                    <td><span style="background:#FEF3C7; color:var(--saffron-dark); padding:2px 8px; border-radius:4px; font-weight:800; font-size:0.8rem;">${c.category || 'Sports'}</span></td>
+                    <td><strong>${c.captain_name || 'N/A'}</strong></td>
+                    <td><small style="color:var(--text-sub);">${c.team_members || 'N/A'}</small></td>
+                    <td><strong style="color:green;">🥇 ${c.winner_name || 'TBA'}</strong></td>
+                    <td><strong style="color:#D97706;">🥈 ${c.runner_name || 'TBA'}</strong></td>
+                    <td><strong>${c.sponsor || 'Village Committee'}</strong></td>
+                    <td>${c.event_date || '--'}</td>
+                    <td>
+                        <div style="display:flex; gap:4px;">
+                            <button class="btn-admin" onclick="editCompetition(${c.id})" style="padding:4px 8px; font-size:0.8rem; background:#D97706; color:#FFF;">✏️ Edit</button>
+                            <button class="btn-admin btn-admin-danger" onclick="deleteCompetition(${c.id})" style="padding:4px 8px; font-size:0.8rem;">🗑️</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        } else {
+            tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;">No competition/winner records added yet.</td></tr>';
+        }
+    } catch(e){}
+}
+
+async function deleteCompetition(id) {
+    if (!confirm('Are you sure you want to delete this competition record?')) return;
+    try {
+        const res = await fetch(`/api/competitions/${id}`, { method: 'DELETE' });
+        if (res.ok) {
+            loadCompetitions();
+        } else {
+            alert('Failed to delete competition record.');
+        }
+    } catch(e) {
+        alert('Server error deleting competition record.');
+    }
+}
+
+function exportDonationsCSV() {
+    window.location.href = '/api/export/donations';
+}
+
+async function handleBroadcastAnnouncement(e) {
+    e.preventDefault();
+    const title = document.getElementById('broadTitle').value.trim();
+    const type = document.getElementById('broadType').value;
+    const message = document.getElementById('broadMessage').value.trim();
+
+    try {
+        const res = await fetch('/api/notifications', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ title, type, message })
+        });
+        const data = await res.json();
+        if (res.ok) {
+            alert('🚀 Announcement broadcast live to website visitors!');
+            closeAdminModal('modalBroadcast');
+            document.getElementById('formBroadcast').reset();
+        } else {
+            alert(data.error || 'Failed to broadcast announcement.');
+        }
+    } catch(err) {
+        alert('Server error broadcasting announcement.');
+    }
+}
+
+// Global window exposure
+window.openAddCompetitionModal = openAddCompetitionModal;
+window.editCompetition = editCompetition;
+window.deleteCompetition = deleteCompetition;
+window.loadCompetitions = loadCompetitions;
+window.exportDonationsCSV = exportDonationsCSV;

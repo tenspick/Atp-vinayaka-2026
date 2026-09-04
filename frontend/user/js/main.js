@@ -29,7 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // 4. Load Festival Settings globally
     loadGlobalSettings();
 
-    // 5. Toast helper
+    // 5. Initialize Notification Bell
+    initNotificationBell();
+
+    // 6. Toast helper
     window.showToast = function (message, isError = false) {
         let toast = document.getElementById('appToast');
         if (!toast) {
@@ -52,6 +55,85 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3500);
     };
 });
+
+/* 6. Notifications Bell & Updates System */
+async function loadNotifications() {
+    try {
+        const res = await fetch('/api/notifications');
+        const data = await res.json();
+        const badge = document.getElementById('notifBadge');
+        const container = document.getElementById('notifListContainer');
+
+        if (data.notifications && data.notifications.length > 0) {
+            const lastSeenCount = localStorage.getItem('AVVC_NOTIF_READ_COUNT') || 0;
+            const unreadCount = Math.max(0, data.notifications.length - parseInt(lastSeenCount));
+            if (badge) {
+                badge.textContent = unreadCount;
+                badge.style.display = unreadCount > 0 ? 'inline-block' : 'none';
+            }
+
+            if (container) {
+                container.innerHTML = data.notifications.map(n => {
+                    let icon = '📢';
+                    if (n.type === 'DONATION') icon = '🪔';
+                    else if (n.type === 'EVENT') icon = '📅';
+                    else if (n.type === 'FOOD') icon = '🍲';
+                    else if (n.type === 'COMPETITION') icon = '🏆';
+
+                    return `
+                        <div style="padding:12px; margin-bottom:10px; background:#FFFBEB; border-left:4px solid var(--accent-crimson); border-radius:8px; font-size:0.9rem;">
+                            <div style="font-weight:800; color:var(--accent-crimson); margin-bottom:4px;">${icon} ${n.title}</div>
+                            <div style="color:var(--text-main); font-weight:500;">${n.message}</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;">${new Date(n.created_at || Date.now()).toLocaleString()}</div>
+                        </div>
+                    `;
+                }).join('');
+            }
+        } else if (container) {
+            container.innerHTML = '<p style="text-align:center; color:var(--text-muted);">No notifications yet.</p>';
+        }
+    } catch(e){}
+}
+
+function initNotificationBell() {
+    const bellBtn = document.getElementById('notifBellBtn');
+    const drawer = document.getElementById('notifDrawer');
+    const closeBtn = document.getElementById('closeNotifBtn');
+    const clearBtn = document.getElementById('btnClearNotifBadge');
+
+    if (bellBtn && drawer) {
+        bellBtn.addEventListener('click', () => {
+            drawer.style.display = drawer.style.display === 'none' || !drawer.style.display ? 'block' : 'none';
+            loadNotifications();
+        });
+    }
+
+    if (closeBtn && drawer) {
+        closeBtn.addEventListener('click', () => { drawer.style.display = 'none'; });
+    }
+
+    if (drawer) {
+        drawer.addEventListener('click', (e) => {
+            if (e.target === drawer) drawer.style.display = 'none';
+        });
+    }
+
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            fetch('/api/notifications')
+                .then(r => r.json())
+                .then(d => {
+                    const count = d.notifications ? d.notifications.length : 0;
+                    localStorage.setItem('AVVC_NOTIF_READ_COUNT', count);
+                    const badge = document.getElementById('notifBadge');
+                    if (badge) badge.style.display = 'none';
+                });
+        });
+    }
+
+    loadNotifications();
+    setInterval(loadNotifications, 10000);
+}
 
 async function loadGlobalSettings() {
     try {
