@@ -636,19 +636,35 @@ app.delete('/api/expenses/:id', async (req, res) => {
 
 // 9. Admins API
 app.get('/api/admins', async (req, res) => {
+    const store = readStore();
+    let adminsList = [...store.admins];
+
     if (supabase) {
         try {
             const { data } = await supabase.from('admins').select('*').order('id', { ascending: true });
-            if (data) {
-                const formatted = data.map(a => ({ ...a, is_active: a.is_active !== undefined ? a.is_active : 1 }));
-                return res.json({ success: true, admins: formatted });
+            if (data && data.length > 0) {
+                data.forEach(dbAdmin => {
+                    const matched = adminsList.find(a => (a.username || '').toLowerCase() === (dbAdmin.username || '').toLowerCase());
+                    if (!matched) {
+                        adminsList.push({
+                            id: dbAdmin.id,
+                            username: dbAdmin.username,
+                            full_name: dbAdmin.full_name,
+                            role: dbAdmin.role || 'ADMIN',
+                            is_active: 1
+                        });
+                    } else {
+                        matched.id = dbAdmin.id;
+                        matched.full_name = dbAdmin.full_name || matched.full_name;
+                        matched.role = dbAdmin.role || matched.role;
+                    }
+                });
             }
         } catch (e) {
             console.error('Supabase fetch admins error:', e.message);
         }
     }
-    const store = readStore();
-    res.json({ success: true, admins: store.admins });
+    res.json({ success: true, admins: adminsList });
 });
 
 app.post('/api/admins', async (req, res) => {
@@ -661,27 +677,21 @@ app.post('/api/admins', async (req, res) => {
     const full_name = (req.body.full_name || req.body.username || '').trim();
     const role = req.body.role || 'ADMIN';
 
-    // Payload for Supabase (without is_active since Supabase admins table doesn't have is_active column)
+    // Payload for Supabase (only existing schema columns: username, full_name, role)
     const supabasePayload = {
         username,
         full_name,
-        password,
         role
     };
+
+    let createdId = null;
 
     if (supabase) {
         try {
             const { data, error } = await supabase.from('admins').insert([supabasePayload]).select();
             if (!error && data && data.length > 0) {
-                const createdAdmin = { ...data[0], is_active: 1 };
-                const store = readStore();
-                if (!store.admins.some(a => (a.username || '').toLowerCase() === username.toLowerCase())) {
-                    store.admins.push(createdAdmin);
-                    saveStore(store);
-                }
-                return res.status(201).json({ success: true, admin: createdAdmin });
-            }
-            if (error) {
+                createdId = data[0].id;
+            } else if (error) {
                 console.error('Supabase admin insert error:', error.message);
                 return res.status(400).json({ error: error.message });
             }
@@ -692,32 +702,38 @@ app.post('/api/admins', async (req, res) => {
     }
 
     const store = readStore();
-    const newId = store.admins.length ? Math.max(...store.admins.map(a => a.id || 0)) + 1 : 1;
-    const newAdmin = { id: newId, ...supabasePayload, is_active: 1 };
-    store.admins.push(newAdmin);
+    const newId = createdId || (store.admins.length ? Math.max(...store.admins.map(a => a.id || 0)) + 1 : 1);
+    const existingIdx = store.admins.findIndex(a => (a.username || '').toLowerCase() === username.toLowerCase());
+
+    const fullAdminObj = {
+        id: newId,
+        username,
+        full_name,
+        password,
+        role,
+        is_active: 1
+    };
+
+    if (existingIdx !== -1) {
+        store.admins[existingIdx] = fullAdminObj;
+    } else {
+        store.admins.push(fullAdminObj);
+    }
     saveStore(store);
-    res.status(201).json({ success: true, admin: newAdmin });
+
+    res.status(201).json({ success: true, admin: fullAdminObj });
 });
 
 app.put('/api/admins/:id/toggle', async (req, res) => {
     const { id } = req.params;
     const store = readStore();
-    const localAdmin = store.admins.find(a => String(a.id) === String(id));
+    let localAdmin = store.admins.find(a => String(a.id) === String(id));
     let newStatus = 1;
 
     if (localAdmin) {
         localAdmin.is_active = localAdmin.is_active === 0 ? 1 : 0;
         newStatus = localAdmin.is_active;
         saveStore(store);
-    }
-
-    if (supabase) {
-        try {
-            const { data: existing } = await supabase.from('admins').select('*').eq('id', id).single();
-            if (existing) {
-                await supabase.from('admins').update({ is_active: newStatus }).eq('id', id);
-            }
-        } catch (e) {}
     }
 
     res.json({ success: true, message: 'Admin status updated', is_active: newStatus });
@@ -731,19 +747,30 @@ const handleResetPassword = async (req, res) => {
     }
 
     const store = readStore();
-    const localAdmin = store.admins.find(a => String(a.id) === String(id));
+    let localAdmin = store.admins.find(a => String(a.id) === String(id));
     if (localAdmin) {
         localAdmin.password = newPassword.trim();
         saveStore(store);
-    }
-
-    if (supabase) {
+        return res.json({ success: true, message: 'Admin password reset successfully' });
+    } else if (supabase) {
         try {
-            await supabase.from('admins').update({ password: newPassword.trim() }).eq('id', id);
+            const { data } = await supabase.from('admins').select('*').eq('id', id).single();
+            if (data) {
+                store.admins.push({
+                    id: data.id,
+                    username: data.username,
+                    full_name: data.full_name,
+                    password: newPassword.trim(),
+                    role: data.role || 'ADMIN',
+                    is_active: 1
+                });
+                saveStore(store);
+                return res.json({ success: true, message: 'Admin password reset successfully' });
+            }
         } catch(e) {}
     }
 
-    res.json({ success: true, message: 'Admin password reset successfully' });
+    res.status(404).json({ error: 'Admin record not found' });
 };
 
 app.put('/api/admins/:id/reset-password', handleResetPassword);
