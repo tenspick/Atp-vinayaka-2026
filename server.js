@@ -649,10 +649,17 @@ app.get('/api/admins', async (req, res) => {
 });
 
 app.post('/api/admins', async (req, res) => {
+    const password = (req.body.password || '').trim();
+    if (!password || password.length < 6) {
+        return res.status(400).json({ error: 'Password must be at least 6 characters long.' });
+    }
+
     const adminPayload = {
         username: (req.body.username || '').trim(),
         full_name: (req.body.full_name || req.body.username || '').trim(),
-        role: req.body.role || 'ADMIN'
+        password: password,
+        role: req.body.role || 'ADMIN',
+        is_active: 1
     };
     if (supabase) {
         try {
@@ -670,7 +677,7 @@ app.post('/api/admins', async (req, res) => {
     }
     const store = readStore();
     const newId = store.admins.length ? Math.max(...store.admins.map(a => a.id || 0)) + 1 : 1;
-    const newAdmin = { id: newId, ...adminPayload, is_active: 1 };
+    const newAdmin = { id: newId, ...adminPayload };
     store.admins.push(newAdmin);
     saveStore(store);
     res.status(201).json({ success: true, admin: newAdmin });
